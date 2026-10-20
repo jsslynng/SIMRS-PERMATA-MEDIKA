@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIMRS RS Permata Medika · Kelompok 7</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23183b4e'/%3E%3Cpath d='M13 8h6v5h5v6h-5v5h-6v-5H8v-6h5z' fill='%2317818f'/%3E%3C/svg%3E">
+  <style>
+    :root { --navy: #183b4e; --teal: #17818f; --teal-soft: #e8f4f5; --bg: #f4f7f8; --ink: #183b4e; --text: #2a4250; --muted: #6b7b86; --line: #d9e4e8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+    header { background: var(--navy); color: #fff; padding: 48px 20px 40px; }
+    .wrap { max-width: 1040px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 34px; }
+    header p { margin: 8px 0 0; color: #d6e4ea; }
+    main { padding: 32px 20px 48px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; }
+    .card h2 { margin: 0 0 4px; color: var(--ink); font-size: 19px; }
+    .card .no { color: var(--teal); font-weight: 700; font-size: 13px; }
+    .card ul { padding-left: 18px; margin: 12px 0 16px; font-size: 14px; }
+    .card .roles { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+    .btn { margin-top: auto; display: inline-block; text-align: center; background: var(--teal); color: #fff; text-decoration: none; font-weight: 700; padding: 12px 18px; border-radius: 6px; }
+    .btn:hover { background: #116673; }
+    .note { margin-top: 28px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; font-size: 14px; }
+    .note h3 { margin: 0 0 8px; color: var(--ink); font-size: 16px; }
+    code { background: var(--teal-soft); color: #116673; padding: 1px 6px; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin-top: 8px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    th { color: var(--ink); background: #eaf5f6; }
+    .scroll { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>SIMRS RS Permata Medika</h1>
+      <p>Kelompok 7 — tiga modul dengan Login &amp; RBAC. Pilih modul yang ingin dibuka.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="grid">
+      <section class="card">
+        <span class="no">Modul 1</span>
+        <h2>Authentication &amp; Management</h2>
+        <ul>
+          <li>Login, password sementara wajib diganti</li>
+          <li>RBAC: menu sesuai role, akses lain → 403</li>
+          <li>User Management &amp; matriks hak akses</li>
+          <li>Audit trail</li>
+        </ul>
+        <div class="roles">Role utama: Admin SIMRS / IT, Supervisor</div>
+        <a class="btn" href="authentication/index.html">Buka Authentication</a>
+      </section>
+      <section class="card">
+        <span class="no">Modul 2</span>
+        <h2>Billing &amp; Insurance</h2>
+        <ul>
+          <li>Tagihan, invoice, pembayaran, kuitansi</li>
+          <li>Verifikasi penjamin BPJS / asuransi</li>
+          <li>Pengajuan klaim</li>
+          <li>Laporan billing</li>
+        </ul>
+        <div class="roles">Role: Kasir, Verifikator Penjamin, Supervisor</div>
+        <a class="btn" href="billing/index.html">Buka Billing</a>
+      </section>
+      <section class="card">
+        <span class="no">Modul 3</span>
+        <h2>Inventory &amp; Warehouse</h2>
+        <ul>
+          <li>Permintaan barang dari unit</li>
+          <li>Penerimaan PO &amp; pengeluaran barang</li>
+          <li>Kartu stok, stok minimum &amp; expiry</li>
+          <li>Stock opname dengan approval, laporan</li>
+        </ul>
+        <div class="roles">Role: Apoteker, Petugas Gudang, Kepala Instalasi</div>
+        <a class="btn" href="warehouse/index.html">Buka Warehouse</a>
+      </section>
+    </div>
+
+    <section class="note">
+      <h3>Akun demo</h3>
+      Password awal semua akun: <code>simrs123</code>. Di halaman login, ketuk nama akun di daftar Akun demo untuk mengisi otomatis.
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Username</th><th>Role</th><th>Modul yang bisa dibuka</th></tr></thead>
+          <tbody>
+            <tr><td>andi.pratama</td><td>Admin SIMRS / IT</td><td>Authentication</td></tr>
+            <tr><td>agus.mulyadi</td><td>Supervisor / Admin SIMRS</td><td>Authentication, Billing (laporan)</td></tr>
+            <tr><td>maria.santos</td><td>Petugas Kasir / Billing</td><td>Billing</td></tr>
+            <tr><td>rudi.hartono</td><td>Verifikator Penjamin</td><td>Billing</td></tr>
+            <tr><td>neri.kwang</td><td>Apoteker</td><td>Warehouse</td></tr>
+            <tr><td>yohana.tan</td><td>Petugas Gudang / Logistik</td><td>Warehouse</td></tr>
+            <tr><td>kevin.susanto</td><td>Kepala Instalasi</td><td>Warehouse</td></tr>
+            <tr><td>dina.wijaya</td><td>Gudang (nonaktif)</td><td>Ditolak di semua modul</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Semua role bisa login ke Authentication untuk Akun Saya. Data bersifat dummy dan tersimpan di browser.</p>
+    </section>
+  </main>
+</body>
+</html>
