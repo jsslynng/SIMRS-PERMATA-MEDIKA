@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183b4e">
+  <title>Inventory · SIMRS</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23183b4e'/%3E%3Cpath d='M13 8h6v5h5v6h-5v5h-6v-5H8v-6h5z' fill='%2317818f'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
+  <style>
+/* =========================================================
+   SIMRS RS Permata Medika — style.css
+   Warna & tata letak mengikuti desain UI/GUI Week 5 Kelompok 7.
+   Responsif: laptop (sidebar tetap) & HP (drawer + bottom nav).
+   ========================================================= */
+:root {
+  --navy: #183b4e; --navy-ink: #e3ecf0; --navy-muted: #a9bfc9;
+  --teal: #17818f; --teal-dark: #116673; --teal-text: #17818f; --teal-soft: #e8f4f5;
+  --bg: #f4f7f8; --surface: #ffffff; --surface-2: #f5f8f9;
+  --ink: #183b4e; --text: #2a4250; --muted: #6b7b86; --label: #5f717c;
+  --line: #d9e4e8; --line-2: #e0e9ec; --th: #eaf5f6;
+  --ok-bg: #cfe3d8; --ok: #1d4b36;
+  --warn-bg: #f5e6b3; --warn: #7a5a00;
+  --bad: #c94a4a; --bad-bg: #f7dcdc; --bad-ink: #8f2d2d; --bad-text: #c94a4a;
+  --muted-bg: #e6ecef; --muted-ink: #56707c;
+  --btn-border: #dde6e9; --btn-hover: #f3f7f8; --input-bad-bg: #fff6f6;
+  --overlay: rgba(24, 59, 78, .38);
+  --sh-sm: 0 2px 3px rgba(24, 59, 78, .18);
+  --sh: 0 2px 5px rgba(24, 59, 78, .2);
+  --sh-lg: 0 8px 22px rgba(24, 59, 78, .22);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23183b4e' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  --font: "Noto Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --inset-top: env(safe-area-inset-top, 0px);
+  --inset-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #0d2331; --navy-ink: #d6e4ea; --navy-muted: #8aa3ad;
+    --teal: #1b8c9b; --teal-dark: #21a0b1; --teal-text: #7cc9d3; --teal-soft: #173c44;
+    --bg: #0e1a20; --surface: #15252d; --surface-2: #1b2f38;
+    --ink: #e6f0f3; --text: #c8d7dd; --muted: #8ea3ac; --label: #9fb3bb;
+    --line: #2b424c; --line-2: #253a43; --th: #1b3942;
+    --ok-bg: #1d3d30; --ok: #9ad4b3; --warn-bg: #3b3217; --warn: #ecd083;
+    --bad: #d25b5b; --bad-bg: #43242a; --bad-ink: #f0a9a9; --bad-text: #f08a8a;
+    --muted-bg: #243841; --muted-ink: #a3b8c0;
+    --btn-border: #2f4852; --btn-hover: #1f3640; --input-bad-bg: #3a2227;
+    --overlay: rgba(0, 0, 0, .55);
+    --sh-sm: 0 2px 3px rgba(0, 0, 0, .35); --sh: 0 2px 6px rgba(0, 0, 0, .4); --sh-lg: 0 10px 26px rgba(0, 0, 0, .5);
+    --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d6e4ea' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --navy: #0d2331; --navy-ink: #d6e4ea; --navy-muted: #8aa3ad;
+  --teal: #1b8c9b; --teal-dark: #21a0b1; --teal-text: #7cc9d3; --teal-soft: #173c44;
+  --bg: #0e1a20; --surface: #15252d; --surface-2: #1b2f38;
+  --ink: #e6f0f3; --text: #c8d7dd; --muted: #8ea3ac; --label: #9fb3bb;
+  --line: #2b424c; --line-2: #253a43; --th: #1b3942;
+  --ok-bg: #1d3d30; --ok: #9ad4b3; --warn-bg: #3b3217; --warn: #ecd083;
+  --bad: #d25b5b; --bad-bg: #43242a; --bad-ink: #f0a9a9; --bad-text: #f08a8a;
+  --muted-bg: #243841; --muted-ink: #a3b8c0;
+  --btn-border: #2f4852; --btn-hover: #1f3640; --input-bad-bg: #3a2227;
+  --overlay: rgba(0, 0, 0, .55);
+  --sh-sm: 0 2px 3px rgba(0, 0, 0, .35); --sh: 0 2px 6px rgba(0, 0, 0, .4); --sh-lg: 0 10px 26px rgba(0, 0, 0, .5);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d6e4ea' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { height: 100%; background: var(--bg); scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; height: 100%; font-family: var(--font); color: var(--text); background: var(--bg); font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+#root { min-height: 100%; }
+button, input, select { font: inherit; color: inherit; }
+a { color: var(--teal-text); }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .92em; background: var(--teal-soft); color: var(--teal-text); padding: 1px 5px; border-radius: 3px; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.muted { color: var(--muted); }
+.small { font-size: 12.5px; }
+.center { text-align: center; }
+.mt { margin-top: 26px; }
+.pad { padding: 10px 14px; }
+.nowrap { white-space: nowrap; }
+.ok-text { color: var(--ok); }
+.bad-text { color: var(--bad-text); }
+
+/* ---------- Login ---------- */
+.login { display: grid; grid-template-columns: minmax(300px, 32%) 1fr; min-height: 100%; background: var(--surface); }
+.login-brand { background: var(--navy); color: #fff; padding: 0 clamp(28px, 6vw, 84px); display: flex; flex-direction: column; justify-content: center; }
+.login-brand h1 { font-size: 44px; line-height: 1; margin: 0; font-weight: 700; }
+.login-brand .hosp { font-weight: 700; font-size: 14px; margin-top: 14px; color: var(--navy-ink); }
+.login-brand .tag { font-size: 17px; margin: 62px 0 0; color: var(--navy-ink); }
+.login-brand .sec { font-size: 12.5px; font-weight: 700; margin-top: 118px; color: var(--navy-ink); }
+.login-form-wrap { display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+.login-form { width: 100%; max-width: 510px; display: flex; flex-direction: column; gap: 22px; }
+.login-form h2 { text-align: center; color: var(--ink); font-size: 34px; margin: 0; }
+.login-form .sub { text-align: center; color: var(--muted); margin: -14px 0 28px; }
+.show-pw { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); margin: -12px 0 4px 12px; cursor: pointer; width: fit-content; min-height: 28px; }
+.show-pw input { accent-color: var(--teal); margin: 0; width: 16px; height: 16px; }
+.login-error { color: var(--bad-text); text-align: center; font-size: 13px; min-height: 20px; margin: -6px 0 0; }
+.demo { border-top: 1px solid var(--line); padding-top: 14px; font-size: 13px; }
+.demo summary { cursor: pointer; color: var(--muted); padding: 6px 0; }
+.demo-hint { color: var(--muted); font-size: 12px; margin: 10px 0; }
+.demo-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.demo-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 8px 14px; background: var(--surface); border: 0; border-bottom: 1px solid var(--line-2); text-align: left; cursor: pointer; font-size: 13px; color: var(--text); }
+.demo-item:last-child { border-bottom: 0; }
+.demo-item strong { color: var(--teal-text); font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; white-space: nowrap; }
+.demo-item em { color: var(--bad-text); font-style: normal; font-size: 12px; }
+.demo-item:hover, .demo-item:focus-visible { background: var(--teal-soft); }
+.linkish { background: none; border: 0; color: var(--bad-text); font-size: 12.5px; margin-top: 12px; padding: 6px 0; cursor: pointer; text-decoration: underline; }
+
+/* ---------- Form ---------- */
+.field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 700; color: var(--label); }
+.input, .select {
+  height: 46px; width: 100%; border: 1px solid var(--line); border-radius: 4px; background-color: var(--surface);
+  padding: 0 18px; box-shadow: var(--sh-sm); font-size: 13.5px; color: var(--ink);
+}
+.input::placeholder { color: var(--muted); }
+.input[readonly], .input:disabled, .select:disabled { background-color: var(--surface-2); color: var(--text); }
+.select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
+.select:disabled { cursor: not-allowed; }
+.input-sm, .select-sm { height: 38px; padding: 0 12px; font-size: 13px; box-shadow: none; }
+.select-sm { padding-right: 34px; background-position: right 10px center; }
+.input-sm { max-width: 120px; }
+.input-bad { border-color: var(--bad); background-color: var(--input-bad-bg); }
+.input-group { display: flex; gap: 10px; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 30px; max-width: 830px; }
+.chips-row + .form-grid { margin-top: 24px; }
+.inline-field { flex-direction: row; align-items: center; gap: 12px; }
+.inline-field > label { white-space: nowrap; }
+.inline-field .select { min-width: 240px; }
+.form-error { color: var(--bad-text); font-size: 13px; min-height: 18px; margin: 8px 0 0; }
+.note { color: var(--muted); font-size: 13px; margin: 22px 0 0; }
+.date-range { display: flex; align-items: center; gap: 10px; }
+
+/* ---------- Tombol & badge ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 26px;
+  border-radius: 4px; border: 1px solid var(--btn-border); background: var(--surface); color: var(--ink); font-weight: 700; font-size: 13.5px;
+  cursor: pointer; box-shadow: var(--sh); text-decoration: none; white-space: nowrap;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn-primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-danger { background: var(--bad); border-color: var(--bad); color: #fff; }
+.btn-danger:hover { background: var(--bad); filter: brightness(.92); }
+.btn-ok { background: var(--ok-bg); border-color: var(--ok-bg); color: var(--ok); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 36px; padding: 0 14px; font-size: 12.5px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 18px; }
+.actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 18px; margin-top: 34px; }
+.actions-tight { margin-top: 20px; }
+.link { background: none; border: 0; padding: 4px 0; color: var(--teal-text); font-weight: 600; cursor: pointer; text-decoration: none; font-size: inherit; }
+.link:hover { text-decoration: underline; }
+
+.badge { display: inline-flex; align-items: center; min-height: 30px; padding: 0 20px; border-radius: 3px; border: 0; font-size: 12px; font-weight: 700; box-shadow: var(--sh-sm); white-space: nowrap; }
+.b-ok { background: var(--ok-bg); color: var(--ok); }
+.b-warn { background: var(--warn-bg); color: var(--warn); }
+.b-info { background: var(--teal-soft); color: var(--teal-text); }
+.b-bad { background: var(--bad-bg); color: var(--bad-ink); }
+.b-muted { background: var(--muted-bg); color: var(--muted-ink); }
+.toggle { cursor: pointer; }
+.chips-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+.pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.pill-ok { background: var(--ok-bg); color: var(--ok); }
+.pill-warn { background: var(--warn-bg); color: var(--warn); }
+.pill-info { background: var(--teal-soft); color: var(--teal-text); }
+.pill-bad { background: var(--bad-bg); color: var(--bad-ink); }
+.pill-muted { background: var(--muted-bg); color: var(--muted-ink); }
+.pill-stack { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.you { color: var(--muted); font-size: 12px; }
+
+.chip { min-height: 34px; padding: 0 18px; border-radius: 3px; border: 0; font-size: 12px; font-weight: 700; cursor: pointer; background: var(--teal-soft); color: var(--teal-text); box-shadow: var(--sh-sm); }
+.chip-on { background: var(--teal); color: #fff; }
+.chip-select { height: 36px; border: 0; border-radius: 3px; background-color: var(--teal-soft); color: var(--teal-text); font-weight: 700; font-size: 12.5px; padding: 0 14px; box-shadow: var(--sh-sm); cursor: pointer; }
+
+/* ---------- Layout aplikasi ---------- */
+.shell { display: grid; grid-template-columns: 238px minmax(0, 1fr); min-height: 100%; }
+.sidebar {
+  background: var(--navy); color: var(--navy-ink); position: sticky; top: env(safe-area-inset-top, 0px);
+  height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; padding: 26px 14px; overflow-y: auto; z-index: 60;
+}
+.brand { padding: 0 20px; }
+.brand-top { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: #fff; }
+.brand-top .ico { width: 22px; height: 22px; }
+.brand-sub { font-size: 11.5px; font-weight: 700; margin-top: 12px; color: var(--navy-ink); }
+.nav-label { font-size: 11.5px; font-weight: 700; color: var(--navy-ink); margin: 38px 20px 12px; }
+.nav a { display: flex; align-items: center; gap: 16px; padding: 10px 20px; border-radius: 4px; color: var(--navy-ink); text-decoration: none; font-size: 13.5px; margin-bottom: 8px; white-space: nowrap; }
+.nav a .ico { width: 16px; height: 16px; }
+.nav a:hover:not(.active) { background: rgba(255, 255, 255, .07); }
+.nav > a.active { background: var(--teal); font-weight: 700; color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, .25); }
+.nav .sub { margin: -2px 0 12px 32px; border-left: 1px solid rgba(255, 255, 255, .16); }
+.nav .sub a { padding: 8px 12px 8px 20px; margin: 0; font-size: 12.5px; color: var(--navy-muted); border-radius: 0 4px 4px 0; white-space: normal; }
+.nav .sub a.active { color: #fff; font-weight: 700; box-shadow: inset 3px 0 0 #6fcbd6; background: rgba(255, 255, 255, .06); }
+.comps .comp { padding: 9px 30px; font-size: 13px; color: var(--navy-ink); }
+.side-foot { margin-top: auto; padding: 34px 20px 0; display: flex; flex-direction: column; gap: 4px; }
+.side-role { font-size: 12px; font-weight: 700; color: #fff; }
+.side-user { font-size: 11.5px; color: var(--navy-muted); }
+.side-logout { display: flex; align-items: center; gap: 10px; background: none; border: 0; color: var(--navy-ink); padding: 8px 0; margin-top: 22px; font-size: 13.5px; cursor: pointer; width: fit-content; }
+.side-logout:hover { color: #fff; text-decoration: underline; }
+.drawer-backdrop { display: none; }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { height: 72px; background: var(--surface); box-shadow: var(--sh); display: flex; align-items: center; gap: 28px; padding: 0 40px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; }
+.menu-btn { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; width: 44px; height: 44px; align-items: center; justify-content: center; margin-left: -6px; }
+.menu-btn .ico { width: 22px; height: 22px; }
+.top-title { font-weight: 700; color: var(--ink); font-size: 14px; margin-right: auto; white-space: nowrap; }
+.top-title .t-short { display: none; }
+.top-search { position: relative; display: flex; align-items: center; gap: 8px; width: 230px; height: 38px; padding: 0 14px; border-radius: 3px; box-shadow: var(--sh); color: var(--muted); background: var(--surface); border: 1px solid var(--line-2); }
+.top-search .ico { width: 14px; height: 14px; }
+.top-search input { border: 0; outline: 0; width: 100%; font-size: 12.5px; background: transparent; color: var(--ink); min-width: 0; }
+.top-search:focus-within { box-shadow: 0 0 0 2px var(--teal); }
+.search-drop { position: absolute; top: 44px; left: 0; right: 0; min-width: 240px; background: var(--surface); border-radius: 8px; box-shadow: var(--sh-lg); overflow: hidden; border: 1px solid var(--line-2); z-index: 5; }
+.search-drop a { display: flex; align-items: center; gap: 8px; padding: 11px 14px; text-decoration: none; color: var(--ink); font-size: 13px; }
+.search-drop a small { color: var(--muted); margin-left: auto; }
+.search-drop a:hover, .search-drop a:first-child { background: var(--teal-soft); }
+.search-drop .drop-group { font-size: 11.5px; font-weight: 700; color: var(--muted); padding: 10px 14px 4px; border-top: 1px solid var(--line-2); }
+.search-drop a.locked { color: var(--muted); background: transparent; }
+.search-drop a.locked .ico { width: 14px; height: 14px; color: var(--bad-text); }
+.top-clock { display: flex; align-items: center; gap: 8px; color: var(--teal-text); font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.avatar-wrap { position: relative; }
+.avatar { width: 40px; height: 40px; border-radius: 3px; border: 0; background: var(--teal); color: #fff; font-weight: 700; font-size: 12.5px; cursor: pointer; box-shadow: var(--sh); }
+.avatar-menu { position: absolute; right: 0; top: 50px; width: min(260px, 88vw); background: var(--surface); border-radius: 8px; box-shadow: var(--sh-lg); padding: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; border: 1px solid var(--line-2); }
+.avatar-menu strong { color: var(--ink); }
+.avatar-menu .btn { margin-top: 10px; }
+.bottom-nav { display: none; }
+
+.view { padding: 30px 40px 60px; width: 100%; max-width: 1200px; outline: none; }
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+.page-head h1 { color: var(--ink); font-size: 29px; line-height: 1.2; margin: 0; }
+.subtitle { color: var(--muted); font-size: 13.5px; margin: 8px 0 0; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 212px)); gap: 24px; margin-bottom: 28px; }
+.stat { background: var(--surface); border-radius: 10px; box-shadow: var(--sh); padding: 24px 24px 20px; min-height: 128px; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--line-2); }
+.stat-link:hover { border-color: var(--teal); }
+.stat-label { font-size: 12px; font-weight: 700; color: var(--label); }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--ink); margin: 18px 0 12px; line-height: 1; }
+.stat-value-sm { font-size: 20px; }
+.stat-cap { font-size: 11.5px; color: var(--muted); margin-top: auto; }
+
+.panel { background: var(--surface); border-radius: 30px; box-shadow: var(--sh); padding: 30px 36px 34px; border: 1px solid var(--line-2); }
+.panel-md { border-radius: 24px; }
+.panel-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 22px; }
+.panel-top .panel-title { margin: 0; }
+.panel-title { font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 22px; }
+.sub-title { font-size: 15px; font-weight: 700; color: var(--ink); margin: 32px 0 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.section { margin-top: 34px; }
+.section-title { font-size: 16px; color: var(--ink); margin: 0 0 14px; }
+
+.quick-row { display: grid; grid-template-columns: 196px 1fr; gap: 12px; padding: 13px 4px; text-decoration: none; color: inherit; border-radius: 4px; }
+.quick-row strong { color: var(--ink); font-size: 13.5px; }
+.quick-row span { color: var(--muted); font-size: 12.5px; }
+.quick-row:hover { background: var(--teal-soft); }
+.act-row { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; font-size: 13.5px; color: var(--ink); }
+.act-row time { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+
+.menu-list { display: flex; flex-direction: column; gap: 10px; }
+.menu-row { display: grid; grid-template-columns: minmax(180px, 300px) 1fr; gap: 12px; align-items: center; padding: 12px 30px; background: var(--surface-2); border-radius: 3px; box-shadow: var(--sh-sm); text-decoration: none; color: inherit; border: 1px solid var(--line-2); }
+.menu-row strong { color: var(--ink); font-size: 13.5px; }
+.menu-row span { color: var(--muted); font-size: 12.5px; }
+.menu-row:hover { border-color: var(--teal); background: var(--surface); }
+
+/* ---------- Tabel ---------- */
+.toolbar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; background: var(--surface); padding: 10px 28px; box-shadow: var(--sh); margin-bottom: 20px; border-radius: 2px; }
+.toolbar-plain { background: none; box-shadow: none; padding: 0; }
+.search-inline { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 220px; color: var(--muted); }
+.search-inline .ico { width: 14px; height: 14px; }
+.search-inline input { border: 0; outline: 0; width: 100%; height: 36px; font-size: 13.5px; color: var(--ink); background: transparent; }
+.table-wrap { background: var(--surface); box-shadow: var(--sh); overflow-x: auto; max-width: 100%; }
+.tbl { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.tbl th { background: var(--th); color: var(--ink); font-weight: 700; text-align: left; padding: 0 18px; height: 56px; border: 1px solid var(--line); white-space: nowrap; }
+.tbl td { padding: 10px 18px; height: 56px; border: 1px solid var(--line-2); color: var(--text); }
+.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl-compact th, .tbl-compact td { height: 38px; padding: 6px 12px; }
+.hint { color: var(--muted); font-size: 12.5px; margin: 10px 0 0; }
+
+/* ---------- Billing ---------- */
+.total-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+.total { display: flex; align-items: baseline; gap: 60px; margin-left: auto; }
+.total span { font-size: 13px; font-weight: 700; color: var(--label); }
+.total strong { font-size: 22px; color: var(--ink); }
+.big-amount { font-size: 30px; font-weight: 700; color: var(--ink); margin-top: 8px; }
+.saldo-row { display: flex; align-items: flex-end; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
+.saldo { font-size: 24px; font-weight: 700; color: var(--ok); margin-top: 6px; }
+.saldo-due { color: var(--warn); }
+.inv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 22px; }
+.inv-title { font-size: 25px; color: var(--ink); margin: 0 0 6px; }
+.inv-org { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; text-align: right; }
+.inv-org strong { color: var(--teal-text); font-size: 14px; }
+.inv-org span { color: var(--muted); font-size: 12.5px; }
+.inv-org .stamp { color: var(--ok); border: 2px solid var(--ok); padding: 2px 12px; font-weight: 700; letter-spacing: 1px; transform: rotate(-4deg); margin-top: 6px; }
+
+/* ---------- Penjamin / Inventory / Reports ---------- */
+.verify-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; font-size: 13.5px; }
+.add-line { margin-top: 14px; max-width: 360px; }
+.report-type { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.report-head { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 12px; }
+.dl { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0 0 12px; font-size: 13.5px; }
+.dl dt { color: var(--muted); }
+.dl dd { margin: 0; color: var(--ink); font-weight: 600; }
+
+/* ---------- 403 / kosong ---------- */
+.forbidden { max-width: 620px; margin: 40px auto; text-align: center; }
+.forbidden h1 { color: var(--ink); font-size: 26px; margin: 12px 0; }
+.forbidden-icon { display: inline-flex; width: 64px; height: 64px; border-radius: 50%; background: var(--bad-bg); color: var(--bad-text); align-items: center; justify-content: center; }
+.forbidden-icon .ico { width: 30px; height: 30px; }
+.forbidden .btn { margin-top: 16px; }
+.empty { text-align: center; padding: 28px 10px; }
+.empty h3 { color: var(--ink); margin: 0 0 8px; font-size: 17px; }
+.empty p { color: var(--muted); margin: 0 0 18px; }
+
+/* ---------- Modal & toast ---------- */
+.modal-backdrop { position: fixed; inset: 0; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 20px; padding-top: calc(20px + env(safe-area-inset-top, 0px)); padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 100; }
+.modal { background: var(--surface); border-radius: 30px; width: 100%; max-width: 560px; max-height: 100%; overflow-y: auto; padding: 40px 44px 36px; box-shadow: var(--sh-lg); animation: pop .16s ease-out; border: 1px solid var(--line-2); }
+.modal h2 { text-align: center; color: var(--ink); font-size: 26px; margin: 0 0 22px; }
+.modal-body { color: var(--text); font-size: 14px; }
+.modal-body ul { padding-left: 20px; }
+.modal-actions { display: flex; justify-content: center; gap: 50px; margin-top: 30px; }
+.modal-actions .btn { min-width: 150px; }
+@keyframes pop { from { transform: scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+#toast-root { position: fixed; right: 24px; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; z-index: 200; max-width: 380px; pointer-events: none; }
+.toast { background: #183b4e; color: #fff; padding: 12px 18px; border-radius: 6px; box-shadow: var(--sh-lg); font-size: 13.5px; border-left: 4px solid #6fcbd6; transition: opacity .4s, transform .4s; }
+.toast-bad { border-left-color: #ef8a8a; }
+.toast-info { border-left-color: #f5e6b3; }
+.toast.hide { opacity: 0; transform: translateY(8px); }
+
+@media (prefers-reduced-motion: reduce) { .modal { animation: none; } .toast, .sidebar { transition: none !important; } }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1000px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .top-clock span { display: none; }
+}
+
+/* ---------- HP: drawer + bottom navigation ---------- */
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; height: auto; width: min(280px, 84vw);
+    transform: translateX(-102%); transition: transform .22s ease;
+    padding-top: calc(22px + env(safe-area-inset-top, 0px)); padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+  .sidebar.open { transform: none; box-shadow: 8px 0 28px rgba(0, 0, 0, .35); }
+  .sidebar.open ~ .drawer-backdrop { display: block; position: fixed; inset: 0; background: var(--overlay); z-index: 50; }
+  .nav a { min-height: 44px; }
+  .menu-btn { display: inline-flex; }
+  .topbar { height: 60px; padding: 0 12px 0 10px; gap: 10px; }
+  .top-title { margin-right: 0; }
+  .top-title .t-long { display: none; }
+  .top-title .t-short { display: inline; font-size: 17px; }
+  .top-search { flex: 1; width: auto; height: 40px; }
+  .top-clock { display: none; }
+  .search-drop { position: fixed; left: 10px; right: 10px; top: calc(62px + env(safe-area-inset-top, 0px)); }
+
+  .bottom-nav {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -2px 8px rgba(0, 0, 0, .08);
+    padding: 0 4px env(safe-area-inset-bottom, 0px);
+  }
+  .bottom-nav a, .bottom-nav button {
+    flex: 1; min-width: 0; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--muted); text-decoration: none; background: none; border: 0; cursor: pointer; position: relative;
+  }
+  .bottom-nav span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+  .bottom-nav .ico { width: 21px; height: 21px; }
+  .bottom-nav .active { color: var(--teal-text); }
+  .bottom-nav .active::before { content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--teal); }
+  #toast-root { left: 12px; right: 12px; max-width: none; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  [data-view="login"] ~ #toast-root, .no-bottom-nav #toast-root { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+
+  .view { padding: 18px 14px calc(92px + env(safe-area-inset-bottom, 0px)); }
+  .page-head { flex-direction: column; gap: 14px; margin-bottom: 18px; }
+  .page-head h1 { font-size: 23px; }
+  .page-head-actions, .page-head-actions .btn { width: 100%; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .stat { padding: 16px; min-height: 104px; }
+  .stat-value { font-size: 23px; margin: 12px 0 8px; }
+  .stat-value-sm { font-size: 17px; }
+  .panel { padding: 22px 16px 22px; border-radius: 20px; }
+  .panel-md { border-radius: 18px; }
+  .grid-2 { gap: 16px; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .input, .select, .search-inline input, .top-search input { font-size: 16px; } /* cegah auto-zoom iOS */
+  .input-sm, .select-sm { font-size: 16px; height: 42px; }
+  .inline-field { flex-direction: column; align-items: stretch; gap: 7px; width: 100%; }
+  .inline-field .select { min-width: 0; width: 100%; }
+  .toolbar { padding: 10px 12px; gap: 10px; }
+  .search-inline { min-width: 100%; }
+  .chip-select { flex: 1; height: 40px; }
+  .actions { gap: 12px; margin-top: 26px; }
+  .actions .btn { flex: 1 1 140px; }
+  .btn-row { gap: 10px; }
+  .btn-row .btn { flex: 1 1 120px; padding: 0 12px; }
+  .quick-row, .menu-row { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 12px 14px; }
+  .report-type { gap: 12px; align-items: flex-start; flex-direction: column; }
+  .date-range { flex-wrap: wrap; }
+  .date-range .input { flex: 1 1 130px; }
+  .date-range span { display: none; }
+  .total { gap: 24px; }
+  .big-amount { font-size: 26px; }
+  .saldo-row { gap: 18px; }
+  .inv-head { flex-direction: column; }
+  .inv-org { align-items: flex-start; text-align: left; }
+  .modal { padding: 28px 20px 22px; border-radius: 22px; }
+  .modal h2 { font-size: 22px; }
+  .modal-actions { gap: 12px; }
+  .modal-actions .btn { min-width: 0; flex: 1; }
+  .forbidden { margin: 10px auto; }
+
+  .login { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
+  .login-brand { padding: 30px 24px 26px; }
+  .login-brand h1 { font-size: 34px; }
+  .login-brand .tag { margin-top: 18px; font-size: 15px; }
+  .login-brand .sec { margin-top: 12px; }
+  .login-form-wrap { padding: 28px 20px 32px; align-items: flex-start; }
+  .login-form { gap: 18px; }
+  .login-form h2 { font-size: 28px; }
+  .login-form .sub { margin: -12px 0 10px; }
+}
+
+/* ---------- HP kecil: tabel jadi kartu ---------- */
+@media (max-width: 640px) {
+  .table-wrap { background: transparent; box-shadow: none; overflow: visible; }
+  .tbl thead { display: none; }
+  .tbl, .tbl tbody, .tbl tr, .tbl td { display: block; width: 100%; }
+  .tbl tr { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px; padding: 6px 0; box-shadow: var(--sh-sm); }
+  .tbl td { border: 0; height: auto; padding: 7px 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; text-align: right; min-height: 36px; }
+  .tbl td::before { content: attr(data-label); font-weight: 700; color: var(--label); font-size: 12px; text-align: left; flex: none; max-width: 46%; }
+  .tbl td:first-child { font-weight: 700; color: var(--ink); }
+  .tbl td.center { justify-content: center; text-align: center; }
+  .tbl .input-sm { max-width: 130px; }
+  .tbl-compact td { min-height: 32px; }
+  .panel .table-wrap .tbl tr { box-shadow: none; background: var(--surface-2); }
+}
+
+@media (max-width: 380px) {
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .top-title .t-short { display: none; }
+}
+
+/* ---------- Cetak invoice ---------- */
+@media print {
+  .sidebar, .topbar, .bottom-nav, .no-print, #toast-root, .page-head, .drawer-backdrop { display: none !important; }
+  .shell { display: block; }
+  body, .view { background: #fff; padding: 0; }
+  .panel, .table-wrap { box-shadow: none; border: 0; }
+}
+
+/* =========================================================
+   Tambahan UTS: label modul, akses role, matriks RBAC, inventory
+   ========================================================= */
+.brand-mod { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 3px; background: rgba(255, 255, 255, .12); color: #fff; font-size: 11.5px; font-weight: 700; }
+.login-module { display: inline-block; margin-top: 18px; padding: 5px 12px; border-radius: 3px; background: rgba(255, 255, 255, .14); color: #fff; font-size: 13px; font-weight: 700; width: fit-content; }
+.linkish-muted { color: var(--muted); align-self: center; }
+.demo-item em { color: var(--muted); }
+.mt-s { margin-top: 16px; }
+.note-top { margin: 0 0 18px; }
+.form-grid-3 { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); max-width: none; }
+.pill-left { justify-content: flex-start; }
+
+.access { display: grid; gap: 12px; margin-top: 4px; }
+.access-inline { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); padding: 14px 16px; border: 1px dashed var(--line); border-radius: 8px; background: var(--surface-2); }
+.access-changed { border-color: var(--teal); border-style: solid; background: var(--teal-soft); }
+.access-group strong { color: var(--ink); font-size: 13px; }
+.access-group ul { margin: 6px 0 0; padding-left: 18px; color: var(--text); font-size: 13px; }
+.access-group li { margin: 2px 0; }
+
+.tbl-matrix th:not(:first-child) { white-space: normal; text-align: center; min-width: 92px; line-height: 1.25; padding: 8px; }
+.tbl-matrix td:first-child { min-width: 240px; }
+.tbl .row-group td { background: var(--surface-2); color: var(--ink); font-weight: 700; height: 40px; }
+.tbl .col-me { background: var(--teal-soft); }
+.tbl th.col-me { background: var(--teal); color: #fff; }
+.yes { color: var(--ok); font-weight: 700; font-size: 15px; }
+.no { color: var(--muted); }
+
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.sum-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin: 6px 0 22px; }
+.sum { background: var(--surface-2); border: 1px solid var(--line-2); border-radius: 8px; padding: 14px 16px; }
+.sum span { display: block; font-size: 12px; font-weight: 700; color: var(--label); }
+.sum strong { display: block; font-size: 19px; color: var(--ink); margin-top: 6px; }
+.line-add { display: grid; grid-template-columns: minmax(0, 1fr) 120px auto; gap: 12px; align-items: end; margin-top: 16px; max-width: 760px; }
+.qty-cell { display: flex; align-items: center; gap: 8px; }
+.in { color: var(--ok); font-weight: 700; }
+.out { color: var(--bad-text); font-weight: 700; }
+.flow-hint { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: 12.5px; margin: -12px 0 22px; }
+.flow-hint b { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .form-grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .line-add { grid-template-columns: minmax(0, 1fr) 100px; }
+  .line-add .btn { grid-column: 1 / -1; }
+  .brand-mod { margin-top: 8px; }
+  .login-module { margin-top: 12px; }
+}
+@media (max-width: 640px) {
+  .tbl .row-group { background: transparent; border: 0; box-shadow: none; padding: 0; margin: 18px 0 8px; }
+  .tbl .row-group td { background: transparent; justify-content: flex-start; padding: 0 4px; min-height: 0; font-size: 14px; }
+  .tbl .row-group td::before { content: none; }
+  .tbl-matrix td:first-child { min-width: 0; }
+  .tbl .col-me { background: var(--teal-soft); border-radius: 6px; }
+}
+.link-bad { color: var(--bad-text); }
+.modal-wide { max-width: 860px; }
+.modal-wide h2 { font-size: 22px; }
+@media (max-width: 640px) {
+  .tbl-matrix td.center { justify-content: space-between; text-align: right; }
+}
+
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+<script>
+/* ==== shared/base.js ==== */
+/* =========================================================
+   SIMRS RS Permata Medika — Kelompok 7
+   base.js : data bersama ketiga aplikasi (ikon, role, unit, akun)
+   Akun pengguna dikelola di Modul Authentication; Billing dan
+   Inventory memakai akun & role yang sama.
+   ========================================================= */
+
+const ROLES = {
+  admin_it:         { label: 'Admin SIMRS / IT',                short: 'Admin SIMRS / IT' },
+  supervisor_admin: { label: 'Supervisor / Admin SIMRS',        short: 'Supervisor / Admin SIMRS' },
+  kasir:            { label: 'Petugas Kasir / Billing',         short: 'Kasir / Billing' },
+  verifikator:      { label: 'Verifikator Penjamin / Asuransi', short: 'Verifikator Penjamin' },
+  gudang:           { label: 'Petugas Gudang / Logistik',       short: 'Gudang / Logistik' },
+  kepala_instalasi: { label: 'Supervisor / Kepala Instalasi',   short: 'Kepala Instalasi' },
+  apoteker:         { label: 'Apoteker',                        short: 'Apoteker' },
+};
+const ALL_ROLES = Object.keys(ROLES);
+
+const UNITS = ['IT', 'Manajemen', 'Billing', 'Penjamin', 'Pharmacy', 'Warehouse', 'Instalasi Farmasi', 'IGD', 'Rawat Inap'];
+
+/* Akun bersama (password awal semua akun: simrs123) */
+function seedUsers(pw) {
+  return [
+    { id: 'USR-001', name: 'Andi Pratama',  username: 'andi.pratama',  unit: 'IT',                role: 'admin_it',         status: 'Active',   password: pw },
+    { id: 'USR-002', name: 'Agus Mulyadi',  username: 'agus.mulyadi',  unit: 'Manajemen',         role: 'supervisor_admin', status: 'Active',   password: pw },
+    { id: 'USR-014', name: 'Maria Santos',  username: 'maria.santos',  unit: 'Billing',           role: 'kasir',            status: 'Active',   password: pw },
+    { id: 'USR-017', name: 'Rudi Hartono',  username: 'rudi.hartono',  unit: 'Penjamin',          role: 'verifikator',      status: 'Active',   password: pw },
+    { id: 'USR-021', name: 'Neri Kwang',    username: 'neri.kwang',    unit: 'Instalasi Farmasi', role: 'apoteker',         status: 'Active',   password: pw },
+    { id: 'USR-025', name: 'Yohana Tan',    username: 'yohana.tan',    unit: 'Warehouse',         role: 'gudang',           status: 'Active',   password: pw },
+    { id: 'USR-028', name: 'Dina Wijaya',   username: 'dina.wijaya',   unit: 'Warehouse',         role: 'gudang',           status: 'Inactive', password: pw },
+    { id: 'USR-031', name: 'Kevin Susanto', username: 'kevin.susanto', unit: 'Instalasi Farmasi', role: 'kepala_instalasi', status: 'Active',   password: pw },
+  ];
+}
+
+/* Penanda waktu relatif terhadap hari ini (dipakai data awal) */
+const SeedTime = {
+  now: new Date(),
+  at(h, m, dayOffset = 0) {
+    const d = new Date(this.now); d.setDate(d.getDate() + dayOffset); d.setHours(h, m, 0, 0);
+    if (d > this.now) d.setDate(d.getDate() - 1); // jangan sampai tercatat di masa depan
+    return d.toISOString();
+  },
+  day(offset = 0) {
+    const d = new Date(this.now); d.setDate(d.getDate() + offset);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  },
+  ymd(offset = 0) { return this.day(offset).slice(2).replace(/-/g, ''); },
+};
+
+const ICONS = {
+  home:    '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+  user:    '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>',
+  receipt: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  check:   '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  shield:  '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 8v5M12 16v.5"/>',
+  box:     '<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
+  chart:   '<path d="M3 21h18"/><path d="M6 17v-5M11 17V6M16 17v-8"/>',
+  list:    '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.5M4 12h.5M4 18h.5"/>',
+  key:     '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',
+  search:  '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+  clock:   '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  logout:  '<path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
+  menu:    '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  lock:    '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  plus:    '<path d="M12 5v14M5 12h14"/>',
+  x:       '<path d="M6 6l12 12M18 6L6 18"/>',
+};
+
+</script>
+<script>
+/* ==== apps/inventory/config.js ==== */
+/* =========================================================
+   APLIKASI 3 — MODUL INVENTORY (OBAT & BMHP)
+   config.js : identitas aplikasi, hak akses, menu, data awal
+   ========================================================= */
+
+const APP = {
+  id: 'inventory',
+  module: 'Inventory',
+  moduleLong: 'Modul Inventory Obat & BMHP',
+  storeKey: 'simrs_k7_inventory_db',
+  sessionKey: 'simrs_k7_inventory_session',
+  dbVersion: 1,
+  defaultPassword: 'simrs123',
+  allowDownload: true,
+  onLogout() { if (typeof Inv !== 'undefined') { Inv.draft = null; Inv.reqDraft = null; } },
+};
+
+/* Role tanpa daftar hak akses (kosong) ditolak sejak login ke modul ini */
+const PERMISSIONS = {
+  gudang:           ['dashboard', 'inv.stock', 'inv.receive', 'inv.issue', 'inv.alerts', 'inv.opname', 'inv.opname.submit'],
+  kepala_instalasi: ['dashboard', 'inv.stock', 'inv.alerts', 'inv.opname', 'inv.opname.approve', 'inv.report'],
+  apoteker:         ['dashboard', 'inv.stock', 'inv.alerts', 'inv.request'],
+  admin_it: [], supervisor_admin: [], kasir: [], verifikator: [],
+};
+
+const MENU = [
+  { key: 'dashboard', label: 'Dashboard', short: 'Dashboard', icon: 'home', route: 'dashboard', perm: 'dashboard' },
+  { key: 'inventory', label: 'Inventory', short: 'Inventory', icon: 'box', desc: 'Stok & transaksi barang', children: [
+      { label: 'Stok Barang', route: 'inventory', perm: 'inv.stock', desc: 'Saldo stok & kartu stok' },
+      { label: 'Permintaan Barang', route: 'inventory/request', perm: 'inv.request', desc: 'Ajukan permintaan dari unit' },
+      { label: 'Penerimaan Barang', route: 'inventory/receive', perm: 'inv.receive', desc: 'Pilih PO → verifikasi → simpan' },
+      { label: 'Pengeluaran / Mutasi', route: 'inventory/issue', perm: 'inv.issue', desc: 'Cek stok → konfirmasi' },
+      { label: 'Stok Minimum / Expiry', route: 'inventory/alerts', perm: 'inv.alerts', desc: 'Indikator & alert' },
+      { label: 'Stock Opname', route: 'inventory/opname', perm: 'inv.opname', desc: 'Hitung fisik → approval' },
+  ] },
+  { key: 'reports', label: 'Laporan Inventory', short: 'Laporan', icon: 'chart', desc: 'Pergerakan stok & audit', route: 'reports', perm: 'inv.report' },
+];
+
+const COMPONENTS = [
+  { label: 'Transactional', modules: ['inventory'] },
+  { label: 'Reporting',     modules: ['reports'] },
+];
+
+function seedDB() {
+  const T = SeedTime;
+  const items = [
+    { code: 'OBT-001', name: 'Paracetamol 500 mg',        unit: 'tablet', stock: 500, min: 100, batch: 'PCT2608', exp: '2028-08-31' },
+    { code: 'OBT-002', name: 'Amoxicillin 500 mg',        unit: 'kapsul', stock: 200, min: 50,  batch: 'AMX2607', exp: '2028-07-31' },
+    { code: 'OBT-003', name: 'NaCl 0.9% 500 mL',          unit: 'botol',  stock: 100, min: 40,  batch: 'NS2512',  exp: T.day(78) },
+    { code: 'OBT-004', name: 'Ceftriaxone 1 g',           unit: 'vial',   stock: 80,  min: 30,  batch: 'CFT2511', exp: T.day(45) },
+    { code: 'OBT-005', name: 'Omeprazole 20 mg',          unit: 'kapsul', stock: 35,  min: 60,  batch: 'OMZ2701', exp: '2027-11-30' },
+    { code: 'OBT-006', name: 'Cefixime 100 mg',           unit: 'kapsul', stock: 18,  min: 40,  batch: 'CFX2703', exp: '2028-01-31' },
+    { code: 'OBT-007', name: 'Ringer Laktat 500 mL',      unit: 'botol',  stock: 45,  min: 80,  batch: 'RL2702',  exp: '2027-10-31' },
+    { code: 'OBT-008', name: 'Metformin 500 mg',          unit: 'tablet', stock: 70,  min: 150, batch: 'MTF2705', exp: '2028-03-31' },
+    { code: 'OBT-009', name: 'Amlodipine 5 mg',           unit: 'tablet', stock: 40,  min: 100, batch: 'AML2704', exp: '2028-02-29' },
+    { code: 'OBT-010', name: 'Salbutamol 2 mg',           unit: 'tablet', stock: 25,  min: 60,  batch: 'SLB2702', exp: '2027-12-31' },
+    { code: 'OBT-011', name: 'Dexamethasone 5 mg/mL inj', unit: 'ampul',  stock: 60,  min: 20,  batch: 'DXM2509', exp: T.day(30) },
+    { code: 'OBT-012', name: 'Ondansetron 4 mg inj',      unit: 'ampul',  stock: 40,  min: 20,  batch: 'OND2510', exp: T.day(62) },
+    { code: 'OBT-013', name: 'Vitamin K1 10 mg inj',      unit: 'ampul',  stock: 30,  min: 10,  batch: 'VTK2510', exp: T.day(85) },
+    { code: 'OBT-014', name: 'Cetirizine 10 mg',          unit: 'tablet', stock: 300, min: 60,  batch: 'CTZ2706', exp: '2028-05-31' },
+    { code: 'BMH-001', name: 'Infus set dewasa',          unit: 'pcs',    stock: 20,  min: 50,  batch: 'IFS2701', exp: '2029-01-31' },
+    { code: 'BMH-002', name: 'Spuit 3 mL',                unit: 'pcs',    stock: 90,  min: 200, batch: 'SPT2702', exp: '2029-02-28' },
+    { code: 'BMH-003', name: 'Kasa steril 16x16',         unit: 'pack',   stock: 150, min: 100, batch: 'KSA2703', exp: '2029-03-31' },
+  ];
+
+  // Riwayat pergerakan stok (kartu stok) — konsisten dengan saldo di atas
+  const histReq = `REQ-${T.ymd(-3)}015`, histSo = `SO-${T.ymd(-1)}-01`;
+  const opening = { 'OBT-001': 600, 'OBT-002': 250, 'OBT-007': 47 };
+  const moves = items.map((i) => ({ ts: T.at(8, 0, -7), code: i.code, type: 'Saldo awal', ref: 'Saldo awal', qin: opening[i.code] || i.stock, qout: 0, balance: opening[i.code] || i.stock, by: 'Sistem' }));
+  moves.push(
+    { ts: T.at(16, 5, -3), code: 'OBT-001', type: 'Pengeluaran', ref: histReq, unit: 'Instalasi Farmasi', qin: 0, qout: 100, balance: 500, by: 'Yohana Tan' },
+    { ts: T.at(16, 5, -3), code: 'OBT-002', type: 'Pengeluaran', ref: histReq, unit: 'Instalasi Farmasi', qin: 0, qout: 50, balance: 200, by: 'Yohana Tan' },
+    { ts: T.at(10, 30, -1), code: 'OBT-007', type: 'Adjustment', ref: histSo, qin: 0, qout: 2, balance: 45, by: 'Kevin Susanto' },
+  );
+
+  const purchaseOrders = [
+    { no: `PO-${T.ymd(-2)}014`, supplier: 'PT Sehat Sentosa', status: 'Open', lines: [
+        { code: 'OBT-001', qty: 500, batch: 'PCT2610', exp: '2028-10-31' },
+        { code: 'OBT-002', qty: 200, batch: 'AMX2610', exp: '2028-10-31' },
+        { code: 'OBT-003', qty: 100, batch: 'NS2610',  exp: '2027-12-31' },
+    ] },
+    { no: `PO-${T.ymd(-1)}021`, supplier: 'PT Medika Farma Utama', status: 'Open', lines: [
+        { code: 'OBT-005', qty: 200, batch: 'OMZ2709', exp: '2028-06-30' },
+        { code: 'BMH-001', qty: 100, batch: 'IFS2709', exp: '2029-06-30' },
+        { code: 'BMH-002', qty: 300, batch: 'SPT2709', exp: '2029-06-30' },
+    ] },
+  ];
+
+  const requests = [
+    { no: histReq, unit: 'Instalasi Farmasi', by: 'Neri Kwang', createdAt: T.at(14, 20, -3), status: 'Issued', issuedAt: T.at(16, 5, -3), note: 'Stok rutin mingguan',
+      lines: [{ code: 'OBT-001', qty: 100, issued: 100 }, { code: 'OBT-002', qty: 50, issued: 50 }] },
+    { no: `REQ-${T.ymd(0)}007`, unit: 'IGD', by: 'Perawat IGD', createdAt: T.at(7, 30), status: 'Pending', note: 'Kebutuhan IGD',
+      lines: [{ code: 'OBT-004', qty: 100 }, { code: 'OBT-003', qty: 20 }] },
+  ];
+
+  const opnames = [
+    { id: histSo, status: 'Approved', reason: 'Botol pecah saat penataan rak', submittedBy: 'Yohana Tan', submittedAt: T.at(9, 15, -1),
+      decidedBy: 'Kevin Susanto', decidedAt: T.at(10, 30, -1), lines: [{ code: 'OBT-007', system: 47, physical: 45 }] },
+  ];
+
+  const audit = [
+    { ts: T.at(7, 50), user: 'Yohana Tan', role: 'Gudang / Logistik', module: 'Auth', activity: 'Login', result: 'Success' },
+    { ts: T.at(10, 30, -1), user: 'Kevin Susanto', role: 'Kepala Instalasi', module: 'Inventory', activity: `Approve stock adjustment ${histSo}`, result: 'Success' },
+    { ts: T.at(9, 15, -1), user: 'Yohana Tan', role: 'Gudang / Logistik', module: 'Inventory', activity: `Submit stock opname ${histSo}`, result: 'Success' },
+    { ts: T.at(16, 5, -3), user: 'Yohana Tan', role: 'Gudang / Logistik', module: 'Inventory', activity: `Issue stock ${histReq} → Instalasi Farmasi`, result: 'Success' },
+    { ts: T.at(14, 20, -3), user: 'Neri Kwang', role: 'Apoteker', module: 'Inventory', activity: `Create request ${histReq}`, result: 'Success' },
+  ].sort((a, b) => b.ts.localeCompare(a.ts));
+
+  return {
+    version: APP.dbVersion, seededAt: T.now.toISOString(),
+    seq: { req: 7, opname: 0 },
+    users: seedUsers(APP.defaultPassword), items, moves, purchaseOrders, requests, opnames, audit,
+  };
+}
+
+</script>
+<script>
+/* ==== shared/core.js ==== */
+/* =========================================================
+   core.js : utilitas, penyimpanan data, sesi, autentikasi,
+             pengecekan RBAC, router, toast & modal
+             (dipakai bersama oleh ketiga aplikasi)
+   ========================================================= */
+
+/* ---------- Utilitas ---------- */
+const U = {
+  esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  },
+  rp(n) { return 'Rp ' + Number(n || 0).toLocaleString('en-US'); },
+  num(n) { return Number(n || 0).toLocaleString('en-US'); },
+  pad(n, w = 2) { return String(n).padStart(w, '0'); },
+  time(iso) { const d = new Date(iso); return U.pad(d.getHours()) + ':' + U.pad(d.getMinutes()); },
+  date(iso) { const d = new Date(iso); return U.pad(d.getDate()) + '/' + U.pad(d.getMonth() + 1) + '/' + d.getFullYear(); },
+  dateTime(iso) { return U.date(iso) + ' ' + U.time(iso); },
+  ymd(d = new Date()) { return String(d.getFullYear()).slice(2) + U.pad(d.getMonth() + 1) + U.pad(d.getDate()); },
+  isoDay(d = new Date()) { return d.getFullYear() + '-' + U.pad(d.getMonth() + 1) + '-' + U.pad(d.getDate()); },
+  isToday(iso) { return U.isoDay(new Date(iso)) === U.isoDay(); },
+  daysUntil(isoDate) {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const e = new Date(isoDate + 'T00:00:00');
+    return Math.round((e - t) / 86400000);
+  },
+  monthYear(isoDate) { const [y, m] = isoDate.split('-'); return m + '/' + y; },
+  initials(name) {
+    return String(name).replace(/^(dr\.|apt\.)\s*/i, '').split(/\s+/).filter(Boolean)
+      .map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+  },
+  icon(name, cls = '') { return `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`; },
+  qs(sel, root = document) { return root.querySelector(sel); },
+  qsa(sel, root = document) { return [...root.querySelectorAll(sel)]; },
+  on(root, sel, ev, fn) { U.qsa(sel, root).forEach((el) => el.addEventListener(ev, fn)); },
+  /* unduh tabel sebagai CSV (Excel-friendly) */
+  downloadCsv(filename, head, rows) {
+    const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const csv = [head, ...rows].map((r) => r.map(q).join(',')).join('\r\n');
+    try {
+      const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      UI.toast(`File ${filename} diunduh`, 'info');
+    } catch (e) { UI.toast('Browser ini tidak mengizinkan unduhan file.', 'bad'); }
+  },
+};
+
+/* ---------- Penyimpanan aman (fallback ke memori bila browser memblokir storage) ---------- */
+const Safe = {
+  mem: {},
+  get(area, k) { try { return window[area].getItem(k); } catch (e) { return this.mem[area + k] ?? null; } },
+  set(area, k, v) { try { window[area].setItem(k, v); } catch (e) { this.mem[area + k] = v; } },
+  del(area, k) { try { window[area].removeItem(k); } catch (e) { /* abaikan */ } delete this.mem[area + k]; },
+};
+
+/* ---------- Database (localStorage) ---------- */
+const Store = {
+  db: null,
+  load() {
+    let data = null;
+    try { data = JSON.parse(Safe.get('localStorage', APP.storeKey) || 'null'); } catch (e) { data = null; }
+    if (!data || data.version !== APP.dbVersion) { data = seedDB(); this.db = data; this.save(); }
+    this.db = data;
+    return data;
+  },
+  save() { Safe.set('localStorage', APP.storeKey, JSON.stringify(this.db)); },
+  reset() { Safe.del('localStorage', APP.storeKey); Session.clear(); this.db = null; return this.load(); },
+  next(key) { this.db.seq[key] = (this.db.seq[key] || 0) + 1; this.save(); return this.db.seq[key]; },
+  user(id) { return this.db.users.find((u) => u.id === id); },
+  /* Audit trail: setiap aksi penting dicatat */
+  audit({ module, activity, result = 'Success', actor }) {
+    const u = actor || Auth.user();
+    this.db.audit.unshift({
+      ts: new Date().toISOString(),
+      user: u ? u.name : '-',
+      role: u && ROLES[u.role] ? ROLES[u.role].short : '-',
+      module, activity, result,
+    });
+    this.db.audit = this.db.audit.slice(0, 1000);
+    this.save();
+  },
+};
+
+/* ---------- Sesi login (sessionStorage per tab) ---------- */
+const Session = {
+  get() { try { return JSON.parse(Safe.get('sessionStorage', APP.sessionKey) || 'null'); } catch (e) { return null; } },
+  set(s) { Safe.set('sessionStorage', APP.sessionKey, JSON.stringify(s)); },
+  clear() { Safe.del('sessionStorage', APP.sessionKey); },
+};
+
+/* ---------- Autentikasi & RBAC ---------- */
+const Auth = {
+  user() {
+    const s = Session.get();
+    if (!s || !Store.db) return null;
+    return Store.db.users.find((u) => u.id === s.userId) || null;
+  },
+  login(username, password) {
+    const uname = String(username || '').trim().toLowerCase();
+    const user = Store.db.users.find((u) => u.username.toLowerCase() === uname);
+    if (!user || user.password !== password) {
+      Store.audit({ module: 'Auth', activity: `Login gagal (${uname || 'tanpa username'})`, result: 'Failed', actor: { name: uname || '-', role: null } });
+      return { ok: false, reason: 'invalid' };
+    }
+    if (user.status !== 'Active') {
+      Store.audit({ module: 'Auth', activity: 'Login ditolak: akun nonaktif', result: 'Failed', actor: user });
+      return { ok: false, reason: 'inactive', user };
+    }
+    // RBAC tingkat modul: role tanpa hak akses ke aplikasi ini ditolak sejak login
+    if (!(PERMISSIONS[user.role] || []).length) {
+      Store.audit({ module: 'RBAC', activity: `Login ditolak: role tanpa akses Modul ${APP.module}`, result: 'Denied', actor: user });
+      return { ok: false, reason: 'noaccess', user };
+    }
+    Session.set({ userId: user.id, loginAt: new Date().toISOString() });
+    user.lastLogin = new Date().toISOString();
+    Store.save();
+    Store.audit({ module: 'Auth', activity: 'Login', actor: user });
+    return { ok: true, user };
+  },
+  logout(reason) {
+    const u = this.user();
+    if (u) Store.audit({ module: 'Auth', activity: reason || 'Logout', actor: u });
+    Session.clear();
+  },
+  /* Kebijakan password: minimal 8 karakter, berisi huruf dan angka */
+  passwordProblem(pw) {
+    if (!pw || pw.length < 8) return 'Password minimal 8 karakter.';
+    if (!/[A-Za-z]/.test(pw) || !/\d/.test(pw)) return 'Password harus berisi huruf dan angka.';
+    if (pw === APP.defaultPassword) return 'Password baru tidak boleh sama dengan password awal.';
+    return '';
+  },
+  /* Cek hak akses role yang sedang login */
+  can(perm) {
+    const u = this.user();
+    return !!u && (PERMISSIONS[u.role] || []).includes(perm);
+  },
+  /* Halaman pertama yang boleh dibuka untuk sebuah menu */
+  firstRoute(menuItem) {
+    if (menuItem.route && (!menuItem.perm || this.can(menuItem.perm))) return menuItem.route;
+    const c = (menuItem.children || []).find((ch) => this.can(ch.perm));
+    return c ? c.route : null;
+  },
+  visibleMenu() {
+    return MENU.map((m) => {
+      if (m.children) {
+        const children = m.children.filter((c) => this.can(c.perm));
+        return children.length ? { ...m, children } : null;
+      }
+      return this.can(m.perm) ? m : null;
+    }).filter(Boolean);
+  },
+};
+
+/* ---------- Router (hash) ----------
+   Posisi halaman disimpan di Router.current, lalu disalin ke URL (#/...) bila browser
+   mengizinkan. Dengan begitu aplikasi tetap jalan walau dibuka sebagai file di
+   viewer HP (mis. pratinjau file di aplikasi) yang membatasi perubahan URL. */
+const Router = {
+  routes: [],
+  current: '',
+  add(pattern, def) { this.routes.push({ pattern, parts: pattern.split('/'), ...def }); },
+  read() {
+    try { return String(location.hash || '').replace(/^#\/?/, ''); } catch (e) { return null; }
+  },
+  setHash(path, replace) {
+    const target = '#/' + path;
+    try {
+      if (location.hash === target) return;
+      if (replace) { history.replaceState(null, '', location.href.split('#')[0] + target); return; }
+    } catch (e) { /* lanjut ke cara biasa */ }
+    try { location.hash = target; } catch (e) { /* URL tidak bisa diubah: cukup pakai Router.current */ }
+  },
+  parse() {
+    const [path, qs = ''] = this.current.split('?');
+    return { path: path || '', query: Object.fromEntries(new URLSearchParams(qs)) };
+  },
+  match(path) {
+    const segs = path.split('/');
+    for (const r of this.routes) {
+      if (r.parts.length !== segs.length) continue;
+      const params = {};
+      const ok = r.parts.every((p, i) => {
+        if (p.startsWith(':')) { params[p.slice(1)] = decodeURIComponent(segs[i]); return true; }
+        return p === segs[i];
+      });
+      if (ok) return { route: r, params };
+    }
+    return null;
+  },
+  /* pindah halaman (selalu render ulang, termasuk ke halaman yang sama) */
+  go(path) { this.current = path; this.setHash(path, false); App.render(); },
+  /* ganti alamat tanpa render (dipakai saat redirect di dalam render) */
+  replace(path) { this.current = path; this.setHash(path, true); },
+  /* tombol back/forward browser atau alamat diketik manual */
+  onHashChange() {
+    const h = this.read();
+    if (h === null || h === this.current) return;
+    this.current = h;
+    App.render();
+  },
+};
+
+/* ---------- UI: toast & modal ---------- */
+const UI = {
+  toast(msg, type = 'ok') {
+    const root = document.getElementById('toast-root');
+    const t = document.createElement('div');
+    t.className = 'toast toast-' + type;
+    t.textContent = msg;
+    root.appendChild(t);
+    setTimeout(() => t.classList.add('hide'), 3200);
+    setTimeout(() => t.remove(), 3700);
+  },
+  /* modal({title, body(html), actions:[{label, cls, value}]}) -> Promise<value|null> */
+  modal({ title, body = '', actions = [{ label: 'Tutup', cls: 'btn', value: null }], onOpen, wide = false }) {
+    return new Promise((resolve) => {
+      const root = document.getElementById('modal-root');
+      root.innerHTML = `
+        <div class="modal-backdrop">
+          <div class="modal ${wide ? 'modal-wide' : ''}" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <h2 id="modal-title">${U.esc(title)}</h2>
+            <div class="modal-body">${body}</div>
+            <div class="modal-actions">
+              ${actions.map((a, i) => `<button type="button" class="${a.cls || 'btn'}" data-i="${i}">${U.esc(a.label)}</button>`).join('')}
+            </div>
+          </div>
+        </div>`;
+      const close = (v) => { root.innerHTML = ''; document.removeEventListener('keydown', onKey); resolve(v); };
+      const onKey = (e) => { if (e.key === 'Escape') close(null); };
+      document.addEventListener('keydown', onKey);
+      U.qsa('[data-i]', root).forEach((b) => b.addEventListener('click', () => {
+        const a = actions[Number(b.dataset.i)];
+        close(typeof a.value === 'function' ? a.value(root) : a.value);
+      }));
+      U.qs('.modal-backdrop', root).addEventListener('click', (e) => { if (e.target.classList.contains('modal-backdrop')) close(null); });
+      if (onOpen) onOpen(root);
+      const primary = U.qs('.btn-primary, .btn-danger', root) || U.qs('button', root);
+      if (primary) primary.focus();
+    });
+  },
+  confirm(title, message, okLabel = 'Ya, lanjutkan', danger = false) {
+    return this.modal({
+      title,
+      body: `<p>${message}</p>`,
+      actions: [
+        { label: 'Batal', cls: 'btn', value: false },
+        { label: okLabel, cls: danger ? 'btn btn-danger' : 'btn btn-primary', value: true },
+      ],
+    });
+  },
+};
+
+/* ---------- Komponen HTML kecil yang dipakai berulang ---------- */
+const C = {
+  pageHead(title, subtitle, right = '') {
+    return `<div class="page-head"><div><h1>${U.esc(title)}</h1><p class="subtitle">${U.esc(subtitle)}</p></div>${right ? `<div class="page-head-actions">${right}</div>` : ''}</div>`;
+  },
+  statusPill(status) {
+    const map = {
+      Active: 'ok', Inactive: 'muted', Ready: 'info', Verify: 'warn', Pending: 'warn', Invoiced: 'info',
+      Unpaid: 'warn', Paid: 'ok', Verified: 'ok', 'Claim Submitted': 'ok', Submitted: 'ok', Open: 'info',
+      Received: 'ok', Issued: 'ok', 'Awaiting approval': 'warn', Approved: 'ok', Rejected: 'bad',
+      Success: 'ok', Failed: 'bad', Denied: 'bad', Draft: 'warn', Partial: 'warn',
+      Penerimaan: 'ok', Pengeluaran: 'info', Adjustment: 'warn', 'Saldo awal': 'muted',
+      Invoice: 'info', Pembayaran: 'ok', Klaim: 'ok',
+    };
+    return `<span class="pill pill-${map[status] || 'muted'}">${U.esc(status)}</span>`;
+  },
+  empty(title, text, action = '') {
+    return `<div class="empty"><h3>${U.esc(title)}</h3><p>${text}</p>${action}</div>`;
+  },
+};
+
+</script>
+<script>
+/* ==== shared/login.js ==== */
+/* =========================================================
+   Login — autentikasi pengguna (dipakai ketiga aplikasi)
+   ========================================================= */
+
+function renderLogin(root, message) {
+  const canUse = (u) => (PERMISSIONS[u.role] || []).length > 0;
+  const users = [...Store.db.users].sort((a, b) =>
+    (canUse(b) && b.status === 'Active') - (canUse(a) && a.status === 'Active'));
+  const demo = users.map((u) => {
+    const tag = u.status !== 'Active' ? ' <em>(nonaktif)</em>' : !canUse(u) ? ' <em>(tanpa akses modul ini)</em>' : '';
+    return `
+      <button type="button" class="demo-item" data-user="${U.esc(u.username)}">
+        <span>${U.esc(ROLES[u.role].label)}${tag}</span>
+        <strong>${U.esc(u.username)}</strong>
+      </button>`;
+  }).join('');
+
+  root.innerHTML = `
+  <div class="login">
+    <section class="login-brand">
+      <h1>SIMRS</h1>
+      <div class="hosp">RS PERMATA MEDIKA</div>
+      <div class="login-module">${U.esc(APP.moduleLong)}</div>
+      <p class="tag">Secure access for authorized users</p>
+      <div class="sec">RBAC &bull; HTTPS/TLS &bull; Audit trail</div>
+    </section>
+
+    <section class="login-form-wrap">
+      <div class="login-form" id="login-form" role="form" aria-label="Sign in">
+        <h2>Sign in</h2>
+        <p class="sub">Masukkan kredensial SIMRS</p>
+
+        <div class="field">
+          <label for="username">Username *</label>
+          <input class="input" id="username" name="username" placeholder="Enter username" autocomplete="username" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="password">Password *</label>
+          <input class="input" id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password">
+        </div>
+        <label class="show-pw"><input type="checkbox" id="show-pw"> Show password</label>
+
+        <button class="btn btn-primary btn-block" type="button" id="login-btn">Login</button>
+        <p class="login-error" id="login-error" role="alert">${message ? U.esc(message) : ''}</p>
+
+        <details class="demo" open>
+          <summary>Akun demo — password awal semua akun: <code>${APP.defaultPassword}</code></summary>
+          <p class="demo-hint">Ketuk salah satu akun untuk mengisi username &amp; password, lalu tekan Login.</p>
+          <div class="demo-list">${demo}</div>
+          <button type="button" class="linkish" id="reset-demo">Reset data demo ke kondisi awal</button>
+        </details>
+      </div>
+    </section>
+  </div>`;
+
+  const err = U.qs('#login-error', root);
+  const uEl = U.qs('#username', root);
+  const pEl = U.qs('#password', root);
+
+  U.qs('#show-pw', root).addEventListener('change', (e) => { pEl.type = e.target.checked ? 'text' : 'password'; });
+
+  // tanpa <form>: beberapa viewer file di HP memblokir form submit
+  const doLogin = () => {
+    err.textContent = '';
+    if (!uEl.value.trim() || !pEl.value) {
+      err.textContent = 'Username dan password wajib diisi.';
+      (uEl.value.trim() ? pEl : uEl).focus();
+      return;
+    }
+    const res = Auth.login(uEl.value, pEl.value);
+    if (!res.ok) {
+      err.textContent = {
+        inactive: 'Akun nonaktif → akses ditolak. Hubungi Admin SIMRS untuk aktivasi.',
+        noaccess: `Role ${res.user ? ROLES[res.user.role].label : ''} tidak memiliki akses ke ${APP.moduleLong} → akses ditolak.`,
+      }[res.reason] || 'Invalid credentials → akses ditolak. Periksa username dan password.';
+      pEl.value = '';
+      pEl.focus();
+      return;
+    }
+    UI.toast(`Login berhasil sebagai ${ROLES[res.user.role].label}`);
+    Router.go('dashboard');
+  };
+  U.qs('#login-btn', root).addEventListener('click', doLogin);
+  [uEl, pEl].forEach((i) => i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } }));
+
+  U.qsa('.demo-item', root).forEach((btn) => btn.addEventListener('click', () => {
+    uEl.value = btn.dataset.user;
+    const u = Store.db.users.find((x) => x.username === btn.dataset.user);
+    // akun dengan password sementara/awal terisi otomatis; akun yang sudah ganti password diketik manual
+    pEl.value = u && u.password === APP.defaultPassword ? APP.defaultPassword : '';
+    err.textContent = '';
+    (pEl.value ? U.qs('#login-btn', root) : pEl).focus();
+  }));
+
+  U.qs('#reset-demo', root).addEventListener('click', async () => {
+    const ok = await UI.confirm('Reset data demo', `Semua perubahan di ${APP.moduleLong} akan dikembalikan ke data awal.`, 'Reset data', true);
+    if (ok) { Store.reset(); renderLogin(root); UI.toast('Data demo sudah dikembalikan ke kondisi awal.'); }
+  });
+
+  if (window.matchMedia && window.matchMedia('(min-width: 861px)').matches) uEl.focus();
+}
+
+</script>
+<script>
+/* ==== apps/inventory/pages.js ==== */
+/* =========================================================
+   APLIKASI 3 — halaman Modul Inventory
+   Dashboard · Stok & Kartu Stok · Permintaan · Penerimaan ·
+   Pengeluaran · Stok Minimum/Expiry · Stock Opname · Laporan
+   ========================================================= */
+
+const Inv = {
+  alertFilter: 'all',
+  stockQ: '',
+  draft: null,     // draft stock opname (petugas gudang)
+  reqDraft: null,  // draft permintaan barang (apoteker)
+  report: null,
+  item(code) { return Store.db.items.find((i) => i.code === code); },
+  isLow(i) { return i.stock < i.min; },
+  expDays(i) { return U.daysUntil(i.exp); },
+  isExp(i) { return Inv.expDays(i) <= 90; },
+  /* Satu-satunya cara stok berubah: setiap perubahan tercatat di kartu stok */
+  apply(code, delta, type, ref, extra = {}) {
+    const it = Inv.item(code);
+    it.stock += delta;
+    Store.db.moves.push({ ts: new Date().toISOString(), code, type, ref, qin: delta > 0 ? delta : 0, qout: delta < 0 ? -delta : 0, balance: it.stock, by: Auth.user().name, ...extra });
+  },
+  pending() { return Store.db.requests.filter((r) => r.status === 'Pending').sort((a, b) => b.createdAt.localeCompare(a.createdAt)); },
+  counts() {
+    const items = Store.db.items;
+    return { total: items.length, low: items.filter(Inv.isLow).length, exp: items.filter(Inv.isExp).length,
+      pendingAdj: Store.db.opnames.filter((o) => o.status === 'Awaiting approval').length, pendingReq: Inv.pending().length };
+  },
+  statusOf(i) {
+    return `<div class="pill-stack pill-left">${Inv.isLow(i) ? '<span class="pill pill-warn">LOW STOCK</span>' : ''}${Inv.isExp(i) ? `<span class="pill ${Inv.expDays(i) <= 30 ? 'pill-bad' : 'pill-warn'}">EXP ${Inv.expDays(i)}d</span>` : ''}${!Inv.isLow(i) && !Inv.isExp(i) ? '<span class="pill pill-ok">AMAN</span>' : ''}</div>`;
+  },
+  stockCard(code) {
+    const it = Inv.item(code);
+    const rows = Store.db.moves.filter((m) => m.code === code).sort((a, b) => a.ts.localeCompare(b.ts));
+    UI.modal({
+      title: `Kartu Stok — ${it.name}`,
+      body: `<p class="muted small">${it.code} &bull; batch ${it.batch} &bull; satuan ${it.unit} &bull; stok saat ini <b>${U.num(it.stock)}</b></p>
+        <div class="table-wrap"><table class="tbl tbl-compact">
+          <thead><tr><th>Waktu</th><th>Jenis</th><th>No. Ref</th><th class="num">Masuk</th><th class="num">Keluar</th><th class="num">Saldo</th></tr></thead>
+          <tbody>${rows.map((m) => `<tr><td class="nowrap">${U.dateTime(m.ts)}</td><td>${C.statusPill(m.type)}</td><td class="nowrap">${U.esc(m.ref)}</td><td class="num in">${m.qin ? '+' + U.num(m.qin) : ''}</td><td class="num out">${m.qout ? '−' + U.num(m.qout) : ''}</td><td class="num"><b>${U.num(m.balance)}</b></td></tr>`).join('')}</tbody>
+        </table></div>`,
+      actions: [{ label: 'Tutup', cls: 'btn btn-primary', value: null }],
+      wide: true,
+    });
+    App.labelTables(document.getElementById('modal-root'));
+  },
+};
+
+/* ---------- Dashboard ---------- */
+Router.add('dashboard', {
+  perm: 'dashboard', title: 'Dashboard',
+  render(el, { user }) {
+    const c = Inv.counts();
+    const myReq = Store.db.requests.filter((r) => r.by === user.name && r.status === 'Pending').length;
+    const CARDS = {
+      gudang: [
+        { label: 'Total Items', value: c.total, cap: 'Obat & BMHP', go: 'inventory' },
+        { label: 'Permintaan Masuk', value: c.pendingReq, cap: 'Menunggu dikeluarkan', go: 'inventory/issue' },
+        { label: 'Low Stock', value: c.low, cap: 'Di bawah minimum', go: 'inventory/alerts' },
+        { label: 'Expiry Alert', value: c.exp, cap: 'Kedaluwarsa < 90 hari', go: 'inventory/alerts' },
+      ],
+      kepala_instalasi: [
+        { label: 'Pending Adjustment', value: c.pendingAdj, cap: 'Menunggu persetujuan', go: 'inventory/opname' },
+        { label: 'Low Stock', value: c.low, cap: 'Di bawah minimum', go: 'inventory/alerts' },
+        { label: 'Expiry Alert', value: c.exp, cap: 'Kedaluwarsa < 90 hari', go: 'inventory/alerts' },
+        { label: 'Total Items', value: c.total, cap: 'Obat & BMHP', go: 'inventory' },
+      ],
+      apoteker: [
+        { label: 'Total Items', value: c.total, cap: 'Obat & BMHP', go: 'inventory' },
+        { label: 'Permintaan Saya', value: myReq, cap: 'Masih pending', go: 'inventory/request' },
+        { label: 'Low Stock', value: c.low, cap: 'Di bawah minimum', go: 'inventory/alerts' },
+        { label: 'Expiry Alert', value: c.exp, cap: 'Kedaluwarsa < 90 hari', go: 'inventory/alerts' },
+      ],
+    }[user.role] || [];
+    const cards = CARDS.map((x) => `<a class="stat stat-link" href="#/${x.go}"><div class="stat-label">${x.label}</div><div class="stat-value">${x.value}</div><div class="stat-cap">${x.cap}</div></a>`).join('');
+    const quick = Auth.visibleMenu().filter((m) => m.key !== 'dashboard').flatMap((m) => (m.children || [m]).map((x) => `
+      <a class="quick-row" href="#/${x.route}"><strong>${x.label}</strong><span>${x.desc || m.desc}</span></a>`)).join('');
+    const acts = Store.db.audit.filter((a) => a.module === 'Inventory').slice(0, 6)
+      .map((a) => `<div class="act-row"><span>${U.esc(a.activity)}</span><time>${U.isToday(a.ts) ? U.time(a.ts) : U.date(a.ts)}</time></div>`).join('') || '<p class="muted">Belum ada aktivitas.</p>';
+    el.innerHTML = `
+      ${C.pageHead('Dashboard', `Ringkasan inventory — ${ROLES[user.role].label}`)}
+      <div class="stats">${cards}</div>
+      <div class="grid-2">
+        <section class="panel panel-md"><h2 class="panel-title">Quick Access</h2><div class="quick">${quick}</div></section>
+        <section class="panel panel-md"><h2 class="panel-title">Recent Activity</h2><div class="acts">${acts}</div></section>
+      </div>`;
+  },
+});
+
+/* ---------- Stok barang & kartu stok ---------- */
+Router.add('inventory', {
+  perm: 'inv.stock', title: 'Stok Barang',
+  render(el) {
+    const c = Inv.counts();
+    const stat = (label, value, route) => {
+      const ok = route && Auth.can(Router.match(route).route.perm);
+      return `<${ok ? 'a' : 'div'} class="stat ${ok ? 'stat-link' : ''}" ${ok ? `href="#/${route}"` : ''}><div class="stat-label">${label}</div><div class="stat-value">${U.num(value)}</div></${ok ? 'a' : 'div'}>`;
+    };
+    el.innerHTML = `
+      ${C.pageHead('Stok Barang', 'Saldo stok obat & BMHP — klik Kartu Stok untuk riwayat')}
+      <div class="stats">${stat('Total Items', c.total)}${stat('Low Stock', c.low, 'inventory/alerts')}${stat('Expiry &lt; 90d', c.exp, 'inventory/alerts')}${stat('Pending Adjustment', c.pendingAdj, 'inventory/opname')}</div>
+      <div class="toolbar">
+        <label class="search-inline">${U.icon('search')}<input id="s-q" placeholder="Search kode / nama barang" value="${U.esc(Inv.stockQ)}"></label>
+      </div>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>Kode</th><th>Nama Barang</th><th>Satuan</th><th class="num">Stok</th><th class="num">Minimum</th><th>Expiry</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="s-body"></tbody>
+      </table></div>`;
+    const draw = () => {
+      const q = Inv.stockQ.toLowerCase();
+      U.qs('#s-body', el).innerHTML = Store.db.items.filter((i) => !q || (i.code + ' ' + i.name).toLowerCase().includes(q)).map((i) => `<tr>
+        <td class="nowrap">${i.code}</td><td>${U.esc(i.name)}</td><td>${i.unit}</td><td class="num"><b>${U.num(i.stock)}</b></td><td class="num">${U.num(i.min)}</td>
+        <td class="nowrap">${U.date(i.exp + 'T00:00:00')}</td><td>${Inv.statusOf(i)}</td><td><button type="button" class="link" data-card="${i.code}">Kartu Stok</button></td></tr>`).join('')
+        || '<tr><td colspan="8" class="muted center">Barang tidak ditemukan.</td></tr>';
+      U.qsa('[data-card]', el).forEach((b) => b.addEventListener('click', () => Inv.stockCard(b.dataset.card)));
+    };
+    draw();
+    U.qs('#s-q', el).addEventListener('input', (e) => { Inv.stockQ = e.target.value; draw(); });
+  },
+});
+
+/* ---------- Permintaan barang (apoteker / unit) ---------- */
+Router.add('inventory/request', {
+  perm: 'inv.request', title: 'Permintaan Barang',
+  render(el, { user }) {
+    const d = Inv.reqDraft || (Inv.reqDraft = { lines: [], note: '' });
+    const mine = Store.db.requests.filter((r) => r.by === user.name).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    el.innerHTML = `
+      ${C.pageHead('Permintaan Barang', 'Unit mengajukan kebutuhan obat & BMHP ke gudang')}
+      <div class="flow-hint">Alur: <b>Permintaan unit</b> → Pengeluaran oleh gudang → Stok unit bertambah</div>
+      <div class="panel">
+        <div class="form-grid">
+          <div class="field"><label>Unit Peminta</label><input class="input" value="${U.esc(user.unit)}" readonly></div>
+          <div class="field"><label>Diminta oleh</label><input class="input" value="${U.esc(user.name)} — ${ROLES[user.role].label}" readonly></div>
+        </div>
+        <h3 class="sub-title">Daftar Barang Diminta</h3>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Barang</th><th class="num">Stok gudang</th><th class="num">Jumlah diminta</th><th>Aksi</th></tr></thead>
+          <tbody>${d.lines.map((l, idx) => { const it = Inv.item(l.code); return `<tr><td>${U.esc(it.name)}</td><td class="num">${U.num(it.stock)}</td><td class="num">${U.num(l.qty)} ${it.unit}</td><td><button type="button" class="link link-bad" data-rm="${idx}">Hapus</button></td></tr>`; }).join('')
+            || '<tr><td colspan="4" class="muted center">Belum ada barang. Pilih barang dan jumlahnya di bawah, lalu klik Tambah.</td></tr>'}</tbody>
+        </table></div>
+        <div class="line-add">
+          <div class="field"><label for="rq-item">Barang</label>
+            <select class="select" id="rq-item"><option value="">Pilih barang</option>${Store.db.items.map((i) => `<option value="${i.code}">${U.esc(i.name)} (stok ${U.num(i.stock)})</option>`).join('')}</select></div>
+          <div class="field"><label for="rq-qty">Jumlah</label><input class="input" id="rq-qty" type="number" min="1" inputmode="numeric" placeholder="0"></div>
+          <button class="btn" type="button" id="rq-add">${U.icon('plus')} Tambah</button>
+        </div>
+        <div class="field mt"><label for="rq-note">Catatan</label><input class="input" id="rq-note" placeholder="Contoh: stok rutin mingguan Instalasi Farmasi" value="${U.esc(d.note)}"></div>
+        <div class="actions">
+          <button class="btn" type="button" id="rq-reset">Kosongkan</button>
+          <button class="btn btn-primary" type="button" id="rq-send">Kirim Permintaan</button>
+        </div>
+      </div>
+      <section class="section">
+        <h2 class="section-title">Permintaan saya</h2>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>No. Permintaan</th><th>Waktu</th><th>Barang</th><th>Status</th></tr></thead>
+          <tbody>${mine.map((r) => `<tr><td class="nowrap">${r.no}</td><td class="nowrap">${U.dateTime(r.createdAt)}</td><td>${r.lines.map((l) => `${U.esc(Inv.item(l.code).name)} × ${U.num(l.qty)}`).join('<br>')}</td><td>${C.statusPill(r.status)}</td></tr>`).join('') || '<tr><td colspan="4" class="muted center">Belum ada permintaan.</td></tr>'}</tbody>
+        </table></div>
+      </section>`;
+    U.qs('#rq-note', el).addEventListener('input', (e) => { d.note = e.target.value; });
+    U.qs('#rq-add', el).addEventListener('click', () => {
+      const code = U.qs('#rq-item', el).value, qty = Number(U.qs('#rq-qty', el).value);
+      if (!code) { UI.toast('Pilih barang terlebih dahulu.', 'bad'); return; }
+      if (!qty || qty < 1) { UI.toast('Isi jumlah minimal 1.', 'bad'); U.qs('#rq-qty', el).focus(); return; }
+      if (d.lines.some((l) => l.code === code)) { UI.toast('Barang ini sudah ada di daftar permintaan.', 'bad'); return; }
+      d.lines.push({ code, qty });
+      Router.go('inventory/request');
+    });
+    U.qs('#rq-qty', el).addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); U.qs('#rq-add', el).click(); } });
+    U.qsa('[data-rm]', el).forEach((b) => b.addEventListener('click', () => { d.lines.splice(Number(b.dataset.rm), 1); Router.go('inventory/request'); }));
+    U.qs('#rq-reset', el).addEventListener('click', () => { Inv.reqDraft = null; Router.go('inventory/request'); });
+    U.qs('#rq-send', el).addEventListener('click', () => {
+      if (!d.lines.length) { UI.toast('Tambahkan minimal satu barang.', 'bad'); return; }
+      const no = `REQ-${U.ymd()}${U.pad(Store.next('req'), 3)}`;
+      Store.db.requests.push({ no, unit: user.unit, by: user.name, createdAt: new Date().toISOString(), status: 'Pending', note: d.note.trim(), lines: d.lines.map((l) => ({ ...l })) });
+      Inv.reqDraft = null; Store.save();
+      Store.audit({ module: 'Inventory', activity: `Create request ${no} (${user.unit}, ${d.lines.length} item)` });
+      UI.toast(`Permintaan ${no} terkirim ke gudang — status Pending.`);
+      Router.go('inventory/request');
+    });
+  },
+});
+
+/* ---------- Penerimaan barang ---------- */
+Router.add('inventory/receive', {
+  perm: 'inv.receive', title: 'Penerimaan Barang',
+  render(el, { query, user }) {
+    const pos = Store.db.purchaseOrders;
+    const po = pos.find((p) => p.no === query.po) || pos.find((p) => p.status === 'Open') || pos[0];
+    const received = po.status === 'Received';
+    el.innerHTML = `
+      ${C.pageHead('Penerimaan Barang', 'Pilih PO, cek fisik barang, lalu simpan')}
+      <div class="flow-hint">Alur: Purchase Order → <b>Cek barang datang</b> → Stok gudang bertambah</div>
+      <div class="panel">
+        <div class="form-grid">
+          <div class="field"><label for="r-po">Purchase Order (PO) *</label>
+            <select class="select" id="r-po">${pos.map((p) => `<option value="${p.no}" ${p.no === po.no ? 'selected' : ''}>${p.no} — ${U.esc(p.supplier)}${p.status === 'Received' ? ' (sudah diterima)' : ''}</option>`).join('')}</select></div>
+          <div class="field"><label>Supplier</label><input class="input" value="${U.esc(po.supplier)}" readonly></div>
+        </div>
+        <h3 class="sub-title">Item dari PO</h3>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Stok sekarang</th><th>Batch/Lot</th><th>Expiry</th><th>Condition</th></tr></thead>
+          <tbody>${po.lines.map((l, idx) => `<tr>
+            <td>${U.esc(Inv.item(l.code).name)}</td><td class="num">${U.num(l.qty)}</td><td class="num">${U.num(Inv.item(l.code).stock)}</td><td>${l.batch}</td><td>${U.monthYear(l.exp)}</td>
+            <td>${received ? U.esc(l.condition || 'Good') : `<select class="select select-sm cond" data-i="${idx}" aria-label="Kondisi ${U.esc(Inv.item(l.code).name)}"><option>Good</option><option>Damaged</option></select>`}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+        <div class="chips-row mt">
+          <span class="badge b-ok">PO validated</span>
+          ${received ? `<span class="badge b-muted">Diterima ${U.dateTime(po.receivedAt)} oleh ${U.esc(po.receivedBy)}</span>` : ''}
+        </div>
+        <p class="note">Barang berkondisi Damaged tidak masuk stok dan dicatat untuk retur ke supplier.</p>
+        <div class="actions">
+          <a class="btn" href="#/inventory">Batal</a>
+          <button class="btn btn-primary" id="r-save" ${received ? 'disabled' : ''}>Simpan Penerimaan</button>
+        </div>
+      </div>`;
+    U.qs('#r-po', el).addEventListener('change', (e) => Router.go(`inventory/receive?po=${e.target.value}`));
+    U.qs('#r-save', el).addEventListener('click', () => {
+      const added = [], damaged = [];
+      U.qsa('.cond', el).forEach((s) => { po.lines[Number(s.dataset.i)].condition = s.value; });
+      po.lines.forEach((l) => {
+        const it = Inv.item(l.code);
+        if (l.condition === 'Damaged') { damaged.push(it.name); return; }
+        Inv.apply(l.code, l.qty, 'Penerimaan', po.no, { supplier: po.supplier });
+        it.batch = l.batch;
+        added.push(`${it.name} +${U.num(l.qty)}`);
+      });
+      po.status = 'Received'; po.receivedAt = new Date().toISOString(); po.receivedBy = user.name;
+      Store.save();
+      Store.audit({ module: 'Inventory', activity: `Receive stock ${po.no} (${added.length} item${damaged.length ? `, ${damaged.length} rusak` : ''})` });
+      UI.toast(`Penerimaan ${po.no} tersimpan: ${added.join(', ') || 'tidak ada item layak terima'}`);
+      Router.go(`inventory/receive?po=${po.no}`);
+    });
+  },
+});
+
+/* ---------- Pengeluaran / mutasi ---------- */
+Router.add('inventory/issue', {
+  perm: 'inv.issue', title: 'Pengeluaran / Mutasi',
+  render(el, { query }) {
+    const all = [...Store.db.requests].sort((a, b) => (a.status === 'Pending' ? 0 : 1) - (b.status === 'Pending' ? 0 : 1) || b.createdAt.localeCompare(a.createdAt));
+    const rq = all.find((r) => r.no === query.req) || all[0];
+    const head = C.pageHead('Pengeluaran / Mutasi', 'Proses permintaan unit setelah stok dicek') + '<div class="flow-hint">Alur: Permintaan unit → <b>Cek stok & konfirmasi</b> → Stok gudang berkurang</div>';
+    if (!rq) { el.innerHTML = head + `<div class="panel">${C.empty('Belum ada permintaan', 'Permintaan dari unit akan muncul di sini.')}</div>`; return; }
+    const issued = rq.status === 'Issued';
+    el.innerHTML = `${head}
+      <div class="panel">
+        <div class="form-grid">
+          <div class="field"><label for="m-req">Nomor Permintaan *</label>
+            <select class="select" id="m-req">${all.map((r) => `<option value="${r.no}" ${r.no === rq.no ? 'selected' : ''}>${r.no} — ${U.esc(r.unit)} (${r.status})</option>`).join('')}</select></div>
+          <div class="field"><label>Unit Tujuan</label><input class="input" value="${U.esc(rq.unit)}" readonly></div>
+        </div>
+        <p class="muted small">Diminta oleh ${U.esc(rq.by)} pada ${U.dateTime(rq.createdAt)}${rq.note ? ` &bull; ${U.esc(rq.note)}` : ''}</p>
+        <h3 class="sub-title">Item Permintaan</h3>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Item</th><th class="num">Diminta</th><th class="num">Stok</th><th>Jumlah Keluar</th></tr></thead>
+          <tbody>${rq.lines.map((l, idx) => {
+            const it = Inv.item(l.code);
+            return `<tr><td>${U.esc(it.name)}</td><td class="num">${U.num(l.qty)}</td><td class="num">${U.num(it.stock)}</td>
+              <td>${issued ? U.num(l.issued) : `<input class="input input-sm qty" type="number" min="0" inputmode="numeric" data-i="${idx}" value="${l.qty}" aria-label="Jumlah keluar ${U.esc(it.name)}">`}</td></tr>`;
+          }).join('')}</tbody>
+        </table></div>
+        <div class="chips-row mt"><span class="badge" id="m-state"></span><span class="bad-text small">Jika stok tidak cukup → alert dan transaksi ditolak.</span></div>
+        <div class="actions"><button class="btn btn-primary" id="m-ok" ${issued ? 'disabled' : ''}>Konfirmasi Pengeluaran</button></div>
+      </div>`;
+    const state = U.qs('#m-state', el);
+    const check = () => {
+      if (issued) { state.textContent = `SUDAH DIKELUARKAN ${U.dateTime(rq.issuedAt)}`; state.className = 'badge b-muted'; return []; }
+      const short = U.qsa('.qty', el).map((inp) => {
+        const l = rq.lines[Number(inp.dataset.i)], it = Inv.item(l.code), q = Number(inp.value) || 0;
+        inp.classList.toggle('input-bad', q > it.stock);
+        return q > it.stock ? { it, q } : null;
+      }).filter(Boolean);
+      state.textContent = short.length ? 'STOK TIDAK CUKUP' : 'STOK CUKUP';
+      state.className = 'badge ' + (short.length ? 'b-bad' : 'b-ok');
+      return short;
+    };
+    check();
+    U.qsa('.qty', el).forEach((i) => i.addEventListener('input', check));
+    U.qs('#m-req', el).addEventListener('change', (e) => Router.go(`inventory/issue?req=${e.target.value}`));
+    U.qs('#m-ok', el).addEventListener('click', async () => {
+      const short = check();
+      if (short.length) {
+        Store.audit({ module: 'Inventory', activity: `Issue stock ${rq.no} ditolak: stok tidak cukup`, result: 'Failed' });
+        await UI.modal({
+          title: 'Transaksi ditolak',
+          body: `<p>Stok tidak mencukupi untuk:</p><ul>${short.map((s) => `<li><b>${U.esc(s.it.name)}</b> — diminta ${U.num(s.q)}, stok ${U.num(s.it.stock)}</li>`).join('')}</ul><p>Kurangi jumlah keluar atau lakukan penerimaan barang terlebih dahulu.</p>`,
+          actions: [{ label: 'Mengerti', cls: 'btn btn-primary', value: true }],
+        });
+        return;
+      }
+      const qtys = U.qsa('.qty', el).map((i) => Number(i.value) || 0);
+      if (qtys.every((q) => q === 0)) { UI.toast('Isi jumlah keluar minimal satu item.', 'bad'); return; }
+      rq.lines.forEach((l, i) => { l.issued = qtys[i]; if (qtys[i]) Inv.apply(l.code, -qtys[i], 'Pengeluaran', rq.no, { unit: rq.unit }); });
+      rq.status = 'Issued'; rq.issuedAt = new Date().toISOString();
+      Store.save();
+      Store.audit({ module: 'Inventory', activity: `Issue stock ${rq.no} → ${rq.unit}` });
+      UI.toast(`Pengeluaran ${rq.no} ke ${rq.unit} dikonfirmasi. Stok diperbarui.`);
+      Router.go(`inventory/issue?req=${rq.no}`);
+    });
+  },
+});
+
+/* ---------- Stok minimum / expiry ---------- */
+Router.add('inventory/alerts', {
+  perm: 'inv.alerts', title: 'Stok Minimum / Expiry',
+  render(el) {
+    const items = Store.db.items;
+    const low = items.filter(Inv.isLow), exp = items.filter(Inv.isExp);
+    const f = Inv.alertFilter;
+    const rows = items.filter((i) => (f === 'low' ? Inv.isLow(i) : f === 'exp' ? Inv.isExp(i) : Inv.isLow(i) || Inv.isExp(i)))
+      .sort((a, b) => Inv.expDays(a) - Inv.expDays(b));
+    const chip = (key, label) => `<button type="button" class="chip ${f === key ? 'chip-on' : ''}" data-f="${key}" aria-pressed="${f === key}">${label}</button>`;
+    el.innerHTML = `
+      ${C.pageHead('Stok Minimum / Expiry', 'Indikator dan alert berdasarkan parameter')}
+      <div class="panel">
+        <div class="panel-top"><h2 class="panel-title">Inventory Alerts</h2>
+          <div class="chips-row">${chip('all', 'All')}${chip('low', 'Low Stock')}${chip('exp', 'Expiry')}</div></div>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Item</th><th class="num">Stock</th><th class="num">Minimum</th><th>Expiry</th><th>Indicator</th><th>Action</th></tr></thead>
+          <tbody>${rows.map((i) => `<tr>
+            <td>${U.esc(i.name)}</td><td class="num">${U.num(i.stock)}</td><td class="num">${U.num(i.min)}</td><td class="nowrap">${U.date(i.exp + 'T00:00:00')}</td>
+            <td>${Inv.statusOf(i)}</td>
+            <td><button type="button" class="link" data-code="${i.code}">Review</button></td></tr>`).join('') || '<tr><td colspan="6" class="muted center">Tidak ada alert.</td></tr>'}
+          </tbody>
+        </table></div>
+        <div class="chips-row mt"><span class="badge b-warn">${low.length} Low Stock</span><span class="badge b-warn">${exp.length} Expiry Alerts</span></div>
+        <p class="note">Low stock: stok &lt; minimum. Expiry alert: kedaluwarsa ≤ 90 hari (merah bila ≤ 30 hari).</p>
+      </div>`;
+    U.qsa('[data-f]', el).forEach((b) => b.addEventListener('click', () => { Inv.alertFilter = b.dataset.f; Router.go('inventory/alerts'); }));
+    U.qsa('[data-code]', el).forEach((b) => b.addEventListener('click', () => {
+      const i = Inv.item(b.dataset.code);
+      const advice = [];
+      if (Inv.isLow(i)) advice.push(`Stok kurang ${U.num(i.min - i.stock)} ${i.unit} dari minimum — ajukan PO pengadaan.`);
+      if (Inv.isExp(i)) advice.push(`Kedaluwarsa dalam ${Inv.expDays(i)} hari — prioritaskan pemakaian (FEFO) atau retur ke supplier.`);
+      UI.modal({
+        title: i.name,
+        body: `<dl class="dl"><dt>Kode</dt><dd>${i.code}</dd><dt>Batch</dt><dd>${i.batch}</dd><dt>Stok</dt><dd>${U.num(i.stock)} ${i.unit}</dd>
+               <dt>Minimum</dt><dd>${U.num(i.min)} ${i.unit}</dd><dt>Expiry</dt><dd>${U.date(i.exp + 'T00:00:00')}</dd></dl>
+               <ul>${advice.map((a) => `<li>${a}</li>`).join('')}</ul>`,
+        actions: [{ label: 'Tutup', cls: 'btn btn-primary', value: null }],
+      });
+    }));
+  },
+});
+
+/* ---------- Stock opname & adjustment ---------- */
+Router.add('inventory/opname', {
+  perm: 'inv.opname', title: 'Stock Opname & Adjustment',
+  render(el, { query, user }) {
+    const canSubmit = Auth.can('inv.opname.submit');
+    const canApprove = Auth.can('inv.opname.approve');
+    const ops = Store.db.opnames;
+    const head = C.pageHead('Stock Opname & Adjustment', 'Bandingkan stok fisik dengan saldo SIMRS') + `<div class="flow-hint">Alur: ${canSubmit ? '<b>Hitung fisik & ajukan</b>' : 'Hitung fisik & ajukan'} (gudang) → ${canApprove ? '<b>Approve</b>' : 'Approve'} (kepala instalasi) → Saldo disesuaikan</div>`;
+    const history = `
+      <section class="section">
+        <h2 class="section-title">Riwayat pengajuan</h2>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>No. Opname</th><th>Diajukan</th><th>Oleh</th><th class="num">Item</th><th>Status</th><th>Keputusan</th></tr></thead>
+          <tbody>${[...ops].reverse().map((o) => `<tr><td class="nowrap">${o.id}</td><td class="nowrap">${U.dateTime(o.submittedAt)}</td><td>${U.esc(o.submittedBy)}</td><td class="num">${o.lines.length}</td>
+            <td>${C.statusPill(o.status)}</td><td>${o.decidedBy ? `${U.esc(o.decidedBy)}${o.note ? ' — ' + U.esc(o.note) : ''}` : '—'}</td></tr>`).join('') || '<tr><td colspan="6" class="muted center">Belum ada pengajuan.</td></tr>'}</tbody>
+        </table></div>
+      </section>`;
+    const linesTable = (lines, editable) => `
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>Item</th><th class="num">SIMRS</th><th>Fisik</th><th class="num">Selisih</th><th>Status</th>${editable ? '<th>Aksi</th>' : ''}</tr></thead>
+        <tbody>${lines.map((l, idx) => {
+          const it = Inv.item(l.code), d = l.physical - l.system;
+          return `<tr><td>${U.esc(it.name)}</td><td class="num">${U.num(l.system)}</td>
+            <td>${editable ? `<input class="input input-sm phys" type="number" min="0" inputmode="numeric" data-i="${idx}" value="${l.physical}" aria-label="Stok fisik ${U.esc(it.name)}">` : U.num(l.physical)}</td>
+            <td class="num ${d < 0 ? 'bad-text' : ''}" data-diff="${idx}">${d > 0 ? '+' : ''}${U.num(d)}</td>
+            <td data-st="${idx}">${d === 0 ? 'Match' : 'Adjustment'}</td>
+            ${editable ? `<td><button type="button" class="link link-bad rm" data-i="${idx}">Hapus</button></td>` : ''}</tr>`;
+        }).join('') || `<tr><td colspan="${editable ? 6 : 5}" class="muted center">Belum ada item.</td></tr>`}</tbody>
+      </table></div>`;
+
+    /* Kepala Instalasi: persetujuan */
+    if (canApprove) {
+      const pending = ops.filter((o) => o.status === 'Awaiting approval');
+      const o = pending.find((x) => x.id === query.id) || pending[0];
+      if (!o) { el.innerHTML = head + `<div class="panel">${C.empty('Tidak ada adjustment yang menunggu persetujuan', 'Pengajuan baru dari Petugas Gudang akan muncul di sini.')}</div>` + history; return; }
+      el.innerHTML = `${head}
+        <div class="panel">
+          <div class="panel-top">
+            ${pending.length > 1 ? `<div class="field inline-field"><label for="o-sel">Pengajuan</label><select class="select select-sm" id="o-sel">${pending.map((x) => `<option ${x.id === o.id ? 'selected' : ''}>${x.id}</option>`).join('')}</select></div>` : `<h2 class="panel-title">${o.id}</h2>`}
+            <span class="badge b-warn">Awaiting approval</span>
+          </div>
+          ${linesTable(o.lines, false)}
+          <div class="form-grid mt">
+            <div class="field"><label>Alasan</label><input class="input" value="${U.esc(o.reason)}" readonly></div>
+            <div class="field"><label>Diajukan oleh</label><input class="input" value="${U.esc(o.submittedBy)} — ${U.dateTime(o.submittedAt)}" readonly></div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-danger" id="o-reject">Tolak / Revisi</button>
+            <button class="btn btn-primary" id="o-approve">Approve Adjustment</button>
+          </div>
+        </div>${history}`;
+      const sel = U.qs('#o-sel', el);
+      if (sel) sel.addEventListener('change', (e) => Router.go(`inventory/opname?id=${e.target.value}`));
+      U.qs('#o-approve', el).addEventListener('click', async () => {
+        const ok = await UI.confirm('Approve Adjustment', `Saldo SIMRS akan disesuaikan dengan hasil hitung fisik ${o.id}.`, 'Approve Adjustment');
+        if (!ok) return;
+        o.lines.forEach((l) => { const d = l.physical - l.system; if (d) Inv.apply(l.code, d, 'Adjustment', o.id); });
+        o.status = 'Approved'; o.decidedBy = user.name; o.decidedAt = new Date().toISOString(); Store.save();
+        Store.audit({ module: 'Inventory', activity: `Approve stock adjustment ${o.id}` });
+        UI.toast(`Adjustment ${o.id} disetujui. Saldo stok diperbarui.`);
+        Router.go('inventory/opname');
+      });
+      U.qs('#o-reject', el).addEventListener('click', async () => {
+        const note = await UI.modal({
+          title: 'Tolak / Revisi',
+          body: '<div class="field"><label for="m-note">Catatan untuk petugas gudang *</label><input class="input" id="m-note" placeholder="Contoh: hitung ulang rak B"></div>',
+          actions: [{ label: 'Batal', cls: 'btn', value: null }, { label: 'Tolak / Revisi', cls: 'btn btn-danger', value: (r) => U.qs('#m-note', r).value.trim() }],
+          onOpen: (r) => setTimeout(() => U.qs('#m-note', r).focus(), 0),
+        });
+        if (note === null) return;
+        if (!note) { UI.toast('Catatan wajib diisi saat menolak.', 'bad'); return; }
+        o.status = 'Rejected'; o.note = note; o.decidedBy = user.name; o.decidedAt = new Date().toISOString(); Store.save();
+        Store.audit({ module: 'Inventory', activity: `Reject stock adjustment ${o.id}` });
+        UI.toast(`Adjustment ${o.id} dikembalikan untuk revisi.`, 'info');
+        Router.go('inventory/opname');
+      });
+      return;
+    }
+
+    /* Petugas Gudang: input hitung fisik */
+    if (canSubmit) {
+      if (!Inv.draft) Inv.draft = { reason: '', lines: ['OBT-005', 'OBT-014', 'BMH-003'].map((code) => { const s = Inv.item(code).stock; return { code, system: s, physical: s }; }) };
+      const d = Inv.draft;
+      d.lines.forEach((l) => { l.system = Inv.item(l.code).stock; });
+      const others = Store.db.items.filter((i) => !d.lines.some((l) => l.code === i.code));
+      el.innerHTML = `${head}
+        <div class="panel">
+          <div class="panel-top"><h2 class="panel-title">Hitung fisik baru</h2><span class="badge b-warn">Draft</span></div>
+          ${linesTable(d.lines, true)}
+          <div class="add-line"><select class="select select-sm" id="o-add" aria-label="Tambah item"><option value="">+ Tambah item ke opname</option>${others.map((i) => `<option value="${i.code}">${U.esc(i.name)}</option>`).join('')}</select></div>
+          <div class="form-grid mt">
+            <div class="field"><label for="o-reason">Alasan *</label><input class="input" id="o-reason" placeholder="Physical count variance" value="${U.esc(d.reason)}"></div>
+            <div class="field"><label>Diajukan oleh</label><input class="input" value="${U.esc(user.name)} — Petugas Gudang / Logistik" readonly></div>
+          </div>
+          <div class="actions">
+            <button class="btn" id="o-reset">Reset</button>
+            <button class="btn btn-primary" id="o-submit">Ajukan Adjustment</button>
+          </div>
+        </div>${history}`;
+      U.qsa('.phys', el).forEach((inp) => inp.addEventListener('input', () => {
+        const idx = Number(inp.dataset.i), l = d.lines[idx];
+        l.physical = Math.max(0, Number(inp.value) || 0);
+        const diff = l.physical - l.system, td = U.qs(`[data-diff="${idx}"]`, el);
+        td.textContent = (diff > 0 ? '+' : '') + U.num(diff);
+        td.classList.toggle('bad-text', diff < 0);
+        U.qs(`[data-st="${idx}"]`, el).textContent = diff === 0 ? 'Match' : 'Adjustment';
+      }));
+      U.qsa('.rm', el).forEach((b) => b.addEventListener('click', () => { d.lines.splice(Number(b.dataset.i), 1); Router.go('inventory/opname'); }));
+      U.qs('#o-reason', el).addEventListener('input', (e) => { d.reason = e.target.value; });
+      U.qs('#o-add', el).addEventListener('change', (e) => {
+        if (!e.target.value) return;
+        const s = Inv.item(e.target.value).stock;
+        d.lines.push({ code: e.target.value, system: s, physical: s });
+        Router.go('inventory/opname');
+      });
+      U.qs('#o-reset', el).addEventListener('click', () => { Inv.draft = null; Router.go('inventory/opname'); });
+      U.qs('#o-submit', el).addEventListener('click', () => {
+        if (!d.lines.length) { UI.toast('Tambahkan minimal satu item.', 'bad'); return; }
+        if (!d.lines.some((l) => l.physical !== l.system)) { UI.toast('Semua item Match — tidak ada selisih yang perlu di-adjust.', 'info'); return; }
+        if (!d.reason.trim()) { UI.toast('Alasan wajib diisi.', 'bad'); U.qs('#o-reason', el).focus(); return; }
+        const id = `SO-${U.ymd()}-${U.pad(Store.next('opname'), 2)}`;
+        Store.db.opnames.push({ id, status: 'Awaiting approval', reason: d.reason.trim(), submittedBy: user.name, submittedAt: new Date().toISOString(), lines: d.lines.map((l) => ({ ...l })) });
+        Inv.draft = null; Store.save();
+        Store.audit({ module: 'Inventory', activity: `Submit stock opname ${id}` });
+        UI.toast(`${id} diajukan — menunggu persetujuan Kepala Instalasi.`);
+        Router.go('inventory/opname');
+      });
+      return;
+    }
+    el.innerHTML = head + history;
+  },
+});
+
+/* ---------- Laporan inventory ---------- */
+Router.add('reports', {
+  perm: 'inv.report', title: 'Laporan Inventory',
+  render(el) {
+    const st = Inv.report || (Inv.report = { tab: 'moves', from: U.isoDay(), to: U.isoDay(), type: '' });
+    const inRange = (iso) => { const d = U.isoDay(new Date(iso)); return (!st.from || d >= st.from) && (!st.to || d <= st.to); };
+    const rows = Store.db.moves.filter((m) => m.type !== 'Saldo awal' && inRange(m.ts) && (!st.type || m.type === st.type)).sort((a, b) => b.ts.localeCompare(a.ts));
+    const qin = rows.filter((r) => r.type === 'Penerimaan').reduce((s, r) => s + r.qin, 0);
+    const qout = rows.filter((r) => r.type === 'Pengeluaran').reduce((s, r) => s + r.qout, 0);
+    const adj = rows.filter((r) => r.type === 'Adjustment').reduce((s, r) => s + r.qin - r.qout, 0);
+    const audit = Store.db.audit.filter((a) => inRange(a.ts));
+    el.innerHTML = `
+      ${C.pageHead('Laporan Inventory', 'Pergerakan stok & audit trail inventory')}
+      <div class="panel">
+        <div class="tabs">
+          <button type="button" class="chip ${st.tab === 'moves' ? 'chip-on' : ''}" data-tab="moves" aria-pressed="${st.tab === 'moves'}">Pergerakan Stok</button>
+          <button type="button" class="chip ${st.tab === 'audit' ? 'chip-on' : ''}" data-tab="audit" aria-pressed="${st.tab === 'audit'}">Audit Trail</button>
+        </div>
+        <div class="form-grid">
+          <div class="field"><span class="label">Date Range</span>
+            <div class="date-range"><input class="input" type="date" id="r-from" value="${st.from}" aria-label="Dari tanggal"><span>–</span><input class="input" type="date" id="r-to" value="${st.to}" aria-label="Sampai tanggal"></div></div>
+          ${st.tab === 'moves' ? `<div class="field"><label for="r-type">Jenis Transaksi</label>
+            <select class="select" id="r-type"><option value="">Semua jenis</option>${['Penerimaan', 'Pengeluaran', 'Adjustment'].map((t) => `<option ${t === st.type ? 'selected' : ''}>${t}</option>`).join('')}</select></div>` : ''}
+        </div>
+        <div class="actions actions-tight">
+          ${APP.allowDownload ? '<button class="btn" id="r-csv">Unduh CSV</button>' : ''}
+          <button class="btn btn-primary" id="r-gen">Generate Report</button>
+        </div>
+        ${st.tab === 'moves' ? `
+        <div class="sum-row mt">
+          <div class="sum"><span>Total masuk</span><strong class="in">+${U.num(qin)}</strong></div>
+          <div class="sum"><span>Total keluar</span><strong class="out">−${U.num(qout)}</strong></div>
+          <div class="sum"><span>Adjustment (net)</span><strong>${adj > 0 ? '+' : ''}${U.num(adj)}</strong></div>
+          <div class="sum"><span>Jumlah transaksi</span><strong>${rows.length}</strong></div>
+        </div>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Waktu</th><th>No. Ref</th><th>Item</th><th>Jenis</th><th class="num">Masuk</th><th class="num">Keluar</th><th class="num">Saldo</th><th>Oleh</th></tr></thead>
+          <tbody>${rows.map((m) => `<tr><td class="nowrap">${U.dateTime(m.ts)}</td><td class="nowrap">${U.esc(m.ref)}</td><td>${U.esc(Inv.item(m.code).name)}</td><td>${C.statusPill(m.type)}</td><td class="num in">${m.qin ? '+' + U.num(m.qin) : ''}</td><td class="num out">${m.qout ? '−' + U.num(m.qout) : ''}</td><td class="num">${U.num(m.balance)}</td><td>${U.esc(m.by)}</td></tr>`).join('')
+            || '<tr><td colspan="8" class="muted center">Tidak ada pergerakan stok pada rentang ini.</td></tr>'}</tbody>
+        </table></div>` : `
+        <div class="report-head"><span class="label">Activity</span><span class="muted">${audit.length} aktivitas</span></div>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Time</th><th>User</th><th>Role</th><th>Module</th><th>Activity</th><th>Result</th></tr></thead>
+          <tbody>${audit.map((a) => `<tr><td class="nowrap">${U.dateTime(a.ts)}</td><td>${U.esc(a.user)}</td><td>${U.esc(a.role)}</td><td>${U.esc(a.module)}</td><td>${U.esc(a.activity)}</td><td>${C.statusPill(a.result)}</td></tr>`).join('') || '<tr><td colspan="6" class="muted center">Tidak ada aktivitas.</td></tr>'}</tbody>
+        </table></div>`}
+      </div>`;
+    U.qsa('[data-tab]', el).forEach((b) => b.addEventListener('click', () => { st.tab = b.dataset.tab; Router.go('reports'); }));
+    const typeSel = U.qs('#r-type', el);
+    if (typeSel) typeSel.addEventListener('change', (e) => { st.type = e.target.value; Router.go('reports'); });
+    U.qs('#r-gen', el).addEventListener('click', () => {
+      st.from = U.qs('#r-from', el).value; st.to = U.qs('#r-to', el).value;
+      Store.audit({ module: 'Reports', activity: `Generate laporan inventory (${st.tab === 'moves' ? 'pergerakan stok' : 'audit trail'})` });
+      UI.toast('Laporan diperbarui.', 'info');
+      Router.go('reports');
+    });
+    const csv = U.qs('#r-csv', el);
+    if (csv) csv.addEventListener('click', () => {
+      if (st.tab === 'moves') U.downloadCsv(`laporan-inventory-${st.from}_${st.to}.csv`, ['Tanggal', 'Waktu', 'No. Ref', 'Kode', 'Item', 'Jenis', 'Masuk', 'Keluar', 'Saldo', 'Oleh'], rows.map((m) => [U.date(m.ts), U.time(m.ts), m.ref, m.code, Inv.item(m.code).name, m.type, m.qin, m.qout, m.balance, m.by]));
+      else U.downloadCsv(`audit-inventory-${st.from}_${st.to}.csv`, ['Tanggal', 'Waktu', 'User', 'Role', 'Module', 'Activity', 'Result'], audit.map((a) => [U.date(a.ts), U.time(a.ts), a.user, a.role, a.module, a.activity, a.result]));
+      Store.audit({ module: 'Reports', activity: 'Export laporan inventory CSV' });
+    });
+  },
+});
+
+</script>
+<script>
+/* ==== shared/shell.js ==== */
+/* =========================================================
+   shell.js : layout utama, sidebar dinamis (RBAC), topbar,
+              route guard (403), logout, dan boot aplikasi
+              (dipakai bersama oleh ketiga aplikasi)
+   ========================================================= */
+
+const App = {
+  root: null,
+
+  /* ---- Sidebar: hanya menu yang diizinkan untuk role yang login ---- */
+  sidebar(user, path, allowed = true) {
+    const menu = Auth.visibleMenu();
+    const items = menu.map((m) => {
+      // sub-menu aktif = rute terpanjang yang cocok dengan URL sekarang
+      const best = (m.children || [])
+        .filter((c) => path === c.route || (allowed && path.startsWith(c.route + '/')))
+        .sort((a, b) => b.route.length - a.route.length)[0];
+      const active = m.route ? (path === m.route || (allowed && path.startsWith(m.route + '/'))) : !!best;
+      const href = '#/' + Auth.firstRoute(m);
+      const subs = m.children && active ? `<div class="sub">${m.children.map((c) =>
+        `<a href="#/${c.route}" class="${c === best ? 'active' : ''}" ${c === best ? 'aria-current="page"' : ''}>${c.label}</a>`).join('')}</div>` : '';
+      return `<a href="${href}" class="${active ? 'active' : ''}" ${active && !subs ? 'aria-current="page"' : ''}>${U.icon(m.icon)}<span>${m.label}</span></a>${subs}`;
+    }).join('');
+
+    const keys = menu.map((m) => m.key);
+    const comps = COMPONENTS.filter((c) => c.modules.some((k) => keys.includes(k)))
+      .map((c) => `<div class="comp">${c.label}</div>`).join('');
+
+    return `
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-top">${U.icon('menu')}<span>SIMRS</span></div>
+          <div class="brand-sub">RS PERMATA MEDIKA</div>
+          <div class="brand-mod">Modul ${U.esc(APP.module)}</div>
+        </div>
+        <div class="nav-label">MENU</div>
+        <nav class="nav" aria-label="Menu utama">${items}</nav>
+        ${comps ? `<div class="nav-label">COMPONENTS</div><div class="comps">${comps}</div>` : ''}
+        <div class="side-foot">
+          <div class="side-role">${ROLES[user.role].label}</div>
+          <div class="side-user">${U.esc(user.name)} &middot; ${U.esc(user.username)}</div>
+          <button type="button" class="side-logout" data-logout>${U.icon('logout')}Logout</button>
+        </div>
+      </aside>`;
+  },
+
+  topbar(user) {
+    return `
+      <header class="topbar">
+        <button type="button" class="menu-btn" id="menu-btn" aria-label="Buka menu">${U.icon('menu')}</button>
+        <div class="top-title"><span class="t-long">SIMRS | ${U.esc(APP.moduleLong)}</span><span class="t-short">${U.esc(APP.module)}</span></div>
+        <div class="top-search">
+          ${U.icon('search')}<input id="top-search" placeholder="Search" autocomplete="off" aria-label="Cari menu">
+          <div class="search-drop" id="search-drop" hidden></div>
+        </div>
+        <div class="top-clock" title="Login sejak ${U.time(Session.get().loginAt)}">${U.icon('clock')}<span id="clock"></span></div>
+        <div class="avatar-wrap">
+          <button type="button" class="avatar" id="avatar" aria-haspopup="true" aria-expanded="false">${U.initials(user.name)}</button>
+          <div class="avatar-menu" id="avatar-menu" hidden>
+            <strong>${U.esc(user.name)}</strong>
+            <span>${ROLES[user.role].label}</span>
+            <span class="muted">${user.id} &middot; ${U.esc(user.unit)}</span>
+            <span class="muted">Login ${U.time(Session.get().loginAt)}</span>
+            <button type="button" class="btn btn-sm" data-logout>Logout</button>
+          </div>
+        </div>
+      </header>`;
+  },
+
+  /* ---- Navigasi bawah (khusus HP): hanya modul milik role ---- */
+  bottomNav(path, allowed) {
+    const items = Auth.visibleMenu().map((m) => {
+      const r = Auth.firstRoute(m);
+      const on = m.route ? path === m.route || (allowed && path.startsWith(m.route + '/'))
+        : allowed && (m.children || []).some((c) => path === c.route || path.startsWith(c.route + '/'));
+      const short = m.short || m.label;
+      return `<a href="#/${r}" class="${on ? 'active' : ''}" ${on ? 'aria-current="page"' : ''}>${U.icon(m.icon)}<span>${short}</span></a>`;
+    }).join('');
+    return `<nav class="bottom-nav" aria-label="Navigasi modul">${items}<button type="button" data-logout>${U.icon('logout')}<span>Logout</span></button></nav>`;
+  },
+
+  /* ---- Beri label kolom pada setiap sel tabel (dipakai tampilan kartu di HP) ---- */
+  labelTables(root) {
+    U.qsa('table.tbl', root).forEach((t) => {
+      const heads = U.qsa('thead th', t).map((th) => th.textContent.trim());
+      U.qsa('tbody tr', t).forEach((tr) => U.qsa('td', tr).forEach((td, i) => {
+        if (!td.hasAttribute('colspan') && heads[i] !== undefined && td.dataset.label !== heads[i]) td.dataset.label = heads[i];
+      }));
+    });
+  },
+
+  /* ---- Halaman 403: role tidak punya izin ---- */
+  forbidden(el, user, path) {
+    el.innerHTML = `
+      <div class="panel forbidden">
+        <div class="forbidden-icon">${U.icon('lock')}</div>
+        <h1>403 — Akses ditolak</h1>
+        <p>Role <b>${ROLES[user.role].label}</b> tidak memiliki izin untuk membuka halaman <code>/${U.esc(path)}</code>.</p>
+        <p class="muted">Percobaan akses ini dicatat pada audit trail.</p>
+        <a class="btn btn-primary" href="#/dashboard">Kembali ke Dashboard</a>
+      </div>`;
+  },
+
+  async logoutFlow() {
+    const ok = await UI.modal({
+      title: 'Logout',
+      body: '<p class="center">Apakah Anda yakin ingin mengakhiri sesi?</p><p class="center muted small">Session diakhiri dan waktu logout dicatat.</p>',
+      actions: [{ label: 'Batal', cls: 'btn', value: false }, { label: 'Logout', cls: 'btn btn-primary', value: true }],
+    });
+    if (!ok) return;
+    Auth.logout();
+    if (APP.onLogout) APP.onLogout();
+    UI.toast(`Sesi diakhiri pukul ${U.time(new Date().toISOString())}.`);
+    Router.go('login');
+  },
+
+  bindShell(user) {
+    U.qsa('[data-logout]').forEach((b) => b.addEventListener('click', () => App.logoutFlow()));
+
+    const sb = U.qs('#sidebar');
+    U.qs('#menu-btn').addEventListener('click', () => sb.classList.toggle('open'));
+    U.qs('#drawer-bd').addEventListener('click', () => sb.classList.remove('open'));
+    U.qsa('#sidebar a').forEach((a) => a.addEventListener('click', () => sb.classList.remove('open')));
+
+    const av = U.qs('#avatar'), am = U.qs('#avatar-menu');
+    av.addEventListener('click', (e) => { e.stopPropagation(); am.hidden = !am.hidden; av.setAttribute('aria-expanded', String(!am.hidden)); });
+
+    // Pencarian menu — menu yang boleh diakses tampil di atas; menu role lain ditandai terkunci (klik → 403)
+    const input = U.qs('#top-search'), drop = U.qs('#search-drop');
+    const leafOf = (m) => m.children ? m.children.map((c) => ({ label: c.label, group: m.label, route: c.route, perm: c.perm })) : [{ label: m.label, group: '', route: m.route, perm: m.perm }];
+    const allLeaves = MENU.flatMap(leafOf);
+    const leaves = allLeaves.filter((l) => Auth.can(l.perm));
+    const locked = allLeaves.filter((l) => !Auth.can(l.perm));
+    const match = (l, q) => !q || (l.label + ' ' + l.group).toLowerCase().includes(q);
+    const show = () => {
+      const q = input.value.trim().toLowerCase();
+      const hits = leaves.filter((l) => match(l, q)).slice(0, 8);
+      const lockedHits = q ? locked.filter((l) => match(l, q)).slice(0, 4) : [];
+      drop.innerHTML = hits.map((h) => `<a href="#/${h.route}">${h.label}${h.group && h.group !== h.label ? `<small>${h.group}</small>` : ''}</a>`).join('')
+        + (lockedHits.length ? `<div class="drop-group">Tidak ada akses untuk role ini</div>${lockedHits.map((h) => `<a href="#/${h.route}" class="locked">${U.icon('lock')}${h.label}${h.group && h.group !== h.label ? `<small>${h.group}</small>` : ''}</a>`).join('')}` : '')
+        || '<div class="muted small pad">Tidak ada menu yang cocok.</div>';
+      drop.hidden = false;
+    };
+    drop.addEventListener('pointerdown', (e) => e.preventDefault()); // jaga fokus agar tap di HP tidak hilang
+    input.addEventListener('focus', show);
+    input.addEventListener('input', show);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { const a = U.qs('a', drop); if (a) { input.blur(); Router.go(a.getAttribute('href').slice(2)); } }
+      if (e.key === 'Escape') input.blur();
+    });
+    input.addEventListener('blur', () => setTimeout(() => { drop.hidden = true; }, 200));
+    App.tick();
+  },
+
+  tick() {
+    const c = document.getElementById('clock');
+    if (!c) return;
+    const d = new Date();
+    c.textContent = d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' }) + ' ' + U.pad(d.getHours()) + ':' + U.pad(d.getMinutes());
+  },
+
+  /* ---- Render utama setiap kali URL (hash) berubah ---- */
+  render() {
+    const root = App.root;
+    const { path, query } = Router.parse();
+    let user = Auth.user();
+
+    // akun dinonaktifkan saat sedang login -> paksa logout
+    if (user && user.status !== 'Active') {
+      Auth.logout('Forced logout: akun nonaktif');
+      user = null;
+      root.dataset.view = '';
+      Router.replace('login');
+      renderLogin(root, 'Akun Anda telah dinonaktifkan. Hubungi Admin SIMRS.');
+      return;
+    }
+
+    if (!user) {
+      if (path !== 'login') Router.replace('login');
+      root.dataset.view = 'login';
+      document.title = `Sign in · SIMRS ${APP.module}`;
+      renderLogin(root);
+      return;
+    }
+    if (path === 'login' || path === '') { Router.replace('dashboard'); return App.render(); }
+
+    // password sementara (akun baru / hasil reset) wajib diganti sebelum memakai sistem
+    if (user.mustChange && typeof renderFirstPassword === 'function') {
+      root.dataset.view = 'login';
+      document.title = `Buat password baru · SIMRS ${APP.module}`;
+      renderFirstPassword(root, user);
+      return;
+    }
+
+    const m = Router.match(path);
+    const allowed = !!m && Auth.can(m.route.perm);
+    root.dataset.view = 'app';
+    root.innerHTML = `<div class="shell">${App.sidebar(user, path, allowed)}<div class="drawer-backdrop" id="drawer-bd"></div><div class="main">${App.topbar(user)}<main class="view" id="view" tabindex="-1"></main></div></div>${App.bottomNav(path, allowed)}`;
+    App.bindShell(user);
+    const view = U.qs('#view');
+
+    if (!m) {
+      view.innerHTML = `<div class="panel">${C.empty('Halaman tidak ditemukan', `Alamat <code>/${U.esc(path)}</code> tidak ada.`, '<a class="btn btn-primary" href="#/dashboard">Kembali ke Dashboard</a>')}</div>`;
+      document.title = `Tidak ditemukan · SIMRS ${APP.module}`;
+    } else if (!allowed) {
+      App.forbidden(view, user, path);
+      Store.audit({ module: 'RBAC', activity: `Akses ditolak ke /${path}`, result: 'Denied' });
+      document.title = `Akses ditolak · SIMRS ${APP.module}`;
+    } else {
+      m.route.render(view, { params: m.params, query, user });
+      document.title = `${m.route.title} · SIMRS ${APP.module}`;
+    }
+    window.scrollTo(0, 0);
+  },
+
+  boot() {
+    App.root = document.getElementById('root');
+    Store.load();
+    Router.current = Router.read() || '';
+    window.addEventListener('hashchange', () => Router.onHashChange());
+    // semua link internal (#/...) ditangani router, tidak bergantung pada navigasi browser
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest ? e.target.closest('a[href^="#/"]') : null;
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      Router.go(a.getAttribute('href').slice(2));
+    });
+    // sinkronisasi bila data diubah dari tab lain (mis. login role lain di tab berbeda)
+    window.addEventListener('storage', (e) => { if (e.key === APP.storeKey) { Store.load(); if (App.root.dataset.view === 'app') App.render(); } });
+    // label tabel otomatis setiap kali isi halaman berubah
+    let pending = false;
+    new MutationObserver(() => {
+      if (pending) return; pending = true;
+      requestAnimationFrame(() => { pending = false; App.labelTables(App.root); });
+    }).observe(App.root, { childList: true, subtree: true });
+    // tutup menu avatar saat klik di luar
+    document.addEventListener('click', (e) => {
+      const am = document.getElementById('avatar-menu');
+      if (am && !am.hidden && !am.contains(e.target)) { am.hidden = true; U.qs('#avatar').setAttribute('aria-expanded', 'false'); }
+    });
+    setInterval(App.tick, 20000);
+    App.render();
+  },
+};
+
+App.boot();
+
+</script>
+</body>
+</html>
