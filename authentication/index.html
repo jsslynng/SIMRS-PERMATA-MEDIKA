@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#183b4e">
+  <title>Authentication · SIMRS</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23183b4e'/%3E%3Cpath d='M13 8h6v5h5v6h-5v5h-6v-5H8v-6h5z' fill='%2317818f'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
+  <style>
+/* =========================================================
+   SIMRS RS Permata Medika — style.css
+   Warna & tata letak mengikuti desain UI/GUI Week 5 Kelompok 7.
+   Responsif: laptop (sidebar tetap) & HP (drawer + bottom nav).
+   ========================================================= */
+:root {
+  --navy: #183b4e; --navy-ink: #e3ecf0; --navy-muted: #a9bfc9;
+  --teal: #17818f; --teal-dark: #116673; --teal-text: #17818f; --teal-soft: #e8f4f5;
+  --bg: #f4f7f8; --surface: #ffffff; --surface-2: #f5f8f9;
+  --ink: #183b4e; --text: #2a4250; --muted: #6b7b86; --label: #5f717c;
+  --line: #d9e4e8; --line-2: #e0e9ec; --th: #eaf5f6;
+  --ok-bg: #cfe3d8; --ok: #1d4b36;
+  --warn-bg: #f5e6b3; --warn: #7a5a00;
+  --bad: #c94a4a; --bad-bg: #f7dcdc; --bad-ink: #8f2d2d; --bad-text: #c94a4a;
+  --muted-bg: #e6ecef; --muted-ink: #56707c;
+  --btn-border: #dde6e9; --btn-hover: #f3f7f8; --input-bad-bg: #fff6f6;
+  --overlay: rgba(24, 59, 78, .38);
+  --sh-sm: 0 2px 3px rgba(24, 59, 78, .18);
+  --sh: 0 2px 5px rgba(24, 59, 78, .2);
+  --sh-lg: 0 8px 22px rgba(24, 59, 78, .22);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23183b4e' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  --font: "Noto Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --inset-top: env(safe-area-inset-top, 0px);
+  --inset-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #0d2331; --navy-ink: #d6e4ea; --navy-muted: #8aa3ad;
+    --teal: #1b8c9b; --teal-dark: #21a0b1; --teal-text: #7cc9d3; --teal-soft: #173c44;
+    --bg: #0e1a20; --surface: #15252d; --surface-2: #1b2f38;
+    --ink: #e6f0f3; --text: #c8d7dd; --muted: #8ea3ac; --label: #9fb3bb;
+    --line: #2b424c; --line-2: #253a43; --th: #1b3942;
+    --ok-bg: #1d3d30; --ok: #9ad4b3; --warn-bg: #3b3217; --warn: #ecd083;
+    --bad: #d25b5b; --bad-bg: #43242a; --bad-ink: #f0a9a9; --bad-text: #f08a8a;
+    --muted-bg: #243841; --muted-ink: #a3b8c0;
+    --btn-border: #2f4852; --btn-hover: #1f3640; --input-bad-bg: #3a2227;
+    --overlay: rgba(0, 0, 0, .55);
+    --sh-sm: 0 2px 3px rgba(0, 0, 0, .35); --sh: 0 2px 6px rgba(0, 0, 0, .4); --sh-lg: 0 10px 26px rgba(0, 0, 0, .5);
+    --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d6e4ea' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --navy: #0d2331; --navy-ink: #d6e4ea; --navy-muted: #8aa3ad;
+  --teal: #1b8c9b; --teal-dark: #21a0b1; --teal-text: #7cc9d3; --teal-soft: #173c44;
+  --bg: #0e1a20; --surface: #15252d; --surface-2: #1b2f38;
+  --ink: #e6f0f3; --text: #c8d7dd; --muted: #8ea3ac; --label: #9fb3bb;
+  --line: #2b424c; --line-2: #253a43; --th: #1b3942;
+  --ok-bg: #1d3d30; --ok: #9ad4b3; --warn-bg: #3b3217; --warn: #ecd083;
+  --bad: #d25b5b; --bad-bg: #43242a; --bad-ink: #f0a9a9; --bad-text: #f08a8a;
+  --muted-bg: #243841; --muted-ink: #a3b8c0;
+  --btn-border: #2f4852; --btn-hover: #1f3640; --input-bad-bg: #3a2227;
+  --overlay: rgba(0, 0, 0, .55);
+  --sh-sm: 0 2px 3px rgba(0, 0, 0, .35); --sh: 0 2px 6px rgba(0, 0, 0, .4); --sh-lg: 0 10px 26px rgba(0, 0, 0, .5);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d6e4ea' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { height: 100%; background: var(--bg); scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+body { margin: 0; height: 100%; font-family: var(--font); color: var(--text); background: var(--bg); font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+#root { min-height: 100%; }
+button, input, select { font: inherit; color: inherit; }
+a { color: var(--teal-text); }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .92em; background: var(--teal-soft); color: var(--teal-text); padding: 1px 5px; border-radius: 3px; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.ico { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.muted { color: var(--muted); }
+.small { font-size: 12.5px; }
+.center { text-align: center; }
+.mt { margin-top: 26px; }
+.pad { padding: 10px 14px; }
+.nowrap { white-space: nowrap; }
+.ok-text { color: var(--ok); }
+.bad-text { color: var(--bad-text); }
+
+/* ---------- Login ---------- */
+.login { display: grid; grid-template-columns: minmax(300px, 32%) 1fr; min-height: 100%; background: var(--surface); }
+.login-brand { background: var(--navy); color: #fff; padding: 0 clamp(28px, 6vw, 84px); display: flex; flex-direction: column; justify-content: center; }
+.login-brand h1 { font-size: 44px; line-height: 1; margin: 0; font-weight: 700; }
+.login-brand .hosp { font-weight: 700; font-size: 14px; margin-top: 14px; color: var(--navy-ink); }
+.login-brand .tag { font-size: 17px; margin: 62px 0 0; color: var(--navy-ink); }
+.login-brand .sec { font-size: 12.5px; font-weight: 700; margin-top: 118px; color: var(--navy-ink); }
+.login-form-wrap { display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+.login-form { width: 100%; max-width: 510px; display: flex; flex-direction: column; gap: 22px; }
+.login-form h2 { text-align: center; color: var(--ink); font-size: 34px; margin: 0; }
+.login-form .sub { text-align: center; color: var(--muted); margin: -14px 0 28px; }
+.show-pw { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); margin: -12px 0 4px 12px; cursor: pointer; width: fit-content; min-height: 28px; }
+.show-pw input { accent-color: var(--teal); margin: 0; width: 16px; height: 16px; }
+.login-error { color: var(--bad-text); text-align: center; font-size: 13px; min-height: 20px; margin: -6px 0 0; }
+.demo { border-top: 1px solid var(--line); padding-top: 14px; font-size: 13px; }
+.demo summary { cursor: pointer; color: var(--muted); padding: 6px 0; }
+.demo-hint { color: var(--muted); font-size: 12px; margin: 10px 0; }
+.demo-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.demo-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 8px 14px; background: var(--surface); border: 0; border-bottom: 1px solid var(--line-2); text-align: left; cursor: pointer; font-size: 13px; color: var(--text); }
+.demo-item:last-child { border-bottom: 0; }
+.demo-item strong { color: var(--teal-text); font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; white-space: nowrap; }
+.demo-item em { color: var(--bad-text); font-style: normal; font-size: 12px; }
+.demo-item:hover, .demo-item:focus-visible { background: var(--teal-soft); }
+.linkish { background: none; border: 0; color: var(--bad-text); font-size: 12.5px; margin-top: 12px; padding: 6px 0; cursor: pointer; text-decoration: underline; }
+
+/* ---------- Form ---------- */
+.field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.field > label, .label { font-size: 12.5px; font-weight: 700; color: var(--label); }
+.input, .select {
+  height: 46px; width: 100%; border: 1px solid var(--line); border-radius: 4px; background-color: var(--surface);
+  padding: 0 18px; box-shadow: var(--sh-sm); font-size: 13.5px; color: var(--ink);
+}
+.input::placeholder { color: var(--muted); }
+.input[readonly], .input:disabled, .select:disabled { background-color: var(--surface-2); color: var(--text); }
+.select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
+.select:disabled { cursor: not-allowed; }
+.input-sm, .select-sm { height: 38px; padding: 0 12px; font-size: 13px; box-shadow: none; }
+.select-sm { padding-right: 34px; background-position: right 10px center; }
+.input-sm { max-width: 120px; }
+.input-bad { border-color: var(--bad); background-color: var(--input-bad-bg); }
+.input-group { display: flex; gap: 10px; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 30px; max-width: 830px; }
+.chips-row + .form-grid { margin-top: 24px; }
+.inline-field { flex-direction: row; align-items: center; gap: 12px; }
+.inline-field > label { white-space: nowrap; }
+.inline-field .select { min-width: 240px; }
+.form-error { color: var(--bad-text); font-size: 13px; min-height: 18px; margin: 8px 0 0; }
+.note { color: var(--muted); font-size: 13px; margin: 22px 0 0; }
+.date-range { display: flex; align-items: center; gap: 10px; }
+
+/* ---------- Tombol & badge ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 26px;
+  border-radius: 4px; border: 1px solid var(--btn-border); background: var(--surface); color: var(--ink); font-weight: 700; font-size: 13.5px;
+  cursor: pointer; box-shadow: var(--sh); text-decoration: none; white-space: nowrap;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn-primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-danger { background: var(--bad); border-color: var(--bad); color: #fff; }
+.btn-danger:hover { background: var(--bad); filter: brightness(.92); }
+.btn-ok { background: var(--ok-bg); border-color: var(--ok-bg); color: var(--ok); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-block { width: 100%; }
+.btn-sm { min-height: 36px; padding: 0 14px; font-size: 12.5px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 18px; }
+.actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 18px; margin-top: 34px; }
+.actions-tight { margin-top: 20px; }
+.link { background: none; border: 0; padding: 4px 0; color: var(--teal-text); font-weight: 600; cursor: pointer; text-decoration: none; font-size: inherit; }
+.link:hover { text-decoration: underline; }
+
+.badge { display: inline-flex; align-items: center; min-height: 30px; padding: 0 20px; border-radius: 3px; border: 0; font-size: 12px; font-weight: 700; box-shadow: var(--sh-sm); white-space: nowrap; }
+.b-ok { background: var(--ok-bg); color: var(--ok); }
+.b-warn { background: var(--warn-bg); color: var(--warn); }
+.b-info { background: var(--teal-soft); color: var(--teal-text); }
+.b-bad { background: var(--bad-bg); color: var(--bad-ink); }
+.b-muted { background: var(--muted-bg); color: var(--muted-ink); }
+.toggle { cursor: pointer; }
+.chips-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+
+.pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.pill-ok { background: var(--ok-bg); color: var(--ok); }
+.pill-warn { background: var(--warn-bg); color: var(--warn); }
+.pill-info { background: var(--teal-soft); color: var(--teal-text); }
+.pill-bad { background: var(--bad-bg); color: var(--bad-ink); }
+.pill-muted { background: var(--muted-bg); color: var(--muted-ink); }
+.pill-stack { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.you { color: var(--muted); font-size: 12px; }
+
+.chip { min-height: 34px; padding: 0 18px; border-radius: 3px; border: 0; font-size: 12px; font-weight: 700; cursor: pointer; background: var(--teal-soft); color: var(--teal-text); box-shadow: var(--sh-sm); }
+.chip-on { background: var(--teal); color: #fff; }
+.chip-select { height: 36px; border: 0; border-radius: 3px; background-color: var(--teal-soft); color: var(--teal-text); font-weight: 700; font-size: 12.5px; padding: 0 14px; box-shadow: var(--sh-sm); cursor: pointer; }
+
+/* ---------- Layout aplikasi ---------- */
+.shell { display: grid; grid-template-columns: 238px minmax(0, 1fr); min-height: 100%; }
+.sidebar {
+  background: var(--navy); color: var(--navy-ink); position: sticky; top: env(safe-area-inset-top, 0px);
+  height: calc(100vh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; padding: 26px 14px; overflow-y: auto; z-index: 60;
+}
+.brand { padding: 0 20px; }
+.brand-top { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: #fff; }
+.brand-top .ico { width: 22px; height: 22px; }
+.brand-sub { font-size: 11.5px; font-weight: 700; margin-top: 12px; color: var(--navy-ink); }
+.nav-label { font-size: 11.5px; font-weight: 700; color: var(--navy-ink); margin: 38px 20px 12px; }
+.nav a { display: flex; align-items: center; gap: 16px; padding: 10px 20px; border-radius: 4px; color: var(--navy-ink); text-decoration: none; font-size: 13.5px; margin-bottom: 8px; white-space: nowrap; }
+.nav a .ico { width: 16px; height: 16px; }
+.nav a:hover:not(.active) { background: rgba(255, 255, 255, .07); }
+.nav > a.active { background: var(--teal); font-weight: 700; color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, .25); }
+.nav .sub { margin: -2px 0 12px 32px; border-left: 1px solid rgba(255, 255, 255, .16); }
+.nav .sub a { padding: 8px 12px 8px 20px; margin: 0; font-size: 12.5px; color: var(--navy-muted); border-radius: 0 4px 4px 0; white-space: normal; }
+.nav .sub a.active { color: #fff; font-weight: 700; box-shadow: inset 3px 0 0 #6fcbd6; background: rgba(255, 255, 255, .06); }
+.comps .comp { padding: 9px 30px; font-size: 13px; color: var(--navy-ink); }
+.side-foot { margin-top: auto; padding: 34px 20px 0; display: flex; flex-direction: column; gap: 4px; }
+.side-role { font-size: 12px; font-weight: 700; color: #fff; }
+.side-user { font-size: 11.5px; color: var(--navy-muted); }
+.side-logout { display: flex; align-items: center; gap: 10px; background: none; border: 0; color: var(--navy-ink); padding: 8px 0; margin-top: 22px; font-size: 13.5px; cursor: pointer; width: fit-content; }
+.side-logout:hover { color: #fff; text-decoration: underline; }
+.drawer-backdrop { display: none; }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { height: 72px; background: var(--surface); box-shadow: var(--sh); display: flex; align-items: center; gap: 28px; padding: 0 40px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; }
+.menu-btn { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; width: 44px; height: 44px; align-items: center; justify-content: center; margin-left: -6px; }
+.menu-btn .ico { width: 22px; height: 22px; }
+.top-title { font-weight: 700; color: var(--ink); font-size: 14px; margin-right: auto; white-space: nowrap; }
+.top-title .t-short { display: none; }
+.top-search { position: relative; display: flex; align-items: center; gap: 8px; width: 230px; height: 38px; padding: 0 14px; border-radius: 3px; box-shadow: var(--sh); color: var(--muted); background: var(--surface); border: 1px solid var(--line-2); }
+.top-search .ico { width: 14px; height: 14px; }
+.top-search input { border: 0; outline: 0; width: 100%; font-size: 12.5px; background: transparent; color: var(--ink); min-width: 0; }
+.top-search:focus-within { box-shadow: 0 0 0 2px var(--teal); }
+.search-drop { position: absolute; top: 44px; left: 0; right: 0; min-width: 240px; background: var(--surface); border-radius: 8px; box-shadow: var(--sh-lg); overflow: hidden; border: 1px solid var(--line-2); z-index: 5; }
+.search-drop a { display: flex; align-items: center; gap: 8px; padding: 11px 14px; text-decoration: none; color: var(--ink); font-size: 13px; }
+.search-drop a small { color: var(--muted); margin-left: auto; }
+.search-drop a:hover, .search-drop a:first-child { background: var(--teal-soft); }
+.search-drop .drop-group { font-size: 11.5px; font-weight: 700; color: var(--muted); padding: 10px 14px 4px; border-top: 1px solid var(--line-2); }
+.search-drop a.locked { color: var(--muted); background: transparent; }
+.search-drop a.locked .ico { width: 14px; height: 14px; color: var(--bad-text); }
+.top-clock { display: flex; align-items: center; gap: 8px; color: var(--teal-text); font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.avatar-wrap { position: relative; }
+.avatar { width: 40px; height: 40px; border-radius: 3px; border: 0; background: var(--teal); color: #fff; font-weight: 700; font-size: 12.5px; cursor: pointer; box-shadow: var(--sh); }
+.avatar-menu { position: absolute; right: 0; top: 50px; width: min(260px, 88vw); background: var(--surface); border-radius: 8px; box-shadow: var(--sh-lg); padding: 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; border: 1px solid var(--line-2); }
+.avatar-menu strong { color: var(--ink); }
+.avatar-menu .btn { margin-top: 10px; }
+.bottom-nav { display: none; }
+
+.view { padding: 30px 40px 60px; width: 100%; max-width: 1200px; outline: none; }
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+.page-head h1 { color: var(--ink); font-size: 29px; line-height: 1.2; margin: 0; }
+.subtitle { color: var(--muted); font-size: 13.5px; margin: 8px 0 0; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 212px)); gap: 24px; margin-bottom: 28px; }
+.stat { background: var(--surface); border-radius: 10px; box-shadow: var(--sh); padding: 24px 24px 20px; min-height: 128px; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid var(--line-2); }
+.stat-link:hover { border-color: var(--teal); }
+.stat-label { font-size: 12px; font-weight: 700; color: var(--label); }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--ink); margin: 18px 0 12px; line-height: 1; }
+.stat-value-sm { font-size: 20px; }
+.stat-cap { font-size: 11.5px; color: var(--muted); margin-top: auto; }
+
+.panel { background: var(--surface); border-radius: 30px; box-shadow: var(--sh); padding: 30px 36px 34px; border: 1px solid var(--line-2); }
+.panel-md { border-radius: 24px; }
+.panel-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 22px; }
+.panel-top .panel-title { margin: 0; }
+.panel-title { font-size: 16px; font-weight: 700; color: var(--ink); margin: 0 0 22px; }
+.sub-title { font-size: 15px; font-weight: 700; color: var(--ink); margin: 32px 0 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.section { margin-top: 34px; }
+.section-title { font-size: 16px; color: var(--ink); margin: 0 0 14px; }
+
+.quick-row { display: grid; grid-template-columns: 196px 1fr; gap: 12px; padding: 13px 4px; text-decoration: none; color: inherit; border-radius: 4px; }
+.quick-row strong { color: var(--ink); font-size: 13.5px; }
+.quick-row span { color: var(--muted); font-size: 12.5px; }
+.quick-row:hover { background: var(--teal-soft); }
+.act-row { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; font-size: 13.5px; color: var(--ink); }
+.act-row time { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+
+.menu-list { display: flex; flex-direction: column; gap: 10px; }
+.menu-row { display: grid; grid-template-columns: minmax(180px, 300px) 1fr; gap: 12px; align-items: center; padding: 12px 30px; background: var(--surface-2); border-radius: 3px; box-shadow: var(--sh-sm); text-decoration: none; color: inherit; border: 1px solid var(--line-2); }
+.menu-row strong { color: var(--ink); font-size: 13.5px; }
+.menu-row span { color: var(--muted); font-size: 12.5px; }
+.menu-row:hover { border-color: var(--teal); background: var(--surface); }
+
+/* ---------- Tabel ---------- */
+.toolbar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; background: var(--surface); padding: 10px 28px; box-shadow: var(--sh); margin-bottom: 20px; border-radius: 2px; }
+.toolbar-plain { background: none; box-shadow: none; padding: 0; }
+.search-inline { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 220px; color: var(--muted); }
+.search-inline .ico { width: 14px; height: 14px; }
+.search-inline input { border: 0; outline: 0; width: 100%; height: 36px; font-size: 13.5px; color: var(--ink); background: transparent; }
+.table-wrap { background: var(--surface); box-shadow: var(--sh); overflow-x: auto; max-width: 100%; }
+.tbl { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+.tbl th { background: var(--th); color: var(--ink); font-weight: 700; text-align: left; padding: 0 18px; height: 56px; border: 1px solid var(--line); white-space: nowrap; }
+.tbl td { padding: 10px 18px; height: 56px; border: 1px solid var(--line-2); color: var(--text); }
+.tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+.tbl-compact th, .tbl-compact td { height: 38px; padding: 6px 12px; }
+.hint { color: var(--muted); font-size: 12.5px; margin: 10px 0 0; }
+
+/* ---------- Billing ---------- */
+.total-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 18px; }
+.total { display: flex; align-items: baseline; gap: 60px; margin-left: auto; }
+.total span { font-size: 13px; font-weight: 700; color: var(--label); }
+.total strong { font-size: 22px; color: var(--ink); }
+.big-amount { font-size: 30px; font-weight: 700; color: var(--ink); margin-top: 8px; }
+.saldo-row { display: flex; align-items: flex-end; gap: 40px; margin-top: 30px; flex-wrap: wrap; }
+.saldo { font-size: 24px; font-weight: 700; color: var(--ok); margin-top: 6px; }
+.saldo-due { color: var(--warn); }
+.inv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 22px; }
+.inv-title { font-size: 25px; color: var(--ink); margin: 0 0 6px; }
+.inv-org { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; text-align: right; }
+.inv-org strong { color: var(--teal-text); font-size: 14px; }
+.inv-org span { color: var(--muted); font-size: 12.5px; }
+.inv-org .stamp { color: var(--ok); border: 2px solid var(--ok); padding: 2px 12px; font-weight: 700; letter-spacing: 1px; transform: rotate(-4deg); margin-top: 6px; }
+
+/* ---------- Penjamin / Inventory / Reports ---------- */
+.verify-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; font-size: 13.5px; }
+.add-line { margin-top: 14px; max-width: 360px; }
+.report-type { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.report-head { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 12px; }
+.dl { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0 0 12px; font-size: 13.5px; }
+.dl dt { color: var(--muted); }
+.dl dd { margin: 0; color: var(--ink); font-weight: 600; }
+
+/* ---------- 403 / kosong ---------- */
+.forbidden { max-width: 620px; margin: 40px auto; text-align: center; }
+.forbidden h1 { color: var(--ink); font-size: 26px; margin: 12px 0; }
+.forbidden-icon { display: inline-flex; width: 64px; height: 64px; border-radius: 50%; background: var(--bad-bg); color: var(--bad-text); align-items: center; justify-content: center; }
+.forbidden-icon .ico { width: 30px; height: 30px; }
+.forbidden .btn { margin-top: 16px; }
+.empty { text-align: center; padding: 28px 10px; }
+.empty h3 { color: var(--ink); margin: 0 0 8px; font-size: 17px; }
+.empty p { color: var(--muted); margin: 0 0 18px; }
+
+/* ---------- Modal & toast ---------- */
+.modal-backdrop { position: fixed; inset: 0; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 20px; padding-top: calc(20px + env(safe-area-inset-top, 0px)); padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 100; }
+.modal { background: var(--surface); border-radius: 30px; width: 100%; max-width: 560px; max-height: 100%; overflow-y: auto; padding: 40px 44px 36px; box-shadow: var(--sh-lg); animation: pop .16s ease-out; border: 1px solid var(--line-2); }
+.modal h2 { text-align: center; color: var(--ink); font-size: 26px; margin: 0 0 22px; }
+.modal-body { color: var(--text); font-size: 14px; }
+.modal-body ul { padding-left: 20px; }
+.modal-actions { display: flex; justify-content: center; gap: 50px; margin-top: 30px; }
+.modal-actions .btn { min-width: 150px; }
+@keyframes pop { from { transform: scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+#toast-root { position: fixed; right: 24px; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; z-index: 200; max-width: 380px; pointer-events: none; }
+.toast { background: #183b4e; color: #fff; padding: 12px 18px; border-radius: 6px; box-shadow: var(--sh-lg); font-size: 13.5px; border-left: 4px solid #6fcbd6; transition: opacity .4s, transform .4s; }
+.toast-bad { border-left-color: #ef8a8a; }
+.toast-info { border-left-color: #f5e6b3; }
+.toast.hide { opacity: 0; transform: translateY(8px); }
+
+@media (prefers-reduced-motion: reduce) { .modal { animation: none; } .toast, .sidebar { transition: none !important; } }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1000px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .top-clock span { display: none; }
+}
+
+/* ---------- HP: drawer + bottom navigation ---------- */
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; height: auto; width: min(280px, 84vw);
+    transform: translateX(-102%); transition: transform .22s ease;
+    padding-top: calc(22px + env(safe-area-inset-top, 0px)); padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+  .sidebar.open { transform: none; box-shadow: 8px 0 28px rgba(0, 0, 0, .35); }
+  .sidebar.open ~ .drawer-backdrop { display: block; position: fixed; inset: 0; background: var(--overlay); z-index: 50; }
+  .nav a { min-height: 44px; }
+  .menu-btn { display: inline-flex; }
+  .topbar { height: 60px; padding: 0 12px 0 10px; gap: 10px; }
+  .top-title { margin-right: 0; }
+  .top-title .t-long { display: none; }
+  .top-title .t-short { display: inline; font-size: 17px; }
+  .top-search { flex: 1; width: auto; height: 40px; }
+  .top-clock { display: none; }
+  .search-drop { position: fixed; left: 10px; right: 10px; top: calc(62px + env(safe-area-inset-top, 0px)); }
+
+  .bottom-nav {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -2px 8px rgba(0, 0, 0, .08);
+    padding: 0 4px env(safe-area-inset-bottom, 0px);
+  }
+  .bottom-nav a, .bottom-nav button {
+    flex: 1; min-width: 0; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--muted); text-decoration: none; background: none; border: 0; cursor: pointer; position: relative;
+  }
+  .bottom-nav span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+  .bottom-nav .ico { width: 21px; height: 21px; }
+  .bottom-nav .active { color: var(--teal-text); }
+  .bottom-nav .active::before { content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--teal); }
+  #toast-root { left: 12px; right: 12px; max-width: none; bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  [data-view="login"] ~ #toast-root, .no-bottom-nav #toast-root { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+
+  .view { padding: 18px 14px calc(92px + env(safe-area-inset-bottom, 0px)); }
+  .page-head { flex-direction: column; gap: 14px; margin-bottom: 18px; }
+  .page-head h1 { font-size: 23px; }
+  .page-head-actions, .page-head-actions .btn { width: 100%; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .stat { padding: 16px; min-height: 104px; }
+  .stat-value { font-size: 23px; margin: 12px 0 8px; }
+  .stat-value-sm { font-size: 17px; }
+  .panel { padding: 22px 16px 22px; border-radius: 20px; }
+  .panel-md { border-radius: 18px; }
+  .grid-2 { gap: 16px; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .input, .select, .search-inline input, .top-search input { font-size: 16px; } /* cegah auto-zoom iOS */
+  .input-sm, .select-sm { font-size: 16px; height: 42px; }
+  .inline-field { flex-direction: column; align-items: stretch; gap: 7px; width: 100%; }
+  .inline-field .select { min-width: 0; width: 100%; }
+  .toolbar { padding: 10px 12px; gap: 10px; }
+  .search-inline { min-width: 100%; }
+  .chip-select { flex: 1; height: 40px; }
+  .actions { gap: 12px; margin-top: 26px; }
+  .actions .btn { flex: 1 1 140px; }
+  .btn-row { gap: 10px; }
+  .btn-row .btn { flex: 1 1 120px; padding: 0 12px; }
+  .quick-row, .menu-row { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 12px 14px; }
+  .report-type { gap: 12px; align-items: flex-start; flex-direction: column; }
+  .date-range { flex-wrap: wrap; }
+  .date-range .input { flex: 1 1 130px; }
+  .date-range span { display: none; }
+  .total { gap: 24px; }
+  .big-amount { font-size: 26px; }
+  .saldo-row { gap: 18px; }
+  .inv-head { flex-direction: column; }
+  .inv-org { align-items: flex-start; text-align: left; }
+  .modal { padding: 28px 20px 22px; border-radius: 22px; }
+  .modal h2 { font-size: 22px; }
+  .modal-actions { gap: 12px; }
+  .modal-actions .btn { min-width: 0; flex: 1; }
+  .forbidden { margin: 10px auto; }
+
+  .login { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
+  .login-brand { padding: 30px 24px 26px; }
+  .login-brand h1 { font-size: 34px; }
+  .login-brand .tag { margin-top: 18px; font-size: 15px; }
+  .login-brand .sec { margin-top: 12px; }
+  .login-form-wrap { padding: 28px 20px 32px; align-items: flex-start; }
+  .login-form { gap: 18px; }
+  .login-form h2 { font-size: 28px; }
+  .login-form .sub { margin: -12px 0 10px; }
+}
+
+/* ---------- HP kecil: tabel jadi kartu ---------- */
+@media (max-width: 640px) {
+  .table-wrap { background: transparent; box-shadow: none; overflow: visible; }
+  .tbl thead { display: none; }
+  .tbl, .tbl tbody, .tbl tr, .tbl td { display: block; width: 100%; }
+  .tbl tr { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px; padding: 6px 0; box-shadow: var(--sh-sm); }
+  .tbl td { border: 0; height: auto; padding: 7px 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px; text-align: right; min-height: 36px; }
+  .tbl td::before { content: attr(data-label); font-weight: 700; color: var(--label); font-size: 12px; text-align: left; flex: none; max-width: 46%; }
+  .tbl td:first-child { font-weight: 700; color: var(--ink); }
+  .tbl td.center { justify-content: center; text-align: center; }
+  .tbl .input-sm { max-width: 130px; }
+  .tbl-compact td { min-height: 32px; }
+  .panel .table-wrap .tbl tr { box-shadow: none; background: var(--surface-2); }
+}
+
+@media (max-width: 380px) {
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .top-title .t-short { display: none; }
+}
+
+/* ---------- Cetak invoice ---------- */
+@media print {
+  .sidebar, .topbar, .bottom-nav, .no-print, #toast-root, .page-head, .drawer-backdrop { display: none !important; }
+  .shell { display: block; }
+  body, .view { background: #fff; padding: 0; }
+  .panel, .table-wrap { box-shadow: none; border: 0; }
+}
+
+/* =========================================================
+   Tambahan UTS: label modul, akses role, matriks RBAC, inventory
+   ========================================================= */
+.brand-mod { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 3px; background: rgba(255, 255, 255, .12); color: #fff; font-size: 11.5px; font-weight: 700; }
+.login-module { display: inline-block; margin-top: 18px; padding: 5px 12px; border-radius: 3px; background: rgba(255, 255, 255, .14); color: #fff; font-size: 13px; font-weight: 700; width: fit-content; }
+.linkish-muted { color: var(--muted); align-self: center; }
+.demo-item em { color: var(--muted); }
+.mt-s { margin-top: 16px; }
+.note-top { margin: 0 0 18px; }
+.form-grid-3 { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr); max-width: none; }
+.pill-left { justify-content: flex-start; }
+
+.access { display: grid; gap: 12px; margin-top: 4px; }
+.access-inline { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); padding: 14px 16px; border: 1px dashed var(--line); border-radius: 8px; background: var(--surface-2); }
+.access-changed { border-color: var(--teal); border-style: solid; background: var(--teal-soft); }
+.access-group strong { color: var(--ink); font-size: 13px; }
+.access-group ul { margin: 6px 0 0; padding-left: 18px; color: var(--text); font-size: 13px; }
+.access-group li { margin: 2px 0; }
+
+.tbl-matrix th:not(:first-child) { white-space: normal; text-align: center; min-width: 92px; line-height: 1.25; padding: 8px; }
+.tbl-matrix td:first-child { min-width: 240px; }
+.tbl .row-group td { background: var(--surface-2); color: var(--ink); font-weight: 700; height: 40px; }
+.tbl .col-me { background: var(--teal-soft); }
+.tbl th.col-me { background: var(--teal); color: #fff; }
+.yes { color: var(--ok); font-weight: 700; font-size: 15px; }
+.no { color: var(--muted); }
+
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.sum-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin: 6px 0 22px; }
+.sum { background: var(--surface-2); border: 1px solid var(--line-2); border-radius: 8px; padding: 14px 16px; }
+.sum span { display: block; font-size: 12px; font-weight: 700; color: var(--label); }
+.sum strong { display: block; font-size: 19px; color: var(--ink); margin-top: 6px; }
+.line-add { display: grid; grid-template-columns: minmax(0, 1fr) 120px auto; gap: 12px; align-items: end; margin-top: 16px; max-width: 760px; }
+.qty-cell { display: flex; align-items: center; gap: 8px; }
+.in { color: var(--ok); font-weight: 700; }
+.out { color: var(--bad-text); font-weight: 700; }
+.flow-hint { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted); font-size: 12.5px; margin: -12px 0 22px; }
+.flow-hint b { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .form-grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .line-add { grid-template-columns: minmax(0, 1fr) 100px; }
+  .line-add .btn { grid-column: 1 / -1; }
+  .brand-mod { margin-top: 8px; }
+  .login-module { margin-top: 12px; }
+}
+@media (max-width: 640px) {
+  .tbl .row-group { background: transparent; border: 0; box-shadow: none; padding: 0; margin: 18px 0 8px; }
+  .tbl .row-group td { background: transparent; justify-content: flex-start; padding: 0 4px; min-height: 0; font-size: 14px; }
+  .tbl .row-group td::before { content: none; }
+  .tbl-matrix td:first-child { min-width: 0; }
+  .tbl .col-me { background: var(--teal-soft); border-radius: 6px; }
+}
+.link-bad { color: var(--bad-text); }
+.modal-wide { max-width: 860px; }
+.modal-wide h2 { font-size: 22px; }
+@media (max-width: 640px) {
+  .tbl-matrix td.center { justify-content: space-between; text-align: right; }
+}
+
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+<script>
+/* ==== shared/base.js ==== */
+/* =========================================================
+   SIMRS RS Permata Medika — Kelompok 7
+   base.js : data bersama ketiga aplikasi (ikon, role, unit, akun)
+   Akun pengguna dikelola di Modul Authentication; Billing dan
+   Inventory memakai akun & role yang sama.
+   ========================================================= */
+
+const ROLES = {
+  admin_it:         { label: 'Admin SIMRS / IT',                short: 'Admin SIMRS / IT' },
+  supervisor_admin: { label: 'Supervisor / Admin SIMRS',        short: 'Supervisor / Admin SIMRS' },
+  kasir:            { label: 'Petugas Kasir / Billing',         short: 'Kasir / Billing' },
+  verifikator:      { label: 'Verifikator Penjamin / Asuransi', short: 'Verifikator Penjamin' },
+  gudang:           { label: 'Petugas Gudang / Logistik',       short: 'Gudang / Logistik' },
+  kepala_instalasi: { label: 'Supervisor / Kepala Instalasi',   short: 'Kepala Instalasi' },
+  apoteker:         { label: 'Apoteker',                        short: 'Apoteker' },
+};
+const ALL_ROLES = Object.keys(ROLES);
+
+const UNITS = ['IT', 'Manajemen', 'Billing', 'Penjamin', 'Pharmacy', 'Warehouse', 'Instalasi Farmasi', 'IGD', 'Rawat Inap'];
+
+/* Akun bersama (password awal semua akun: simrs123) */
+function seedUsers(pw) {
+  return [
+    { id: 'USR-001', name: 'Andi Pratama',  username: 'andi.pratama',  unit: 'IT',                role: 'admin_it',         status: 'Active',   password: pw },
+    { id: 'USR-002', name: 'Agus Mulyadi',  username: 'agus.mulyadi',  unit: 'Manajemen',         role: 'supervisor_admin', status: 'Active',   password: pw },
+    { id: 'USR-014', name: 'Maria Santos',  username: 'maria.santos',  unit: 'Billing',           role: 'kasir',            status: 'Active',   password: pw },
+    { id: 'USR-017', name: 'Rudi Hartono',  username: 'rudi.hartono',  unit: 'Penjamin',          role: 'verifikator',      status: 'Active',   password: pw },
+    { id: 'USR-021', name: 'Neri Kwang',    username: 'neri.kwang',    unit: 'Instalasi Farmasi', role: 'apoteker',         status: 'Active',   password: pw },
+    { id: 'USR-025', name: 'Yohana Tan',    username: 'yohana.tan',    unit: 'Warehouse',         role: 'gudang',           status: 'Active',   password: pw },
+    { id: 'USR-028', name: 'Dina Wijaya',   username: 'dina.wijaya',   unit: 'Warehouse',         role: 'gudang',           status: 'Inactive', password: pw },
+    { id: 'USR-031', name: 'Kevin Susanto', username: 'kevin.susanto', unit: 'Instalasi Farmasi', role: 'kepala_instalasi', status: 'Active',   password: pw },
+  ];
+}
+
+/* Penanda waktu relatif terhadap hari ini (dipakai data awal) */
+const SeedTime = {
+  now: new Date(),
+  at(h, m, dayOffset = 0) {
+    const d = new Date(this.now); d.setDate(d.getDate() + dayOffset); d.setHours(h, m, 0, 0);
+    if (d > this.now) d.setDate(d.getDate() - 1); // jangan sampai tercatat di masa depan
+    return d.toISOString();
+  },
+  day(offset = 0) {
+    const d = new Date(this.now); d.setDate(d.getDate() + offset);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  },
+  ymd(offset = 0) { return this.day(offset).slice(2).replace(/-/g, ''); },
+};
+
+const ICONS = {
+  home:    '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+  user:    '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>',
+  receipt: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  check:   '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  shield:  '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 8v5M12 16v.5"/>',
+  box:     '<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>',
+  chart:   '<path d="M3 21h18"/><path d="M6 17v-5M11 17V6M16 17v-8"/>',
+  list:    '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.5M4 12h.5M4 18h.5"/>',
+  key:     '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/>',
+  search:  '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+  clock:   '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  logout:  '<path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
+  menu:    '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  lock:    '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  plus:    '<path d="M12 5v14M5 12h14"/>',
+  x:       '<path d="M6 6l12 12M18 6L6 18"/>',
+};
+
+</script>
+<script>
+/* ==== apps/auth/config.js ==== */
+/* =========================================================
+   APLIKASI 1 — MODUL AUTHENTICATION & RBAC
+   config.js : identitas aplikasi, matriks RBAC, menu, data awal
+   ========================================================= */
+
+const APP = {
+  id: 'auth',
+  module: 'Authentication',
+  moduleLong: 'Modul Authentication & RBAC',
+  storeKey: 'simrs_k7_auth_db',
+  sessionKey: 'simrs_k7_auth_session',
+  dbVersion: 1,
+  defaultPassword: 'simrs123',
+  allowDownload: true,
+};
+
+/* ---- Hak akses per role di aplikasi ini ----
+   Semua role boleh login ke modul Authentication (untuk Akun Saya / ganti password),
+   tetapi hanya Admin IT & Supervisor yang melihat User Management, RBAC, dan Audit Trail. */
+const PERMISSIONS = {
+  admin_it:         ['dashboard', 'users.list', 'users.add', 'users.detail', 'users.edit', 'rbac.view', 'audit', 'account'],
+  supervisor_admin: ['dashboard', 'users.list', 'users.detail', 'users.edit', 'rbac.view', 'audit', 'account'],
+  kasir:            ['dashboard', 'account'],
+  verifikator:      ['dashboard', 'account'],
+  gudang:           ['dashboard', 'account'],
+  kepala_instalasi: ['dashboard', 'account'],
+  apoteker:         ['dashboard', 'account'],
+};
+
+const MENU = [
+  { key: 'dashboard', label: 'Dashboard', short: 'Home', icon: 'home', route: 'dashboard', perm: 'dashboard' },
+  { key: 'users', label: 'User Management', short: 'Users', icon: 'user', desc: 'Buat akun, ubah role, nonaktifkan', children: [
+      { label: 'Daftar Pengguna', route: 'users', perm: 'users.list' },
+      { label: 'Tambah Pengguna', route: 'users/new', perm: 'users.add' },
+  ] },
+  { key: 'rbac', label: 'Hak Akses (RBAC)', short: 'RBAC', icon: 'shield', desc: 'Matriks role dan fitur', route: 'rbac', perm: 'rbac.view' },
+  { key: 'audit', label: 'Audit Trail', short: 'Audit', icon: 'chart', desc: 'Riwayat login & aktivitas akun', route: 'audit', perm: 'audit' },
+  { key: 'account', label: 'Akun Saya', short: 'Akun', icon: 'key', desc: 'Profil & ganti password', route: 'account', perm: 'account' },
+];
+
+const COMPONENTS = [
+  { label: 'Master Data', modules: ['users', 'rbac'] },
+  { label: 'Reporting',   modules: ['audit'] },
+];
+
+/* ---- Matriks RBAC seluruh SIMRS (ditampilkan di menu Hak Akses) ----
+   Harus sama dengan PERMISSIONS di aplikasi Billing & Inventory. */
+const RBAC_MATRIX = [
+  { module: 'Authentication', feature: 'Login, Akun Saya, ganti password',          roles: ALL_ROLES },
+  { module: 'Authentication', feature: 'Lihat daftar & detail pengguna',           roles: ['admin_it', 'supervisor_admin'] },
+  { module: 'Authentication', feature: 'Tambah pengguna baru',                     roles: ['admin_it'] },
+  { module: 'Authentication', feature: 'Ubah role, reset password, nonaktifkan',   roles: ['admin_it', 'supervisor_admin'] },
+  { module: 'Authentication', feature: 'Matriks hak akses & audit trail',          roles: ['admin_it', 'supervisor_admin'] },
+  { module: 'Billing',        feature: 'Tagihan, tambah layanan, generate invoice', roles: ['kasir'] },
+  { module: 'Billing',        feature: 'Pembayaran & kuitansi',                    roles: ['kasir'] },
+  { module: 'Billing',        feature: 'Verifikasi penjamin & pengajuan klaim',    roles: ['verifikator'] },
+  { module: 'Billing',        feature: 'Laporan billing',                          roles: ['supervisor_admin'] },
+  { module: 'Inventory',      feature: 'Lihat stok, kartu stok, alert expiry',     roles: ['gudang', 'kepala_instalasi', 'apoteker'] },
+  { module: 'Inventory',      feature: 'Permintaan barang dari unit',              roles: ['apoteker'] },
+  { module: 'Inventory',      feature: 'Penerimaan & pengeluaran barang',          roles: ['gudang'] },
+  { module: 'Inventory',      feature: 'Ajukan stock opname',                      roles: ['gudang'] },
+  { module: 'Inventory',      feature: 'Approve adjustment & laporan inventory',   roles: ['kepala_instalasi'] },
+];
+
+/* Modul utama yang bisa dibuka sebuah role (tanpa menghitung Akun Saya) */
+function modulesOf(role) {
+  return [...new Set(RBAC_MATRIX.filter((r) => r.roles !== ALL_ROLES && r.roles.includes(role)).map((r) => r.module))];
+}
+
+function seedDB() {
+  const T = SeedTime;
+  const users = seedUsers(APP.defaultPassword);
+  const last = { 'USR-001': T.at(9, 40), 'USR-002': T.at(8, 5), 'USR-014': T.at(7, 58), 'USR-017': T.at(8, 2), 'USR-021': T.at(7, 45), 'USR-025': T.at(7, 50), 'USR-031': T.at(8, 20), 'USR-028': T.at(16, 0, -10) };
+  users.forEach((u) => { u.lastLogin = last[u.id]; });
+
+  const audit = [
+    { ts: T.at(9, 41), user: 'Andi Pratama',  role: 'Admin SIMRS / IT',  module: 'User Mgmt', activity: 'Activate user neri.kwang', result: 'Success' },
+    { ts: T.at(9, 40), user: 'Andi Pratama',  role: 'Admin SIMRS / IT',  module: 'Auth',      activity: 'Login', result: 'Success' },
+    { ts: T.at(9, 12), user: 'dina.wijaya',   role: 'Gudang / Logistik', module: 'Auth',      activity: 'Login ditolak: akun nonaktif', result: 'Failed' },
+    { ts: T.at(8, 20), user: 'Kevin Susanto', role: 'Kepala Instalasi',  module: 'Auth',      activity: 'Login', result: 'Success' },
+    { ts: T.at(8, 6),  user: 'maria.santo',   role: '-',                 module: 'Auth',      activity: 'Login gagal (maria.santo)', result: 'Failed' },
+    { ts: T.at(8, 5),  user: 'Agus Mulyadi',  role: 'Supervisor / Admin SIMRS', module: 'Auth', activity: 'Login', result: 'Success' },
+    { ts: T.at(8, 2),  user: 'Rudi Hartono',  role: 'Verifikator Penjamin', module: 'Auth',   activity: 'Login', result: 'Success' },
+    { ts: T.at(7, 58), user: 'Maria Santos',  role: 'Kasir / Billing',   module: 'Auth',      activity: 'Login', result: 'Success' },
+    { ts: T.at(7, 50), user: 'Yohana Tan',    role: 'Gudang / Logistik', module: 'Auth',      activity: 'Login', result: 'Success' },
+    { ts: T.at(7, 45), user: 'Neri Kwang',    role: 'Apoteker',          module: 'Auth',      activity: 'Login', result: 'Success' },
+    { ts: T.at(15, 2, -2), user: 'Andi Pratama', role: 'Admin SIMRS / IT', module: 'User Mgmt', activity: 'Deactivate user dina.wijaya', result: 'Success' },
+    { ts: T.at(14, 30, -2), user: 'Agus Mulyadi', role: 'Supervisor / Admin SIMRS', module: 'User Mgmt', activity: 'Update user kevin.susanto: role Gudang / Logistik → Kepala Instalasi', result: 'Success' },
+  ].sort((a, b) => b.ts.localeCompare(a.ts));
+
+  return { version: APP.dbVersion, seededAt: T.now.toISOString(), seq: { user: 31 }, users, audit };
+}
+
+</script>
+<script>
+/* ==== shared/core.js ==== */
+/* =========================================================
+   core.js : utilitas, penyimpanan data, sesi, autentikasi,
+             pengecekan RBAC, router, toast & modal
+             (dipakai bersama oleh ketiga aplikasi)
+   ========================================================= */
+
+/* ---------- Utilitas ---------- */
+const U = {
+  esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  },
+  rp(n) { return 'Rp ' + Number(n || 0).toLocaleString('en-US'); },
+  num(n) { return Number(n || 0).toLocaleString('en-US'); },
+  pad(n, w = 2) { return String(n).padStart(w, '0'); },
+  time(iso) { const d = new Date(iso); return U.pad(d.getHours()) + ':' + U.pad(d.getMinutes()); },
+  date(iso) { const d = new Date(iso); return U.pad(d.getDate()) + '/' + U.pad(d.getMonth() + 1) + '/' + d.getFullYear(); },
+  dateTime(iso) { return U.date(iso) + ' ' + U.time(iso); },
+  ymd(d = new Date()) { return String(d.getFullYear()).slice(2) + U.pad(d.getMonth() + 1) + U.pad(d.getDate()); },
+  isoDay(d = new Date()) { return d.getFullYear() + '-' + U.pad(d.getMonth() + 1) + '-' + U.pad(d.getDate()); },
+  isToday(iso) { return U.isoDay(new Date(iso)) === U.isoDay(); },
+  daysUntil(isoDate) {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    const e = new Date(isoDate + 'T00:00:00');
+    return Math.round((e - t) / 86400000);
+  },
+  monthYear(isoDate) { const [y, m] = isoDate.split('-'); return m + '/' + y; },
+  initials(name) {
+    return String(name).replace(/^(dr\.|apt\.)\s*/i, '').split(/\s+/).filter(Boolean)
+      .map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+  },
+  icon(name, cls = '') { return `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`; },
+  qs(sel, root = document) { return root.querySelector(sel); },
+  qsa(sel, root = document) { return [...root.querySelectorAll(sel)]; },
+  on(root, sel, ev, fn) { U.qsa(sel, root).forEach((el) => el.addEventListener(ev, fn)); },
+  /* unduh tabel sebagai CSV (Excel-friendly) */
+  downloadCsv(filename, head, rows) {
+    const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const csv = [head, ...rows].map((r) => r.map(q).join(',')).join('\r\n');
+    try {
+      const url = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      UI.toast(`File ${filename} diunduh`, 'info');
+    } catch (e) { UI.toast('Browser ini tidak mengizinkan unduhan file.', 'bad'); }
+  },
+};
+
+/* ---------- Penyimpanan aman (fallback ke memori bila browser memblokir storage) ---------- */
+const Safe = {
+  mem: {},
+  get(area, k) { try { return window[area].getItem(k); } catch (e) { return this.mem[area + k] ?? null; } },
+  set(area, k, v) { try { window[area].setItem(k, v); } catch (e) { this.mem[area + k] = v; } },
+  del(area, k) { try { window[area].removeItem(k); } catch (e) { /* abaikan */ } delete this.mem[area + k]; },
+};
+
+/* ---------- Database (localStorage) ---------- */
+const Store = {
+  db: null,
+  load() {
+    let data = null;
+    try { data = JSON.parse(Safe.get('localStorage', APP.storeKey) || 'null'); } catch (e) { data = null; }
+    if (!data || data.version !== APP.dbVersion) { data = seedDB(); this.db = data; this.save(); }
+    this.db = data;
+    return data;
+  },
+  save() { Safe.set('localStorage', APP.storeKey, JSON.stringify(this.db)); },
+  reset() { Safe.del('localStorage', APP.storeKey); Session.clear(); this.db = null; return this.load(); },
+  next(key) { this.db.seq[key] = (this.db.seq[key] || 0) + 1; this.save(); return this.db.seq[key]; },
+  user(id) { return this.db.users.find((u) => u.id === id); },
+  /* Audit trail: setiap aksi penting dicatat */
+  audit({ module, activity, result = 'Success', actor }) {
+    const u = actor || Auth.user();
+    this.db.audit.unshift({
+      ts: new Date().toISOString(),
+      user: u ? u.name : '-',
+      role: u && ROLES[u.role] ? ROLES[u.role].short : '-',
+      module, activity, result,
+    });
+    this.db.audit = this.db.audit.slice(0, 1000);
+    this.save();
+  },
+};
+
+/* ---------- Sesi login (sessionStorage per tab) ---------- */
+const Session = {
+  get() { try { return JSON.parse(Safe.get('sessionStorage', APP.sessionKey) || 'null'); } catch (e) { return null; } },
+  set(s) { Safe.set('sessionStorage', APP.sessionKey, JSON.stringify(s)); },
+  clear() { Safe.del('sessionStorage', APP.sessionKey); },
+};
+
+/* ---------- Autentikasi & RBAC ---------- */
+const Auth = {
+  user() {
+    const s = Session.get();
+    if (!s || !Store.db) return null;
+    return Store.db.users.find((u) => u.id === s.userId) || null;
+  },
+  login(username, password) {
+    const uname = String(username || '').trim().toLowerCase();
+    const user = Store.db.users.find((u) => u.username.toLowerCase() === uname);
+    if (!user || user.password !== password) {
+      Store.audit({ module: 'Auth', activity: `Login gagal (${uname || 'tanpa username'})`, result: 'Failed', actor: { name: uname || '-', role: null } });
+      return { ok: false, reason: 'invalid' };
+    }
+    if (user.status !== 'Active') {
+      Store.audit({ module: 'Auth', activity: 'Login ditolak: akun nonaktif', result: 'Failed', actor: user });
+      return { ok: false, reason: 'inactive', user };
+    }
+    // RBAC tingkat modul: role tanpa hak akses ke aplikasi ini ditolak sejak login
+    if (!(PERMISSIONS[user.role] || []).length) {
+      Store.audit({ module: 'RBAC', activity: `Login ditolak: role tanpa akses Modul ${APP.module}`, result: 'Denied', actor: user });
+      return { ok: false, reason: 'noaccess', user };
+    }
+    Session.set({ userId: user.id, loginAt: new Date().toISOString() });
+    user.lastLogin = new Date().toISOString();
+    Store.save();
+    Store.audit({ module: 'Auth', activity: 'Login', actor: user });
+    return { ok: true, user };
+  },
+  logout(reason) {
+    const u = this.user();
+    if (u) Store.audit({ module: 'Auth', activity: reason || 'Logout', actor: u });
+    Session.clear();
+  },
+  /* Kebijakan password: minimal 8 karakter, berisi huruf dan angka */
+  passwordProblem(pw) {
+    if (!pw || pw.length < 8) return 'Password minimal 8 karakter.';
+    if (!/[A-Za-z]/.test(pw) || !/\d/.test(pw)) return 'Password harus berisi huruf dan angka.';
+    if (pw === APP.defaultPassword) return 'Password baru tidak boleh sama dengan password awal.';
+    return '';
+  },
+  /* Cek hak akses role yang sedang login */
+  can(perm) {
+    const u = this.user();
+    return !!u && (PERMISSIONS[u.role] || []).includes(perm);
+  },
+  /* Halaman pertama yang boleh dibuka untuk sebuah menu */
+  firstRoute(menuItem) {
+    if (menuItem.route && (!menuItem.perm || this.can(menuItem.perm))) return menuItem.route;
+    const c = (menuItem.children || []).find((ch) => this.can(ch.perm));
+    return c ? c.route : null;
+  },
+  visibleMenu() {
+    return MENU.map((m) => {
+      if (m.children) {
+        const children = m.children.filter((c) => this.can(c.perm));
+        return children.length ? { ...m, children } : null;
+      }
+      return this.can(m.perm) ? m : null;
+    }).filter(Boolean);
+  },
+};
+
+/* ---------- Router (hash) ----------
+   Posisi halaman disimpan di Router.current, lalu disalin ke URL (#/...) bila browser
+   mengizinkan. Dengan begitu aplikasi tetap jalan walau dibuka sebagai file di
+   viewer HP (mis. pratinjau file di aplikasi) yang membatasi perubahan URL. */
+const Router = {
+  routes: [],
+  current: '',
+  add(pattern, def) { this.routes.push({ pattern, parts: pattern.split('/'), ...def }); },
+  read() {
+    try { return String(location.hash || '').replace(/^#\/?/, ''); } catch (e) { return null; }
+  },
+  setHash(path, replace) {
+    const target = '#/' + path;
+    try {
+      if (location.hash === target) return;
+      if (replace) { history.replaceState(null, '', location.href.split('#')[0] + target); return; }
+    } catch (e) { /* lanjut ke cara biasa */ }
+    try { location.hash = target; } catch (e) { /* URL tidak bisa diubah: cukup pakai Router.current */ }
+  },
+  parse() {
+    const [path, qs = ''] = this.current.split('?');
+    return { path: path || '', query: Object.fromEntries(new URLSearchParams(qs)) };
+  },
+  match(path) {
+    const segs = path.split('/');
+    for (const r of this.routes) {
+      if (r.parts.length !== segs.length) continue;
+      const params = {};
+      const ok = r.parts.every((p, i) => {
+        if (p.startsWith(':')) { params[p.slice(1)] = decodeURIComponent(segs[i]); return true; }
+        return p === segs[i];
+      });
+      if (ok) return { route: r, params };
+    }
+    return null;
+  },
+  /* pindah halaman (selalu render ulang, termasuk ke halaman yang sama) */
+  go(path) { this.current = path; this.setHash(path, false); App.render(); },
+  /* ganti alamat tanpa render (dipakai saat redirect di dalam render) */
+  replace(path) { this.current = path; this.setHash(path, true); },
+  /* tombol back/forward browser atau alamat diketik manual */
+  onHashChange() {
+    const h = this.read();
+    if (h === null || h === this.current) return;
+    this.current = h;
+    App.render();
+  },
+};
+
+/* ---------- UI: toast & modal ---------- */
+const UI = {
+  toast(msg, type = 'ok') {
+    const root = document.getElementById('toast-root');
+    const t = document.createElement('div');
+    t.className = 'toast toast-' + type;
+    t.textContent = msg;
+    root.appendChild(t);
+    setTimeout(() => t.classList.add('hide'), 3200);
+    setTimeout(() => t.remove(), 3700);
+  },
+  /* modal({title, body(html), actions:[{label, cls, value}]}) -> Promise<value|null> */
+  modal({ title, body = '', actions = [{ label: 'Tutup', cls: 'btn', value: null }], onOpen, wide = false }) {
+    return new Promise((resolve) => {
+      const root = document.getElementById('modal-root');
+      root.innerHTML = `
+        <div class="modal-backdrop">
+          <div class="modal ${wide ? 'modal-wide' : ''}" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <h2 id="modal-title">${U.esc(title)}</h2>
+            <div class="modal-body">${body}</div>
+            <div class="modal-actions">
+              ${actions.map((a, i) => `<button type="button" class="${a.cls || 'btn'}" data-i="${i}">${U.esc(a.label)}</button>`).join('')}
+            </div>
+          </div>
+        </div>`;
+      const close = (v) => { root.innerHTML = ''; document.removeEventListener('keydown', onKey); resolve(v); };
+      const onKey = (e) => { if (e.key === 'Escape') close(null); };
+      document.addEventListener('keydown', onKey);
+      U.qsa('[data-i]', root).forEach((b) => b.addEventListener('click', () => {
+        const a = actions[Number(b.dataset.i)];
+        close(typeof a.value === 'function' ? a.value(root) : a.value);
+      }));
+      U.qs('.modal-backdrop', root).addEventListener('click', (e) => { if (e.target.classList.contains('modal-backdrop')) close(null); });
+      if (onOpen) onOpen(root);
+      const primary = U.qs('.btn-primary, .btn-danger', root) || U.qs('button', root);
+      if (primary) primary.focus();
+    });
+  },
+  confirm(title, message, okLabel = 'Ya, lanjutkan', danger = false) {
+    return this.modal({
+      title,
+      body: `<p>${message}</p>`,
+      actions: [
+        { label: 'Batal', cls: 'btn', value: false },
+        { label: okLabel, cls: danger ? 'btn btn-danger' : 'btn btn-primary', value: true },
+      ],
+    });
+  },
+};
+
+/* ---------- Komponen HTML kecil yang dipakai berulang ---------- */
+const C = {
+  pageHead(title, subtitle, right = '') {
+    return `<div class="page-head"><div><h1>${U.esc(title)}</h1><p class="subtitle">${U.esc(subtitle)}</p></div>${right ? `<div class="page-head-actions">${right}</div>` : ''}</div>`;
+  },
+  statusPill(status) {
+    const map = {
+      Active: 'ok', Inactive: 'muted', Ready: 'info', Verify: 'warn', Pending: 'warn', Invoiced: 'info',
+      Unpaid: 'warn', Paid: 'ok', Verified: 'ok', 'Claim Submitted': 'ok', Submitted: 'ok', Open: 'info',
+      Received: 'ok', Issued: 'ok', 'Awaiting approval': 'warn', Approved: 'ok', Rejected: 'bad',
+      Success: 'ok', Failed: 'bad', Denied: 'bad', Draft: 'warn', Partial: 'warn',
+      Penerimaan: 'ok', Pengeluaran: 'info', Adjustment: 'warn', 'Saldo awal': 'muted',
+      Invoice: 'info', Pembayaran: 'ok', Klaim: 'ok',
+    };
+    return `<span class="pill pill-${map[status] || 'muted'}">${U.esc(status)}</span>`;
+  },
+  empty(title, text, action = '') {
+    return `<div class="empty"><h3>${U.esc(title)}</h3><p>${text}</p>${action}</div>`;
+  },
+};
+
+</script>
+<script>
+/* ==== shared/login.js ==== */
+/* =========================================================
+   Login — autentikasi pengguna (dipakai ketiga aplikasi)
+   ========================================================= */
+
+function renderLogin(root, message) {
+  const canUse = (u) => (PERMISSIONS[u.role] || []).length > 0;
+  const users = [...Store.db.users].sort((a, b) =>
+    (canUse(b) && b.status === 'Active') - (canUse(a) && a.status === 'Active'));
+  const demo = users.map((u) => {
+    const tag = u.status !== 'Active' ? ' <em>(nonaktif)</em>' : !canUse(u) ? ' <em>(tanpa akses modul ini)</em>' : '';
+    return `
+      <button type="button" class="demo-item" data-user="${U.esc(u.username)}">
+        <span>${U.esc(ROLES[u.role].label)}${tag}</span>
+        <strong>${U.esc(u.username)}</strong>
+      </button>`;
+  }).join('');
+
+  root.innerHTML = `
+  <div class="login">
+    <section class="login-brand">
+      <h1>SIMRS</h1>
+      <div class="hosp">RS PERMATA MEDIKA</div>
+      <div class="login-module">${U.esc(APP.moduleLong)}</div>
+      <p class="tag">Secure access for authorized users</p>
+      <div class="sec">RBAC &bull; HTTPS/TLS &bull; Audit trail</div>
+    </section>
+
+    <section class="login-form-wrap">
+      <div class="login-form" id="login-form" role="form" aria-label="Sign in">
+        <h2>Sign in</h2>
+        <p class="sub">Masukkan kredensial SIMRS</p>
+
+        <div class="field">
+          <label for="username">Username *</label>
+          <input class="input" id="username" name="username" placeholder="Enter username" autocomplete="username" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="password">Password *</label>
+          <input class="input" id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password">
+        </div>
+        <label class="show-pw"><input type="checkbox" id="show-pw"> Show password</label>
+
+        <button class="btn btn-primary btn-block" type="button" id="login-btn">Login</button>
+        <p class="login-error" id="login-error" role="alert">${message ? U.esc(message) : ''}</p>
+
+        <details class="demo" open>
+          <summary>Akun demo — password awal semua akun: <code>${APP.defaultPassword}</code></summary>
+          <p class="demo-hint">Ketuk salah satu akun untuk mengisi username &amp; password, lalu tekan Login.</p>
+          <div class="demo-list">${demo}</div>
+          <button type="button" class="linkish" id="reset-demo">Reset data demo ke kondisi awal</button>
+        </details>
+      </div>
+    </section>
+  </div>`;
+
+  const err = U.qs('#login-error', root);
+  const uEl = U.qs('#username', root);
+  const pEl = U.qs('#password', root);
+
+  U.qs('#show-pw', root).addEventListener('change', (e) => { pEl.type = e.target.checked ? 'text' : 'password'; });
+
+  // tanpa <form>: beberapa viewer file di HP memblokir form submit
+  const doLogin = () => {
+    err.textContent = '';
+    if (!uEl.value.trim() || !pEl.value) {
+      err.textContent = 'Username dan password wajib diisi.';
+      (uEl.value.trim() ? pEl : uEl).focus();
+      return;
+    }
+    const res = Auth.login(uEl.value, pEl.value);
+    if (!res.ok) {
+      err.textContent = {
+        inactive: 'Akun nonaktif → akses ditolak. Hubungi Admin SIMRS untuk aktivasi.',
+        noaccess: `Role ${res.user ? ROLES[res.user.role].label : ''} tidak memiliki akses ke ${APP.moduleLong} → akses ditolak.`,
+      }[res.reason] || 'Invalid credentials → akses ditolak. Periksa username dan password.';
+      pEl.value = '';
+      pEl.focus();
+      return;
+    }
+    UI.toast(`Login berhasil sebagai ${ROLES[res.user.role].label}`);
+    Router.go('dashboard');
+  };
+  U.qs('#login-btn', root).addEventListener('click', doLogin);
+  [uEl, pEl].forEach((i) => i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } }));
+
+  U.qsa('.demo-item', root).forEach((btn) => btn.addEventListener('click', () => {
+    uEl.value = btn.dataset.user;
+    const u = Store.db.users.find((x) => x.username === btn.dataset.user);
+    // akun dengan password sementara/awal terisi otomatis; akun yang sudah ganti password diketik manual
+    pEl.value = u && u.password === APP.defaultPassword ? APP.defaultPassword : '';
+    err.textContent = '';
+    (pEl.value ? U.qs('#login-btn', root) : pEl).focus();
+  }));
+
+  U.qs('#reset-demo', root).addEventListener('click', async () => {
+    const ok = await UI.confirm('Reset data demo', `Semua perubahan di ${APP.moduleLong} akan dikembalikan ke data awal.`, 'Reset data', true);
+    if (ok) { Store.reset(); renderLogin(root); UI.toast('Data demo sudah dikembalikan ke kondisi awal.'); }
+  });
+
+  if (window.matchMedia && window.matchMedia('(min-width: 861px)').matches) uEl.focus();
+}
+
+</script>
+<script>
+/* ==== apps/auth/pages.js ==== */
+/* =========================================================
+   APLIKASI 1 — halaman Modul Authentication & RBAC
+   Dashboard · User Management · Hak Akses · Audit Trail · Akun Saya
+   ========================================================= */
+
+const AuthPages = {
+  userFilter: { q: '', status: '', role: '' },
+  auditFilter: null,
+  modulePills(role) {
+    const mods = modulesOf(role);
+    return mods.length ? mods.map((m) => `<span class="pill pill-info">${m}</span>`).join(' ') : '<span class="muted small">Akun Saya saja</span>';
+  },
+  featuresOf(role) { return RBAC_MATRIX.filter((r) => r.roles.includes(role)); },
+  accessList(role) {
+    const groups = {};
+    this.featuresOf(role).forEach((r) => { (groups[r.module] = groups[r.module] || []).push(r.feature); });
+    return Object.entries(groups).map(([mod, fs]) => `
+      <div class="access-group"><strong>${mod}</strong><ul>${fs.map((f) => `<li>${f}</li>`).join('')}</ul></div>`).join('');
+  },
+  myAuthEvents(user, n = 5) {
+    return Store.db.audit.filter((a) => a.module === 'Auth' && (a.user === user.name || a.user === user.username)).slice(0, n);
+  },
+};
+
+/* ---------- Password sementara wajib diganti (login pertama / setelah reset) ---------- */
+function renderFirstPassword(root, user) {
+  root.innerHTML = `
+  <div class="login">
+    <section class="login-brand">
+      <h1>SIMRS</h1>
+      <div class="hosp">RS PERMATA MEDIKA</div>
+      <div class="login-module">${U.esc(APP.moduleLong)}</div>
+      <p class="tag">Password sementara harus diganti sebelum memakai sistem</p>
+      <div class="sec">RBAC &bull; HTTPS/TLS &bull; Audit trail</div>
+    </section>
+    <section class="login-form-wrap">
+      <div class="login-form" role="form" aria-label="Buat password baru">
+        <h2>Buat password baru</h2>
+        <p class="sub">Halo ${U.esc(user.name)} (${U.esc(ROLES[user.role].label)}). Akun Anda masih memakai password sementara.</p>
+        <div class="field"><label for="np1">Password baru *</label><input class="input" id="np1" type="password" placeholder="Minimal 8 karakter, huruf dan angka" autocomplete="new-password"></div>
+        <div class="field"><label for="np2">Ulangi password baru *</label><input class="input" id="np2" type="password" placeholder="Ketik ulang password baru" autocomplete="new-password"></div>
+        <label class="show-pw"><input type="checkbox" id="np-show"> Show password</label>
+        <button class="btn btn-primary btn-block" type="button" id="np-save">Simpan &amp; Lanjutkan</button>
+        <p class="login-error" id="np-err" role="alert"></p>
+        <button type="button" class="linkish linkish-muted" id="np-logout">Batal dan logout</button>
+      </div>
+    </section>
+  </div>`;
+  const e = U.qs('#np-err', root), a = U.qs('#np1', root), b = U.qs('#np2', root);
+  U.qs('#np-show', root).addEventListener('change', (ev) => { a.type = b.type = ev.target.checked ? 'text' : 'password'; });
+  const save = () => {
+    const problem = Auth.passwordProblem(a.value);
+    if (problem) { e.textContent = problem; a.focus(); return; }
+    if (a.value !== b.value) { e.textContent = 'Konfirmasi password tidak sama.'; b.focus(); return; }
+    user.password = a.value; user.mustChange = false; Store.save();
+    Store.audit({ module: 'Auth', activity: 'Ganti password sementara (login pertama)' });
+    UI.toast('Password baru tersimpan. Selamat datang di SIMRS.');
+    Router.go('dashboard');
+  };
+  U.qs('#np-save', root).addEventListener('click', save);
+  [a, b].forEach((i) => i.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); save(); } }));
+  U.qs('#np-logout', root).addEventListener('click', () => { Auth.logout(); Router.go('login'); });
+}
+
+/* ---------- Dashboard ---------- */
+Router.add('dashboard', {
+  perm: 'dashboard', title: 'Dashboard',
+  render(el, { user }) {
+    const isAdmin = Auth.can('users.list');
+    const today = (a) => U.isToday(a.ts);
+    const db = Store.db;
+
+    if (!isAdmin) {
+      const mine = AuthPages.myAuthEvents(user).map((a) => `<div class="act-row"><span>${U.esc(a.activity)}</span><time>${U.date(a.ts)} ${U.time(a.ts)}</time></div>`).join('') || '<p class="muted">Belum ada riwayat.</p>';
+      el.innerHTML = `
+        ${C.pageHead('Dashboard', `Selamat datang, ${user.name} — ${ROLES[user.role].label}`)}
+        <div class="grid-2">
+          <section class="panel panel-md">
+            <h2 class="panel-title">Hak akses role Anda</h2>
+            <p class="muted small">Menu User Management, RBAC, dan Audit Trail tidak tampil karena role ini tidak memiliki izinnya.</p>
+            <div class="access">${AuthPages.accessList(user.role)}</div>
+          </section>
+          <section class="panel panel-md">
+            <h2 class="panel-title">Riwayat login Anda</h2>
+            <div class="acts">${mine}</div>
+            <div class="actions actions-tight"><a class="btn" href="#/account">Buka Akun Saya</a></div>
+          </section>
+        </div>`;
+      return;
+    }
+
+    const cards = [
+      { label: 'Active Users', value: db.users.filter((u) => u.status === 'Active').length, cap: 'Akun aktif', go: 'users' },
+      { label: 'Inactive Users', value: db.users.filter((u) => u.status !== 'Active').length, cap: 'Akun dinonaktifkan', go: 'users' },
+      { label: 'Login Hari Ini', value: db.audit.filter((a) => today(a) && a.activity === 'Login').length, cap: 'Berhasil', go: 'audit' },
+      { label: 'Login Ditolak', value: db.audit.filter((a) => today(a) && a.module !== 'User Mgmt' && a.result !== 'Success').length, cap: 'Gagal / nonaktif / tanpa akses', go: 'audit' },
+    ].map((c) => `<a class="stat stat-link" href="#/${c.go}"><div class="stat-label">${c.label}</div><div class="stat-value">${c.value}</div><div class="stat-cap">${c.cap}</div></a>`).join('');
+
+    const quick = Auth.visibleMenu().filter((m) => m.key !== 'dashboard').map((m) => `
+      <a class="quick-row" href="#/${Auth.firstRoute(m)}"><strong>${m.label}</strong><span>${m.desc}</span></a>`).join('');
+    const acts = db.audit.slice(0, 6).map((a) => `<div class="act-row"><span>${U.esc(a.activity)} <span class="muted small">— ${U.esc(a.user)}</span></span><time>${U.time(a.ts)}</time></div>`).join('');
+
+    el.innerHTML = `
+      ${C.pageHead('Dashboard', `Ringkasan akun & keamanan — ${ROLES[user.role].label}`)}
+      <div class="stats">${cards}</div>
+      <div class="grid-2">
+        <section class="panel panel-md"><h2 class="panel-title">Quick Access</h2><div class="quick">${quick}</div></section>
+        <section class="panel panel-md"><h2 class="panel-title">Recent Activity</h2><div class="acts">${acts}</div></section>
+      </div>`;
+  },
+});
+
+/* ---------- Daftar pengguna ---------- */
+Router.add('users', {
+  perm: 'users.list', title: 'User Management',
+  render(el, { user }) {
+    const f = AuthPages.userFilter;
+    const addBtn = Auth.can('users.add') ? `<a class="btn btn-primary" href="#/users/new">${U.icon('plus')} Tambah Pengguna</a>` : '';
+    el.innerHTML = `
+      ${C.pageHead('User Management', 'Pembuatan, aktivasi, perubahan dan penonaktifan akun', addBtn)}
+      <div class="toolbar">
+        <label class="search-inline">${U.icon('search')}<input id="u-q" placeholder="Search nama / username / unit" value="${U.esc(f.q)}"></label>
+        <select class="chip-select" id="u-status" aria-label="Filter status">
+          <option value="">All status</option><option ${f.status === 'Active' ? 'selected' : ''}>Active</option><option ${f.status === 'Inactive' ? 'selected' : ''}>Inactive</option>
+        </select>
+        <select class="chip-select" id="u-role" aria-label="Filter role">
+          <option value="">All roles</option>
+          ${Object.entries(ROLES).map(([k, r]) => `<option value="${k}" ${f.role === k ? 'selected' : ''}>${r.short}</option>`).join('')}
+        </select>
+      </div>
+      <div class="table-wrap"><table class="tbl">
+        <thead><tr><th>User ID</th><th>Nama</th><th>Username</th><th>Unit</th><th>Role</th><th>Akses modul</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="u-body"></tbody>
+      </table></div>
+      <p class="hint">Identity &bull; username &bull; unit &bull; role &bull; unique username. Akses modul mengikuti role (lihat menu Hak Akses).</p>`;
+
+    const body = U.qs('#u-body', el);
+    const draw = () => {
+      const q = f.q.toLowerCase();
+      const rows = Store.db.users.filter((u) =>
+        (!q || [u.name, u.username, u.unit].some((v) => v.toLowerCase().includes(q))) &&
+        (!f.status || u.status === f.status) && (!f.role || u.role === f.role));
+      body.innerHTML = rows.map((u) => `
+        <tr>
+          <td class="nowrap">${u.id}</td>
+          <td>${U.esc(u.name)}${u.id === user.id ? ' <span class="you">(Anda)</span>' : ''}</td>
+          <td>${U.esc(u.username)}</td>
+          <td>${U.esc(u.unit)}</td>
+          <td>${U.esc(ROLES[u.role].short)}</td>
+          <td><div class="pill-stack pill-left">${AuthPages.modulePills(u.role)}</div></td>
+          <td>${C.statusPill(u.status)}${u.mustChange ? ' <span class="pill pill-warn">Password sementara</span>' : ''}</td>
+          <td><a class="link" href="#/users/${u.id}">Edit</a></td>
+        </tr>`).join('') || '<tr><td colspan="8" class="muted center">Tidak ada pengguna yang cocok dengan filter.</td></tr>';
+    };
+    draw();
+    U.qs('#u-q', el).addEventListener('input', (e) => { f.q = e.target.value; draw(); });
+    U.qs('#u-status', el).addEventListener('change', (e) => { f.status = e.target.value; draw(); });
+    U.qs('#u-role', el).addEventListener('change', (e) => { f.role = e.target.value; draw(); });
+  },
+});
+
+/* ---------- Tambah pengguna ---------- */
+Router.add('users/new', {
+  perm: 'users.add', title: 'Tambah Pengguna',
+  render(el) {
+    let status = 'Active';
+    el.innerHTML = `
+      ${C.pageHead('Tambah Pengguna', 'Pembuatan & Aktivasi Akun')}
+      <div class="panel" id="add-form">
+        <h2 class="panel-title">Data Pengguna</h2>
+        <div class="form-grid">
+          <div class="field"><label for="f-name">Nama Lengkap *</label><input class="input" id="f-name" placeholder="Enter full name"></div>
+          <div class="field"><label for="f-username">Username *</label><input class="input" id="f-username" placeholder="Enter unique username" autocapitalize="off" spellcheck="false"></div>
+          <div class="field"><label for="f-unit">Unit *</label>
+            <select class="select" id="f-unit"><option value="">Select unit</option>${UNITS.map((u) => `<option>${u}</option>`).join('')}</select></div>
+          <div class="field"><label for="f-role">Role *</label>
+            <select class="select" id="f-role"><option value="">Select role</option>${Object.entries(ROLES).map(([k, r]) => `<option value="${k}">${r.label}</option>`).join('')}</select></div>
+        </div>
+        <div class="field mt"><span class="label">Hak akses dari role ini</span><div class="access access-inline" id="f-access"><span class="muted small">Pilih role untuk melihat hak aksesnya.</span></div></div>
+        <div class="field mt">
+          <span class="label">Status Akun</span>
+          <div><button type="button" class="badge b-ok toggle" id="f-status" aria-pressed="true">Active</button></div>
+        </div>
+        <p class="note">Simpan → akun dibuat sesuai role dan dicatat pada audit trail. Password sementara <code>${APP.defaultPassword}</code> wajib diganti saat login pertama.</p>
+        <p class="form-error" id="f-err" role="alert"></p>
+        <div class="actions">
+          <a class="btn" href="#/users">Batal</a>
+          <button class="btn btn-primary" type="button" id="f-save">Simpan / Aktivasi</button>
+        </div>
+      </div>`;
+
+    const sBtn = U.qs('#f-status', el);
+    sBtn.addEventListener('click', () => {
+      status = status === 'Active' ? 'Inactive' : 'Active';
+      sBtn.textContent = status;
+      sBtn.className = `badge toggle ${status === 'Active' ? 'b-ok' : 'b-muted'}`;
+      sBtn.setAttribute('aria-pressed', String(status === 'Active'));
+    });
+    const nameEl = U.qs('#f-name', el), userEl = U.qs('#f-username', el), roleEl = U.qs('#f-role', el);
+    nameEl.addEventListener('input', () => {
+      if (userEl.dataset.touched) return;
+      userEl.value = nameEl.value.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean).slice(0, 2).join('.');
+    });
+    userEl.addEventListener('input', () => { userEl.dataset.touched = '1'; });
+    roleEl.addEventListener('change', () => {
+      U.qs('#f-access', el).innerHTML = roleEl.value ? AuthPages.accessList(roleEl.value) : '<span class="muted small">Pilih role untuk melihat hak aksesnya.</span>';
+    });
+
+    const save = () => {
+      const err = U.qs('#f-err', el);
+      const name = nameEl.value.trim();
+      const username = userEl.value.trim().toLowerCase();
+      const unit = U.qs('#f-unit', el).value;
+      const role = roleEl.value;
+      if (!name || !username || !unit || !role) { err.textContent = 'Lengkapi semua kolom bertanda *.'; return; }
+      if (!/^[a-z0-9._]{3,30}$/.test(username)) { err.textContent = 'Username 3–30 karakter: huruf kecil, angka, titik atau garis bawah.'; return; }
+      if (Store.db.users.some((u) => u.username === username)) { err.textContent = `Username "${username}" sudah dipakai. Username harus unik.`; return; }
+      const id = 'USR-' + U.pad(Store.next('user'), 3);
+      Store.db.users.push({ id, name, username, unit, role, status, password: APP.defaultPassword, mustChange: true });
+      Store.save();
+      Store.audit({ module: 'User Mgmt', activity: `Create user ${username} (${ROLES[role].short}, ${status})` });
+      UI.toast(`Akun ${username} dibuat (${id}). Password sementara: ${APP.defaultPassword}`);
+      Router.go('users');
+    };
+    U.qs('#f-save', el).addEventListener('click', save);
+    U.qsa('#add-form .input', el).forEach((i) => i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); save(); } }));
+    if (window.matchMedia('(min-width: 861px)').matches) nameEl.focus();
+  },
+});
+
+/* ---------- Detail akun ---------- */
+Router.add('users/:id', {
+  perm: 'users.detail', title: 'Detail Akun',
+  render(el, { params, user: me }) {
+    const u = Store.user(params.id);
+    if (!u) { el.innerHTML = C.empty('Akun tidak ditemukan', `ID ${U.esc(params.id)} tidak ada.`, '<a class="btn" href="#/users">Kembali</a>'); return; }
+    const self = u.id === me.id;
+    const canEdit = Auth.can('users.edit');
+    let roleEditing = false;
+
+    el.innerHTML = `
+      ${C.pageHead('Detail Akun', 'Edit role, reset password, atau nonaktifkan akun')}
+      <div class="panel">
+        <div class="chips-row"><span class="badge b-info">${u.id}</span>${u.status === 'Active' ? '<span class="badge b-ok">Active</span>' : '<span class="badge b-muted">Inactive</span>'}${u.mustChange ? '<span class="badge b-warn">Password sementara</span>' : ''}</div>
+        <div class="form-grid">
+          <div class="field"><label for="d-name">Nama Lengkap</label><input class="input" id="d-name" value="${U.esc(u.name)}" ${canEdit ? '' : 'readonly'}></div>
+          <div class="field"><label for="d-username">Username</label><input class="input" id="d-username" value="${U.esc(u.username)}" readonly></div>
+          <div class="field"><label for="d-unit">Unit</label>
+            <select class="select" id="d-unit" ${canEdit ? '' : 'disabled'}>${UNITS.map((x) => `<option ${x === u.unit ? 'selected' : ''}>${x}</option>`).join('')}</select></div>
+          <div class="field"><label for="d-role">Role</label>
+            <select class="select" id="d-role" disabled>${Object.entries(ROLES).map(([k, r]) => `<option value="${k}" ${k === u.role ? 'selected' : ''}>${r.label}</option>`).join('')}</select></div>
+        </div>
+        <div class="field mt"><span class="label" id="d-access-label">Hak akses role saat ini</span><div class="access access-inline" id="d-access">${AuthPages.accessList(u.role)}</div></div>
+        ${canEdit ? `
+        <div class="field mt"><span class="label">Account Actions</span>
+          <div class="btn-row">
+            <button type="button" class="btn" id="a-role" ${self ? 'disabled' : ''}>Edit Role</button>
+            <button type="button" class="btn" id="a-reset">Reset Password</button>
+            ${u.status === 'Active'
+              ? `<button type="button" class="btn btn-danger" id="a-toggle" ${self ? 'disabled' : ''}>Nonaktifkan</button>`
+              : '<button type="button" class="btn btn-ok" id="a-toggle">Aktifkan</button>'}
+          </div>
+        </div>` : ''}
+        <p class="note">${self ? 'Ini akun Anda sendiri — role dan status tidak dapat diubah dari akun ini. ' : ''}Perubahan akun dicatat pada audit trail.${u.lastLogin ? ` Login terakhir: ${U.dateTime(u.lastLogin)}.` : ' Belum pernah login.'}</p>
+        <div class="actions">
+          <a class="btn" href="#/users">Kembali</a>
+          ${canEdit ? '<button type="button" class="btn btn-primary" id="a-save">Simpan Perubahan</button>' : ''}
+        </div>
+      </div>`;
+
+    if (!canEdit) return;
+    const roleSel = U.qs('#d-role', el);
+    U.qs('#a-role', el).addEventListener('click', () => {
+      roleEditing = !roleEditing;
+      roleSel.disabled = !roleEditing;
+      if (roleEditing) roleSel.focus();
+    });
+    roleSel.addEventListener('change', () => {
+      const changed = roleSel.value !== u.role;
+      U.qs('#d-access-label', el).textContent = changed ? `Hak akses setelah diubah ke ${ROLES[roleSel.value].label} (belum disimpan)` : 'Hak akses role saat ini';
+      U.qs('#d-access', el).innerHTML = AuthPages.accessList(roleSel.value);
+      U.qs('#d-access', el).classList.toggle('access-changed', changed);
+    });
+
+    U.qs('#a-reset', el).addEventListener('click', async () => {
+      const ok = await UI.confirm('Reset Password', `Password <b>${U.esc(u.username)}</b> akan diganti menjadi password sementara <code>${APP.defaultPassword}</code>. Pengguna wajib membuat password baru saat login berikutnya.`, 'Reset Password');
+      if (!ok) return;
+      u.password = APP.defaultPassword; u.mustChange = true; Store.save();
+      Store.audit({ module: 'User Mgmt', activity: `Reset password ${u.username}` });
+      UI.toast(`Password ${u.username} direset ke ${APP.defaultPassword} (wajib diganti saat login).`);
+      Router.go('users/' + u.id);
+    });
+
+    U.qs('#a-toggle', el).addEventListener('click', async () => {
+      const deactivate = u.status === 'Active';
+      const ok = await UI.confirm(deactivate ? 'Nonaktifkan akun' : 'Aktifkan akun',
+        deactivate ? `Akun <b>${U.esc(u.username)}</b> tidak akan bisa login sampai diaktifkan kembali.` : `Akun <b>${U.esc(u.username)}</b> akan dapat login kembali.`,
+        deactivate ? 'Nonaktifkan' : 'Aktifkan', deactivate);
+      if (!ok) return;
+      u.status = deactivate ? 'Inactive' : 'Active'; Store.save();
+      Store.audit({ module: 'User Mgmt', activity: `${deactivate ? 'Deactivate' : 'Activate'} user ${u.username}` });
+      UI.toast(`Akun ${u.username} ${deactivate ? 'dinonaktifkan' : 'diaktifkan'}`);
+      Router.go('users/' + u.id);
+    });
+
+    U.qs('#a-save', el).addEventListener('click', () => {
+      const name = U.qs('#d-name', el).value.trim();
+      if (!name) { UI.toast('Nama lengkap tidak boleh kosong.', 'bad'); return; }
+      const changes = [];
+      if (name !== u.name) { changes.push('name'); u.name = name; }
+      const unit = U.qs('#d-unit', el).value;
+      if (unit !== u.unit) { changes.push(`unit → ${unit}`); u.unit = unit; }
+      if (!self && roleSel.value !== u.role) { changes.push(`role ${ROLES[u.role].short} → ${ROLES[roleSel.value].short}`); u.role = roleSel.value; }
+      if (!changes.length) { UI.toast('Tidak ada perubahan untuk disimpan.', 'info'); return; }
+      Store.save();
+      Store.audit({ module: 'User Mgmt', activity: `Update user ${u.username}: ${changes.join(', ')}` });
+      UI.toast('Perubahan akun disimpan.');
+      Router.go('users');
+    });
+  },
+});
+
+/* ---------- Matriks hak akses (RBAC) ---------- */
+Router.add('rbac', {
+  perm: 'rbac.view', title: 'Hak Akses (RBAC)',
+  render(el, { user }) {
+    const roles = ALL_ROLES;
+    let lastMod = '';
+    const rows = RBAC_MATRIX.map((r) => {
+      const head = r.module !== lastMod ? `<tr class="row-group"><td colspan="${roles.length + 1}">Modul ${r.module}</td></tr>` : '';
+      lastMod = r.module;
+      return head + `<tr><td>${r.feature}</td>${roles.map((k) => `<td class="center ${k === user.role ? 'col-me' : ''}">${r.roles.includes(k) ? '<span class="yes" aria-label="boleh">✓</span>' : '<span class="no" aria-label="tidak">–</span>'}</td>`).join('')}</tr>`;
+    }).join('');
+    el.innerHTML = `
+      ${C.pageHead('Hak Akses (RBAC)', 'Role menentukan menu, halaman, dan tombol yang muncul')}
+      <div class="panel panel-md">
+        <p class="note note-top">Setiap pengguna hanya punya satu role. Menu yang tidak dicentang untuk sebuah role disembunyikan dari sidebar, dan jika halamannya dibuka langsung, sistem menampilkan <b>403 — Akses ditolak</b> lalu mencatatnya di audit trail. Kolom yang disorot = role Anda.</p>
+        <div class="table-wrap"><table class="tbl tbl-matrix">
+          <thead><tr><th>Fitur</th>${roles.map((k) => `<th class="center ${k === user.role ? 'col-me' : ''}">${ROLES[k].short}</th>`).join('')}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+      </div>`;
+  },
+});
+
+/* ---------- Audit trail ---------- */
+Router.add('audit', {
+  perm: 'audit', title: 'Audit Trail',
+  render(el) {
+    const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+    const st = AuthPages.auditFilter || (AuthPages.auditFilter = { from: U.isoDay(weekAgo), to: U.isoDay(), module: '', result: '' });
+    const modules = [...new Set(Store.db.audit.map((a) => a.module))].sort();
+    el.innerHTML = `
+      ${C.pageHead('Audit Trail', 'Siapa melakukan apa, kapan, dan hasilnya')}
+      <div class="panel">
+        <div class="form-grid form-grid-3">
+          <div class="field"><span class="label">Date Range</span>
+            <div class="date-range"><input class="input" type="date" id="r-from" value="${st.from}" aria-label="Dari tanggal"><span>–</span><input class="input" type="date" id="r-to" value="${st.to}" aria-label="Sampai tanggal"></div></div>
+          <div class="field"><label for="r-mod">Module</label>
+            <select class="select" id="r-mod"><option value="">All modules</option>${modules.map((m) => `<option ${m === st.module ? 'selected' : ''}>${m}</option>`).join('')}</select></div>
+          <div class="field"><label for="r-res">Result</label>
+            <select class="select" id="r-res"><option value="">All results</option>${['Success', 'Failed', 'Denied'].map((m) => `<option ${m === st.result ? 'selected' : ''}>${m}</option>`).join('')}</select></div>
+        </div>
+        <div class="actions actions-tight">
+          ${APP.allowDownload ? '<button class="btn" id="r-csv">Unduh CSV</button>' : ''}
+          <button class="btn btn-primary" id="r-gen">Generate Report</button>
+        </div>
+        <div class="report-head"><span class="label">Activity</span><span class="muted" id="r-count"></span></div>
+        <div class="table-wrap"><table class="tbl">
+          <thead><tr><th>Time</th><th>User</th><th>Role</th><th>Module</th><th>Activity</th><th>Result</th></tr></thead>
+          <tbody id="r-body"></tbody>
+        </table></div>
+      </div>`;
+    let rows = [];
+    const generate = (log) => {
+      st.from = U.qs('#r-from', el).value; st.to = U.qs('#r-to', el).value; st.module = U.qs('#r-mod', el).value; st.result = U.qs('#r-res', el).value;
+      rows = Store.db.audit.filter((a) => {
+        const day = U.isoDay(new Date(a.ts));
+        return (!st.from || day >= st.from) && (!st.to || day <= st.to) && (!st.module || a.module === st.module) && (!st.result || a.result === st.result);
+      });
+      U.qs('#r-body', el).innerHTML = rows.map((a) => `<tr>
+          <td class="nowrap">${U.date(a.ts)} ${U.time(a.ts)}</td><td>${U.esc(a.user)}</td><td>${U.esc(a.role)}</td><td>${U.esc(a.module)}</td><td>${U.esc(a.activity)}</td><td>${C.statusPill(a.result)}</td></tr>`).join('')
+        || '<tr><td colspan="6" class="muted center">Tidak ada aktivitas pada filter ini.</td></tr>';
+      U.qs('#r-count', el).textContent = `${rows.length} aktivitas`;
+      if (log) { Store.audit({ module: 'Reports', activity: 'Generate audit trail report' }); UI.toast(`Audit trail: ${rows.length} aktivitas`, 'info'); }
+    };
+    generate(false);
+    ['#r-mod', '#r-res'].forEach((s) => U.qs(s, el).addEventListener('change', () => generate(false)));
+    U.qs('#r-gen', el).addEventListener('click', () => generate(true));
+    const csv = U.qs('#r-csv', el);
+    if (csv) csv.addEventListener('click', () => {
+      U.downloadCsv(`audit-trail-${st.from}_${st.to}.csv`, ['Tanggal', 'Waktu', 'User', 'Role', 'Module', 'Activity', 'Result'],
+        rows.map((a) => [U.date(a.ts), U.time(a.ts), a.user, a.role, a.module, a.activity, a.result]));
+      Store.audit({ module: 'Reports', activity: 'Export audit trail CSV' });
+    });
+  },
+});
+
+/* ---------- Akun saya ---------- */
+Router.add('account', {
+  perm: 'account', title: 'Akun Saya',
+  render(el, { user }) {
+    const s = Session.get();
+    const hist = AuthPages.myAuthEvents(user, 6).map((a) => `<tr><td class="nowrap">${U.date(a.ts)} ${U.time(a.ts)}</td><td>${U.esc(a.activity)}</td><td>${C.statusPill(a.result)}</td></tr>`).join('');
+    el.innerHTML = `
+      ${C.pageHead('Akun Saya', 'Profil, ganti password, dan riwayat login')}
+      <div class="grid-2">
+        <section class="panel panel-md">
+          <h2 class="panel-title">Profil</h2>
+          <dl class="dl">
+            <dt>User ID</dt><dd>${user.id}</dd><dt>Nama</dt><dd>${U.esc(user.name)}</dd><dt>Username</dt><dd>${U.esc(user.username)}</dd>
+            <dt>Unit</dt><dd>${U.esc(user.unit)}</dd><dt>Role</dt><dd>${ROLES[user.role].label}</dd><dt>Login sejak</dt><dd>${s ? U.dateTime(s.loginAt) : '-'}</dd>
+          </dl>
+          <p class="muted small">Role dan unit hanya dapat diubah oleh Admin SIMRS.</p>
+        </section>
+        <section class="panel panel-md">
+          <h2 class="panel-title">Ganti Password</h2>
+          <div class="field"><label for="cp-old">Password lama *</label><input class="input" id="cp-old" type="password" autocomplete="current-password"></div>
+          <div class="field mt-s"><label for="cp-new">Password baru *</label><input class="input" id="cp-new" type="password" placeholder="Minimal 8 karakter, huruf dan angka" autocomplete="new-password"></div>
+          <div class="field mt-s"><label for="cp-new2">Ulangi password baru *</label><input class="input" id="cp-new2" type="password" autocomplete="new-password"></div>
+          <p class="form-error" id="cp-err" role="alert"></p>
+          <div class="actions actions-tight"><button class="btn btn-primary" id="cp-save">Simpan Password</button></div>
+        </section>
+      </div>
+      <section class="section">
+        <h2 class="section-title">Riwayat login saya</h2>
+        <div class="table-wrap"><table class="tbl"><thead><tr><th>Waktu</th><th>Aktivitas</th><th>Hasil</th></tr></thead><tbody>${hist || '<tr><td colspan="3" class="muted center">Belum ada riwayat.</td></tr>'}</tbody></table></div>
+      </section>`;
+    U.qs('#cp-save', el).addEventListener('click', () => {
+      const err = U.qs('#cp-err', el), o = U.qs('#cp-old', el).value, n = U.qs('#cp-new', el).value, n2 = U.qs('#cp-new2', el).value;
+      err.textContent = '';
+      if (o !== user.password) {
+        err.textContent = 'Password lama salah.';
+        Store.audit({ module: 'Auth', activity: 'Ganti password gagal: password lama salah', result: 'Failed' });
+        return;
+      }
+      const problem = Auth.passwordProblem(n);
+      if (problem) { err.textContent = problem; return; }
+      if (n === o) { err.textContent = 'Password baru harus berbeda dari password lama.'; return; }
+      if (n !== n2) { err.textContent = 'Konfirmasi password tidak sama.'; return; }
+      user.password = n; Store.save();
+      Store.audit({ module: 'Auth', activity: 'Ganti password' });
+      UI.toast('Password berhasil diganti. Gunakan password baru saat login berikutnya.');
+      Router.go('account');
+    });
+  },
+});
+
+</script>
+<script>
+/* ==== shared/shell.js ==== */
+/* =========================================================
+   shell.js : layout utama, sidebar dinamis (RBAC), topbar,
+              route guard (403), logout, dan boot aplikasi
+              (dipakai bersama oleh ketiga aplikasi)
+   ========================================================= */
+
+const App = {
+  root: null,
+
+  /* ---- Sidebar: hanya menu yang diizinkan untuk role yang login ---- */
+  sidebar(user, path, allowed = true) {
+    const menu = Auth.visibleMenu();
+    const items = menu.map((m) => {
+      // sub-menu aktif = rute terpanjang yang cocok dengan URL sekarang
+      const best = (m.children || [])
+        .filter((c) => path === c.route || (allowed && path.startsWith(c.route + '/')))
+        .sort((a, b) => b.route.length - a.route.length)[0];
+      const active = m.route ? (path === m.route || (allowed && path.startsWith(m.route + '/'))) : !!best;
+      const href = '#/' + Auth.firstRoute(m);
+      const subs = m.children && active ? `<div class="sub">${m.children.map((c) =>
+        `<a href="#/${c.route}" class="${c === best ? 'active' : ''}" ${c === best ? 'aria-current="page"' : ''}>${c.label}</a>`).join('')}</div>` : '';
+      return `<a href="${href}" class="${active ? 'active' : ''}" ${active && !subs ? 'aria-current="page"' : ''}>${U.icon(m.icon)}<span>${m.label}</span></a>${subs}`;
+    }).join('');
+
+    const keys = menu.map((m) => m.key);
+    const comps = COMPONENTS.filter((c) => c.modules.some((k) => keys.includes(k)))
+      .map((c) => `<div class="comp">${c.label}</div>`).join('');
+
+    return `
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-top">${U.icon('menu')}<span>SIMRS</span></div>
+          <div class="brand-sub">RS PERMATA MEDIKA</div>
+          <div class="brand-mod">Modul ${U.esc(APP.module)}</div>
+        </div>
+        <div class="nav-label">MENU</div>
+        <nav class="nav" aria-label="Menu utama">${items}</nav>
+        ${comps ? `<div class="nav-label">COMPONENTS</div><div class="comps">${comps}</div>` : ''}
+        <div class="side-foot">
+          <div class="side-role">${ROLES[user.role].label}</div>
+          <div class="side-user">${U.esc(user.name)} &middot; ${U.esc(user.username)}</div>
+          <button type="button" class="side-logout" data-logout>${U.icon('logout')}Logout</button>
+        </div>
+      </aside>`;
+  },
+
+  topbar(user) {
+    return `
+      <header class="topbar">
+        <button type="button" class="menu-btn" id="menu-btn" aria-label="Buka menu">${U.icon('menu')}</button>
+        <div class="top-title"><span class="t-long">SIMRS | ${U.esc(APP.moduleLong)}</span><span class="t-short">${U.esc(APP.module)}</span></div>
+        <div class="top-search">
+          ${U.icon('search')}<input id="top-search" placeholder="Search" autocomplete="off" aria-label="Cari menu">
+          <div class="search-drop" id="search-drop" hidden></div>
+        </div>
+        <div class="top-clock" title="Login sejak ${U.time(Session.get().loginAt)}">${U.icon('clock')}<span id="clock"></span></div>
+        <div class="avatar-wrap">
+          <button type="button" class="avatar" id="avatar" aria-haspopup="true" aria-expanded="false">${U.initials(user.name)}</button>
+          <div class="avatar-menu" id="avatar-menu" hidden>
+            <strong>${U.esc(user.name)}</strong>
+            <span>${ROLES[user.role].label}</span>
+            <span class="muted">${user.id} &middot; ${U.esc(user.unit)}</span>
+            <span class="muted">Login ${U.time(Session.get().loginAt)}</span>
+            <button type="button" class="btn btn-sm" data-logout>Logout</button>
+          </div>
+        </div>
+      </header>`;
+  },
+
+  /* ---- Navigasi bawah (khusus HP): hanya modul milik role ---- */
+  bottomNav(path, allowed) {
+    const items = Auth.visibleMenu().map((m) => {
+      const r = Auth.firstRoute(m);
+      const on = m.route ? path === m.route || (allowed && path.startsWith(m.route + '/'))
+        : allowed && (m.children || []).some((c) => path === c.route || path.startsWith(c.route + '/'));
+      const short = m.short || m.label;
+      return `<a href="#/${r}" class="${on ? 'active' : ''}" ${on ? 'aria-current="page"' : ''}>${U.icon(m.icon)}<span>${short}</span></a>`;
+    }).join('');
+    return `<nav class="bottom-nav" aria-label="Navigasi modul">${items}<button type="button" data-logout>${U.icon('logout')}<span>Logout</span></button></nav>`;
+  },
+
+  /* ---- Beri label kolom pada setiap sel tabel (dipakai tampilan kartu di HP) ---- */
+  labelTables(root) {
+    U.qsa('table.tbl', root).forEach((t) => {
+      const heads = U.qsa('thead th', t).map((th) => th.textContent.trim());
+      U.qsa('tbody tr', t).forEach((tr) => U.qsa('td', tr).forEach((td, i) => {
+        if (!td.hasAttribute('colspan') && heads[i] !== undefined && td.dataset.label !== heads[i]) td.dataset.label = heads[i];
+      }));
+    });
+  },
+
+  /* ---- Halaman 403: role tidak punya izin ---- */
+  forbidden(el, user, path) {
+    el.innerHTML = `
+      <div class="panel forbidden">
+        <div class="forbidden-icon">${U.icon('lock')}</div>
+        <h1>403 — Akses ditolak</h1>
+        <p>Role <b>${ROLES[user.role].label}</b> tidak memiliki izin untuk membuka halaman <code>/${U.esc(path)}</code>.</p>
+        <p class="muted">Percobaan akses ini dicatat pada audit trail.</p>
+        <a class="btn btn-primary" href="#/dashboard">Kembali ke Dashboard</a>
+      </div>`;
+  },
+
+  async logoutFlow() {
+    const ok = await UI.modal({
+      title: 'Logout',
+      body: '<p class="center">Apakah Anda yakin ingin mengakhiri sesi?</p><p class="center muted small">Session diakhiri dan waktu logout dicatat.</p>',
+      actions: [{ label: 'Batal', cls: 'btn', value: false }, { label: 'Logout', cls: 'btn btn-primary', value: true }],
+    });
+    if (!ok) return;
+    Auth.logout();
+    if (APP.onLogout) APP.onLogout();
+    UI.toast(`Sesi diakhiri pukul ${U.time(new Date().toISOString())}.`);
+    Router.go('login');
+  },
+
+  bindShell(user) {
+    U.qsa('[data-logout]').forEach((b) => b.addEventListener('click', () => App.logoutFlow()));
+
+    const sb = U.qs('#sidebar');
+    U.qs('#menu-btn').addEventListener('click', () => sb.classList.toggle('open'));
+    U.qs('#drawer-bd').addEventListener('click', () => sb.classList.remove('open'));
+    U.qsa('#sidebar a').forEach((a) => a.addEventListener('click', () => sb.classList.remove('open')));
+
+    const av = U.qs('#avatar'), am = U.qs('#avatar-menu');
+    av.addEventListener('click', (e) => { e.stopPropagation(); am.hidden = !am.hidden; av.setAttribute('aria-expanded', String(!am.hidden)); });
+
+    // Pencarian menu — menu yang boleh diakses tampil di atas; menu role lain ditandai terkunci (klik → 403)
+    const input = U.qs('#top-search'), drop = U.qs('#search-drop');
+    const leafOf = (m) => m.children ? m.children.map((c) => ({ label: c.label, group: m.label, route: c.route, perm: c.perm })) : [{ label: m.label, group: '', route: m.route, perm: m.perm }];
+    const allLeaves = MENU.flatMap(leafOf);
+    const leaves = allLeaves.filter((l) => Auth.can(l.perm));
+    const locked = allLeaves.filter((l) => !Auth.can(l.perm));
+    const match = (l, q) => !q || (l.label + ' ' + l.group).toLowerCase().includes(q);
+    const show = () => {
+      const q = input.value.trim().toLowerCase();
+      const hits = leaves.filter((l) => match(l, q)).slice(0, 8);
+      const lockedHits = q ? locked.filter((l) => match(l, q)).slice(0, 4) : [];
+      drop.innerHTML = hits.map((h) => `<a href="#/${h.route}">${h.label}${h.group && h.group !== h.label ? `<small>${h.group}</small>` : ''}</a>`).join('')
+        + (lockedHits.length ? `<div class="drop-group">Tidak ada akses untuk role ini</div>${lockedHits.map((h) => `<a href="#/${h.route}" class="locked">${U.icon('lock')}${h.label}${h.group && h.group !== h.label ? `<small>${h.group}</small>` : ''}</a>`).join('')}` : '')
+        || '<div class="muted small pad">Tidak ada menu yang cocok.</div>';
+      drop.hidden = false;
+    };
+    drop.addEventListener('pointerdown', (e) => e.preventDefault()); // jaga fokus agar tap di HP tidak hilang
+    input.addEventListener('focus', show);
+    input.addEventListener('input', show);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { const a = U.qs('a', drop); if (a) { input.blur(); Router.go(a.getAttribute('href').slice(2)); } }
+      if (e.key === 'Escape') input.blur();
+    });
+    input.addEventListener('blur', () => setTimeout(() => { drop.hidden = true; }, 200));
+    App.tick();
+  },
+
+  tick() {
+    const c = document.getElementById('clock');
+    if (!c) return;
+    const d = new Date();
+    c.textContent = d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' }) + ' ' + U.pad(d.getHours()) + ':' + U.pad(d.getMinutes());
+  },
+
+  /* ---- Render utama setiap kali URL (hash) berubah ---- */
+  render() {
+    const root = App.root;
+    const { path, query } = Router.parse();
+    let user = Auth.user();
+
+    // akun dinonaktifkan saat sedang login -> paksa logout
+    if (user && user.status !== 'Active') {
+      Auth.logout('Forced logout: akun nonaktif');
+      user = null;
+      root.dataset.view = '';
+      Router.replace('login');
+      renderLogin(root, 'Akun Anda telah dinonaktifkan. Hubungi Admin SIMRS.');
+      return;
+    }
+
+    if (!user) {
+      if (path !== 'login') Router.replace('login');
+      root.dataset.view = 'login';
+      document.title = `Sign in · SIMRS ${APP.module}`;
+      renderLogin(root);
+      return;
+    }
+    if (path === 'login' || path === '') { Router.replace('dashboard'); return App.render(); }
+
+    // password sementara (akun baru / hasil reset) wajib diganti sebelum memakai sistem
+    if (user.mustChange && typeof renderFirstPassword === 'function') {
+      root.dataset.view = 'login';
+      document.title = `Buat password baru · SIMRS ${APP.module}`;
+      renderFirstPassword(root, user);
+      return;
+    }
+
+    const m = Router.match(path);
+    const allowed = !!m && Auth.can(m.route.perm);
+    root.dataset.view = 'app';
+    root.innerHTML = `<div class="shell">${App.sidebar(user, path, allowed)}<div class="drawer-backdrop" id="drawer-bd"></div><div class="main">${App.topbar(user)}<main class="view" id="view" tabindex="-1"></main></div></div>${App.bottomNav(path, allowed)}`;
+    App.bindShell(user);
+    const view = U.qs('#view');
+
+    if (!m) {
+      view.innerHTML = `<div class="panel">${C.empty('Halaman tidak ditemukan', `Alamat <code>/${U.esc(path)}</code> tidak ada.`, '<a class="btn btn-primary" href="#/dashboard">Kembali ke Dashboard</a>')}</div>`;
+      document.title = `Tidak ditemukan · SIMRS ${APP.module}`;
+    } else if (!allowed) {
+      App.forbidden(view, user, path);
+      Store.audit({ module: 'RBAC', activity: `Akses ditolak ke /${path}`, result: 'Denied' });
+      document.title = `Akses ditolak · SIMRS ${APP.module}`;
+    } else {
+      m.route.render(view, { params: m.params, query, user });
+      document.title = `${m.route.title} · SIMRS ${APP.module}`;
+    }
+    window.scrollTo(0, 0);
+  },
+
+  boot() {
+    App.root = document.getElementById('root');
+    Store.load();
+    Router.current = Router.read() || '';
+    window.addEventListener('hashchange', () => Router.onHashChange());
+    // semua link internal (#/...) ditangani router, tidak bergantung pada navigasi browser
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest ? e.target.closest('a[href^="#/"]') : null;
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      Router.go(a.getAttribute('href').slice(2));
+    });
+    // sinkronisasi bila data diubah dari tab lain (mis. login role lain di tab berbeda)
+    window.addEventListener('storage', (e) => { if (e.key === APP.storeKey) { Store.load(); if (App.root.dataset.view === 'app') App.render(); } });
+    // label tabel otomatis setiap kali isi halaman berubah
+    let pending = false;
+    new MutationObserver(() => {
+      if (pending) return; pending = true;
+      requestAnimationFrame(() => { pending = false; App.labelTables(App.root); });
+    }).observe(App.root, { childList: true, subtree: true });
+    // tutup menu avatar saat klik di luar
+    document.addEventListener('click', (e) => {
+      const am = document.getElementById('avatar-menu');
+      if (am && !am.hidden && !am.contains(e.target)) { am.hidden = true; U.qs('#avatar').setAttribute('aria-expanded', 'false'); }
+    });
+    setInterval(App.tick, 20000);
+    App.render();
+  },
+};
+
+App.boot();
+
+</script>
+</body>
+</html>
