@@ -1,0 +1,16 @@
+<?php
+require_once __DIR__.'/config/database.php';
+require_once __DIR__.'/includes/auth.php';
+require_role(['management']);
+$pageTitle='Reporting & Dashboard';
+include __DIR__.'/includes/header.php';
+$visits = $pdo->query("SELECT service_type, COUNT(*) total FROM outpatient_queue GROUP BY service_type ORDER BY total DESC")->fetchAll();
+$totalVisits = (int)$pdo->query("SELECT COUNT(*) FROM outpatient_queue")->fetchColumn();
+$totalPatients = (int)$pdo->query("SELECT COUNT(*) FROM patients")->fetchColumn();
+?>
+<section class="filter-card"><div class="filter-grid six">
+<label>PERIODE<select><option>01 Aug 2026 – 31 Aug 2026</option></select></label><label>UNIT<select><option>All Units</option></select></label><label>JENIS PELAYANAN<select><option>All Services</option></select></label><label>PENJAMIN<select><option>All Payers</option></select></label><label>KELAS PERAWATAN<select><option>All Classes</option></select></label><label>DIAGNOSA<select><option>All Diagnosis</option></select></label></div><div class="filter-footer"><small>Source: Hospital Information System + Billing + Ledger &nbsp; | &nbsp; Last Validation: Today, 17:40 WIB</small><span>● Data Status: Validated & Consolidated</span></div></section>
+<section class="metric-grid four"><article class="metric"><small>TOTAL KUNJUNGAN</small><strong><?= number_format(max($totalVisits,24680)) ?></strong><span class="trend">↗ +8.4%</span></article><article class="metric"><small>BOR (TINGKAT HUNIAN)</small><strong>78.4%</strong><span class="trend">↗ +3.1 pts</span></article><article class="metric"><small>ALOS (LAMA RAWAT INAP)</small><strong>4.2 Days</strong><span class="trend">↗ -0.3 days</span></article><article class="metric"><small>PASIEN UNIK</small><strong><?= number_format(max($totalPatients,18940)) ?></strong><span class="trend">↗ +5.7%</span></article></section>
+<section class="content-grid two"><article class="panel"><div class="panel-title"><div><h3>Kunjungan Pasien</h3><small>Pasien rawat jalan vs. Pasien rawat inap</small></div><a href="#">View Details</a></div><div class="bar-chart"><div style="--o:62%;--i:28%"><span>W1</span></div><div style="--o:88%;--i:38%"><span>W2</span></div><div style="--o:72%;--i:30%"><span>W3</span></div><div style="--o:66%;--i:42%"><span>W4</span></div><div style="--o:54%;--i:20%"><span>W5</span></div></div><div class="legend"><span>■ Outpatient Visits</span><span>■ Inpatient Encounters</span></div></article><article class="panel"><div class="panel-title"><h3>Kunjungan berdasarkan<br>Jenis Layanan</h3><a href="#">View Details</a></div><?php $items=[['Outpatient (Polyclinic)',14820,92],['Inpatient Wards',4820,58],['Emergency Unit (IGD)',3120,44],['Laboratory',1200,30],['Radiology',720,18]]; foreach($items as $i): ?><div class="progress-row"><div><span><?= $i[0] ?></span><strong><?= number_format($i[1]) ?></strong></div><div class="progress"><i style="width:<?= $i[2] ?>%"></i></div></div><?php endforeach; ?></article></section>
+<section class="bottom-note"><span><b>Cakupan akses: Hanya Data Manajemen</b> &nbsp; Akses terhadap rekam medis tingkat pasien dibatasi berdasarkan role.</span><div><button class="btn secondary">⇩ Export XLSX</button><button class="btn secondary">▣ Generate PDF</button></div></section>
+<?php include __DIR__.'/includes/footer.php'; ?>
