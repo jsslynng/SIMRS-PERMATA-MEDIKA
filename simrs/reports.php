@@ -1,0 +1,5 @@
+<!doctype html><html><head><meta charset="utf-8"><title>SIMRS - Reports</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="topbar"><div class="brand">SIMRS <span>RS PERMATA MEDIKA</span></div><div class="user"><div>Dr. Andi Sentosa<small>System User</small></div><a class="logout" href="logout.php">Log-out</a></div></header>
+<div class="layout"><aside class="sidebar"><div class="side-title">SIMRS<br>Reports</div><a class="nav" href="dashboard.php">Worklist</a><a class="nav active" href="reports.php">Reports</a></aside>
+<main class="main"><h1>Reports</h1><div class="subtitle">Ringkasan aktivitas modul SIMRS untuk kebutuhan demonstrasi.</div>
+<div class="cards"><div class="card"><div class="label">Emergency Encounters</div><div class="num">24</div><div class="hint">Hari ini</div></div><div class="card"><div class="label">Radiology Orders</div><div class="num">12</div><div class="hint">Hari ini</div></div><div class="card"><div class="label">Appointments</div><div class="num">18</div><div class="hint">Hari ini</div></div></div></main></div></body></html>

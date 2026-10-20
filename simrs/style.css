@@ -1,0 +1,48 @@
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f8;color:#20465a;font-size:14px}
+a{text-decoration:none;color:inherit}
+.topbar{height:74px;background:#fff;border-bottom:1px solid #d7e1e5;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.brand{font-size:21px;font-weight:800;letter-spacing:.2px}
+.brand span{font-weight:400;color:#71818b;margin-left:14px;border-left:1px solid #ccd7dc;padding-left:14px;font-size:14px}
+.user{display:flex;align-items:center;gap:18px;font-weight:700}
+.user small{display:block;color:#71818b;font-weight:400;margin-top:3px}
+.logout{background:#d95454;color:#fff;border:0;border-radius:7px;padding:10px 17px;font-weight:700}
+.layout{display:flex;min-height:calc(100vh - 74px)}
+.sidebar{width:250px;flex:0 0 250px;background:#183f52;color:#fff;padding:28px 16px}
+.side-title{font-size:17px;font-weight:800;line-height:1.35;padding:5px 15px 23px;border-bottom:1px solid rgba(255,255,255,.16);margin-bottom:14px}
+.nav{display:block;padding:12px 15px;border-radius:7px;font-weight:700;margin-bottom:4px;color:#eaf3f6}
+.nav:hover,.nav.active{background:#286d88}
+.main{flex:1;padding:34px 40px;min-width:0}
+h1{font-size:30px;margin:0 0 8px;font-weight:800;color:#1d455a}
+.subtitle{color:#71818b;font-size:15px;margin-bottom:28px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px}
+.card,.panel{background:#fff;border:1px solid #d5e0e4;border-radius:9px}
+.card{padding:22px}
+.card .label{color:#71818b;font-weight:600}
+.card .num{font-size:29px;font-weight:800;margin:12px 0 4px}
+.card .hint{color:#16839a;font-weight:700;font-size:13px}
+.panel{overflow:hidden;margin-bottom:20px}
+.panel-title{padding:18px 20px;border-bottom:1px solid #d7e1e5;font-size:17px;font-weight:800}
+table{width:100%;border-collapse:collapse}
+th{background:#edf6f8;text-align:left;font-size:13px;padding:13px 16px}
+td{padding:13px 16px;border-top:1px solid #e3eaed}
+.btn{display:inline-block;border:0;border-radius:6px;background:#18879b;color:#fff;padding:8px 15px;font-weight:700;cursor:pointer}
+.btn.secondary{background:#e9f4f6;color:#28647a}
+.badge{display:inline-block;padding:6px 10px;border-radius:6px;font-weight:700;font-size:12px}
+.red{background:#f6c9cc;color:#b6383d}.yellow{background:#f8e9b7;color:#896500}.green{background:#cce3d7;color:#2d6a4f}
+.patient-head{background:#fff;border:1px solid #d5e0e4;border-radius:9px 9px 0 0;padding:22px 28px}
+.patient-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:25px}
+.meta label{display:block;color:#71818b;margin-bottom:6px}.meta strong{font-size:16px}
+.tabs{background:#f8fbfc;border:1px solid #d5e0e4;border-top:0;padding:18px 28px;display:flex;gap:8px;flex-wrap:wrap}
+.tab{background:#e8f4f6;color:#28647a;padding:10px 15px;border-radius:7px;font-weight:700}
+.tab.active,.tab:hover{background:#18879b;color:#fff}
+.content{background:#fff;border:1px solid #d5e0e4;border-top:0;border-radius:0 0 9px 9px;padding:26px 28px}
+.section-title{font-size:17px;font-weight:800;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field label{display:block;color:#71818b;font-weight:700;margin-bottom:8px}
+.input,.textarea{width:100%;border:1px solid #d2dfe3;border-radius:7px;background:#f8fafb;padding:13px 15px;color:#486576;font-size:14px}
+.textarea{min-height:82px;resize:vertical}
+.full{grid-column:1/-1}
+.actions{display:flex;justify-content:space-between;margin-top:24px}
+@media(max-width:900px){.sidebar{width:210px;flex-basis:210px}.main{padding:25px}.cards,.patient-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}}
