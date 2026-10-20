@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIMRS Inpatient — RS Permata Medika</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif}
+::-webkit-scrollbar{width:7px;height:7px}::-webkit-scrollbar-thumb{background:#B8C9CF;border-radius:10px}
+.login-bg{background:linear-gradient(135deg,#183B4E 0%,#0C747D 100%)}
+.role-view{min-height:100vh}
+
+/* ===== SIMRS PAGE NAVIGATION FIX ===== */
+html,body{margin:0;padding:0;overflow-x:hidden}
+.role-view{min-height:100vh}
+.role-view main{min-height:100vh}
+.simrs-nav-link{cursor:pointer;user-select:none;transition:background .18s ease,color .18s ease}
+.simrs-nav-link:hover{background:#245B73!important;color:#fff!important}
+.simrs-nav-link.simrs-nav-active{background:#245B73!important;color:#fff!important;font-weight:700}
+.simrs-page-hidden{display:none!important}
+.simrs-content-section{scroll-margin-top:0}
+</style>
+</head>
+<body class="min-h-screen bg-[#F4F7F8] text-[#183B4E]">
+<div id="loginScreen" class="login-bg min-h-screen flex items-center justify-center p-4">
+ <div class="w-full max-w-[348px]">
+  <div class="mb-5 text-center">
+   <div class="mx-auto mb-3 h-[88px] w-[88px] bg-white flex items-center justify-center border border-gray-200">
+    <div class="relative flex h-14 w-14 items-center justify-center rounded-full border-[4px] border-[#20A99A]">
+     <div class="absolute left-1 top-4 h-3 w-10 bg-[#17818F] rounded-sm"></div>
+     <div class="absolute top-1 h-3 w-3 bg-[#20A99A] rounded-sm"></div>
+     <div class="absolute bottom-1 h-3 w-3 bg-[#245B73] rounded-sm"></div>
+     <span class="relative z-10 text-white text-[10px] font-bold">✦</span>
+    </div>
+   </div>
+   <h1 class="text-[15px] font-bold text-white">RS PERMATA MEDIKA</h1>
+   <p class="text-[11px] text-blue-100 mt-1">Sistem Informasi Manajemen Rumah Sakit</p>
+  </div>
+  <div class="rounded-xl bg-white p-6 shadow-xl">
+   <h2 class="text-[15px] text-center font-semibold mb-5">Masuk ke Sistem</h2>
+   <form id="loginForm" class="space-y-4">
+    <div><label for="username" class="block text-[11px] font-semibold mb-1">Username <span class="text-red-500">*</span></label>
+     <input id="username" required autocomplete="username" placeholder="Masukan username" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2.5 text-[11px] outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+    <div><label for="password" class="block text-[11px] font-semibold mb-1">Password <span class="text-red-500">*</span></label>
+     <input id="password" type="password" required autocomplete="current-password" placeholder="Masukan password" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2.5 text-[11px] outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+    <div class="flex items-center justify-between text-[10px] text-[#667781]">
+     <label class="flex items-center gap-2"><input type="checkbox" id="rememberMe"> Remember me</label>
+     <button type="button" onclick="alert('Untuk prototipe, silakan hubungi Admin IT untuk reset password.')" class="text-[#17818F] font-semibold">Forgot password?</button>
+    </div>
+    <p id="loginError" class="hidden rounded-md bg-red-50 px-3 py-2 text-[11px] text-red-600">Username atau password tidak sesuai.</p>
+    <button type="submit" class="w-full rounded-md bg-[#17818F] px-4 py-2.5 text-[12px] font-bold text-white shadow hover:bg-[#245B73]">Masuk ke Sistem</button>
+   </form>
+   <div class="mt-5 border-t border-[#D7E1E5] pt-3 text-center text-[10px] text-[#667781]">Lupa password? Hubungi <b class="text-[#17818F]">Admin IT</b></div>
+  </div>
+  <div class="mt-3 rounded-md border border-white/25 bg-white/20 p-3 text-center text-[10px] leading-5 text-white">
+   <p class="font-bold">Akun Demo — Modul Inpatient</p>
+   <p>Dokter / DPJP: <b>dokter</b> / <b>dokter123</b></p>
+   <p>Petugas Admisi: <b>admisi</b> / <b>admisi123</b></p>
+   <p>Perawat: <b>perawat</b> / <b>perawat123</b></p>
+  </div>
+  <p class="mt-3 text-center text-[9px] text-white/70">Prototype SIMRS — Inpatient Module</p>
+ </div>
+</div>
+<div id="application" class="hidden">
+
+<div id="view-admission" class="role-view hidden">
+
+<div class="min-h-screen flex">
+
+    <!-- =========================================================
+         SIDEBAR - PETUGAS ADMISI
+    ========================================================== -->
+    <aside class="w-[235px] min-h-screen bg-[#17818F] text-white flex-shrink-0">
+
+        <div class="h-[64px] flex items-center px-4 border-b border-white/10">
+            <span class="text-xl mr-2">☰</span>
+            <span class="text-[18px] font-bold">SIMRS</span>
+            <span class="mx-1 text-white/60">|</span>
+            <span class="text-[12px]">RS PERMATA MEDIKA</span>
+        </div>
+
+        <div class="px-4 pt-5 pb-3">
+            <div class="flex items-center gap-2 text-[14px] font-bold">
+                <span class="text-[17px]">◉</span>
+                <span>Inpatient</span>
+                <span>⌃</span>
+            </div>
+        </div>
+
+        <nav class="px-3 text-[13px]">
+
+            <a href="javascript:void(0)" data-nav-target="dashboard" onclick="simrsNavigate(event, this.dataset.navTarget)"
+               class="block px-4 py-2.5 rounded-md bg-[#245B73] font-semibold">
+                Dashboard
+            </a>
+
+            <a href="javascript:void(0)" data-nav-target="admission" onclick="simrsNavigate(event, this.dataset.navTarget)"
+               class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">
+                Admisi Rawat Inap
+            </a>
+
+            <a href="javascript:void(0)" data-nav-target="bed-management" onclick="simrsNavigate(event, this.dataset.navTarget)"
+               class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">
+                Bed Management
+            </a>
+
+            <a href="javascript:void(0)" data-nav-target="allocation" onclick="simrsNavigate(event, this.dataset.navTarget)"
+               class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">
+                Alokasi Kamar / Bed
+            </a>
+
+            <a href="javascript:void(0)" data-nav-target="discharge" onclick="simrsNavigate(event, this.dataset.navTarget)"
+               class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">
+                Discharge Queue
+            </a>
+
+        </nav>
+
+        <div class="mt-[475px] px-4">
+            <div class="border-t border-white/20 pt-4">
+                <p class="text-[10px] text-white/65">Role aktif</p>
+                <p class="text-[13px] font-semibold mt-1">Petugas Admisi</p>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+    <main class="flex-1 min-w-0">
+
+        <!-- HEADER -->
+        <header class="h-[64px] bg-[#EAF5F6] border-b border-[#D7E1E5]
+                       flex items-center justify-between px-7">
+
+            <div class="text-[12px]">
+                <span class="text-[#667781]">Modul</span>
+                <span class="mx-1 text-[#A5B4B9]">/</span>
+                <span class="font-semibold">Inpatient</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+
+                <div class="text-right leading-tight">
+                    <div class="text-[11px] font-semibold">
+                        Petugas Admisi
+                    </div>
+                    <div class="text-[9px] text-[#667781]">
+                        Admisi
+                    </div>
+                </div>
+
+                <button onclick="logout()"
+                        class="bg-[#C94A4A] hover:bg-[#A83D3D]
+                               text-white text-[10px] px-3 py-1.5 rounded">
+                    Log-out
+                </button>
+            </div>
+        </header>
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+        <section id="dashboard" class="p-6 max-w-[1200px]">
+
+            <div class="mb-5">
+                <h1 class="text-[21px] font-bold text-[#183B4E]">
+                    Inpatient Admission Worklist
+                </h1>
+                <p class="text-[11px] text-[#667781] mt-1">
+                    Admisi & Alokasi Kamar/Bed — akses Petugas Admisi
+                </p>
+            </div>
+
+
+            <!-- =================================================
+                 SUMMARY CARDS
+            ================================================== -->
+            <div class="grid grid-cols-4 gap-3 mb-5">
+
+                <div class="bg-white border border-[#D7E1E5] rounded-lg p-4">
+                    <p class="text-[10px] text-[#667781]">
+                        Permintaan Admisi
+                    </p>
+                    <p class="text-[22px] font-bold mt-1">
+                        08
+                    </p>
+                    <p class="text-[9px] text-[#7A5A00] mt-1">
+                        REQUESTED
+                    </p>
+                </div>
+
+                <div class="bg-white border border-[#D7E1E5] rounded-lg p-4">
+                    <p class="text-[10px] text-[#667781]">
+                        Bed Available
+                    </p>
+                    <p class="text-[22px] font-bold mt-1">
+                        12
+                    </p>
+                    <p class="text-[9px] text-[#24543F] mt-1">
+                        AVAILABLE
+                    </p>
+                </div>
+
+                <div class="bg-white border border-[#D7E1E5] rounded-lg p-4">
+                    <p class="text-[10px] text-[#667781]">
+                        Bed Occupied
+                    </p>
+                    <p class="text-[22px] font-bold mt-1">
+                        24
+                    </p>
+                    <p class="text-[9px] text-[#667781] mt-1">
+                        OCCUPIED
+                    </p>
+                </div>
+
+                <div class="bg-white border border-[#D7E1E5] rounded-lg p-4">
+                    <p class="text-[10px] text-[#667781]">
+                        Discharge Queue
+                    </p>
+                    <p class="text-[22px] font-bold mt-1">
+                        03
+                    </p>
+                    <p class="text-[9px] text-[#C94A4A] mt-1">
+                        NEEDS ACTION
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 A. ADMISI PASIEN
+                 SESUAI USE CASE UML: A. Admisi & Alokasi Kamar/Bed
+            ================================================== -->
+            <div id="admission"
+                 class="bg-white border border-[#D7E1E5] rounded-lg mb-5">
+
+                <div class="p-4 border-b border-[#D7E1E5]
+                            flex items-center justify-between">
+
+                    <div>
+                        <h2 class="text-[14px] font-bold">
+                            Admisi Rawat Inap
+                        </h2>
+                        <p class="text-[10px] text-[#667781] mt-1">
+                            Input dan validasi data admission pasien
+                        </p>
+                    </div>
+
+                    <span class="text-[9px] px-2 py-1 rounded
+                                 bg-[#E8F4F5] text-[#17818F]">
+                        USE CASE A
+                    </span>
+                </div>
+
+                <div class="p-4">
+
+                    <div class="grid grid-cols-3 gap-3">
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Nomor Rekam Medis / NIK
+                            </label>
+                            <div class="flex">
+                                <input id="rmInput"
+                                       type="text"
+                                       placeholder="Masukkan No. RM / NIK"
+                                       class="w-full border border-[#D7E1E5]
+                                              rounded-l-md px-3 py-2 text-[10px]
+                                              focus:outline-none focus:ring-2
+                                              focus:ring-[#17818F]">
+
+                                <button onclick="findPatient()"
+                                        class="bg-[#17818F] hover:bg-[#245B73]
+                                               text-white px-3 rounded-r-md
+                                               text-[10px]">
+                                    Cari
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Tanggal / Waktu Admission
+                            </label>
+                            <input type="datetime-local"
+                                   class="w-full border border-[#D7E1E5]
+                                          rounded-md px-3 py-2 text-[10px]">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Dokter / DPJP
+                            </label>
+                            <select
+                                class="w-full border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                                <option>Pilih Dokter / DPJP</option>
+                                <option>dr. Andi Pratama, Sp.PD</option>
+                                <option>dr. Budi Santoso, Sp.A</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <!-- PATIENT RESULT -->
+                    <div id="patientResult"
+                         class="hidden mt-4 bg-[#E8F4F5]
+                                border border-[#D7E1E5] rounded-lg p-4">
+
+                        <div class="flex justify-between items-start">
+
+                            <div>
+                                <p class="text-[9px] text-[#667781]">
+                                    Data Pasien
+                                </p>
+                                <p class="text-[13px] font-bold mt-1">
+                                    Andi Wijaya
+                                </p>
+                                <p class="text-[10px] mt-1">
+                                    RM001234 · Laki-laki · 45 tahun
+                                </p>
+                            </div>
+
+                            <span class="text-[9px] px-2 py-1 rounded
+                                         bg-white text-[#17818F]">
+                                Patient Found
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <!-- ADMISSION DETAIL -->
+                    <div class="grid grid-cols-4 gap-3 mt-4">
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Ruangan Tujuan
+                            </label>
+                            <select id="ward"
+                                    class="w-full border border-[#D7E1E5]
+                                           rounded-md px-3 py-2 text-[10px] bg-white">
+                                <option value="">Pilih Ruangan</option>
+                                <option>Rawat Inap Lt. 2</option>
+                                <option>Rawat Inap Lt. 3</option>
+                                <option>ICU</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Kelas
+                            </label>
+                            <select
+                                class="w-full border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                                <option>Pilih Kelas</option>
+                                <option>VIP</option>
+                                <option>Kelas I</option>
+                                <option>Kelas II</option>
+                                <option>Kelas III</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Penjamin / Payer
+                            </label>
+                            <select
+                                class="w-full border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                                <option>Pilih Penjamin</option>
+                                <option>BPJS</option>
+                                <option>Asuransi</option>
+                                <option>Umum</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-semibold mb-1">
+                                Indikasi / Diagnosis
+                            </label>
+                            <input type="text"
+                                   placeholder="Diagnosis / indikasi rawat inap"
+                                   class="w-full border border-[#D7E1E5]
+                                          rounded-md px-3 py-2 text-[10px]
+                                          focus:outline-none focus:ring-2
+                                          focus:ring-[#17818F]">
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-3">
+                        <label class="block text-[10px] font-semibold mb-1">
+                            Kebutuhan Khusus Pasien
+                        </label>
+                        <textarea rows="2"
+                                  placeholder="Isi bila tersedia"
+                                  class="w-full border border-[#D7E1E5]
+                                         rounded-md px-3 py-2 text-[10px]
+                                         focus:outline-none focus:ring-2
+                                         focus:ring-[#17818F]"></textarea>
+                    </div>
+
+
+                    <div class="flex justify-end gap-2 mt-4">
+
+                        <button onclick="resetAdmission()"
+                                class="border border-[#D7E1E5] bg-white
+                                       text-[#667781] px-4 py-2
+                                       rounded-md text-[10px]">
+                            Reset
+                        </button>
+
+                        <button onclick="validateAdmission()"
+                                class="bg-[#17818F] hover:bg-[#245B73]
+                                       text-white px-4 py-2 rounded-md
+                                       text-[10px]">
+                            Validasi & Simpan
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- =================================================
+                 BED MANAGEMENT
+            ================================================== -->
+            <div id="bed-management"
+                 class="bg-white border border-[#D7E1E5] rounded-lg mb-5">
+
+                <div class="p-4 border-b border-[#D7E1E5]
+                            flex justify-between items-center">
+
+                    <div>
+                        <h2 class="text-[14px] font-bold">
+                            Bed Management
+                        </h2>
+                        <p class="text-[10px] text-[#667781] mt-1">
+                            Cari dan pilih kamar/bed yang tersedia
+                        </p>
+                    </div>
+
+                    <span class="text-[9px] px-2 py-1 rounded
+                                 bg-[#E8F4F5] text-[#17818F]">
+                        BED STATUS
+                    </span>
+                </div>
+
+                <div class="p-4">
+
+                    <div class="grid grid-cols-4 gap-3 mb-4">
+
+                        <select id="building"
+                                class="border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                            <option>Gedung</option>
+                            <option>Gedung A</option>
+                            <option>Gedung B</option>
+                        </select>
+
+                        <select id="room"
+                                class="border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                            <option>Ruangan</option>
+                            <option>Rawat Inap Lt. 2</option>
+                            <option>Rawat Inap Lt. 3</option>
+                        </select>
+
+                        <select id="classFilter"
+                                class="border border-[#D7E1E5]
+                                       rounded-md px-3 py-2 text-[10px] bg-white">
+                            <option>Kelas</option>
+                            <option>VIP</option>
+                            <option>Kelas I</option>
+                            <option>Kelas II</option>
+                            <option>Kelas III</option>
+                        </select>
+
+                        <button onclick="searchBeds()"
+                                class="bg-[#17818F] hover:bg-[#245B73]
+                                       text-white rounded-md text-[10px]">
+                            Cari Bed Tersedia
+                        </button>
+
+                    </div>
+
+
+                    <div class="grid grid-cols-5 gap-2 text-[9px] mb-4">
+
+                        <div class="border border-[#D7E1E5] rounded-md p-2">
+                            <span class="inline-block w-2 h-2 rounded-full
+                                         bg-[#C7DED2] mr-1"></span>
+                            AVAILABLE
+                        </div>
+
+                        <div class="border border-[#D7E1E5] rounded-md p-2">
+                            <span class="inline-block w-2 h-2 rounded-full
+                                         bg-[#F5E6B3] mr-1"></span>
+                            OCCUPIED
+                        </div>
+
+                        <div class="border border-[#D7E1E5] rounded-md p-2">
+                            <span class="inline-block w-2 h-2 rounded-full
+                                         bg-[#E8F4F5] mr-1"></span>
+                            RESERVED
+                        </div>
+
+                        <div class="border border-[#D7E1E5] rounded-md p-2">
+                            CLEANING
+                        </div>
+
+                        <div class="border border-[#D7E1E5] rounded-md p-2">
+                            MAINTENANCE
+                        </div>
+
+                    </div>
+
+
+                    <div id="bedGrid"
+                         class="grid grid-cols-4 gap-3">
+
+                        <!-- AVAILABLE -->
+                        <button onclick="selectBed('A-201')"
+                                class="text-left border-2 border-[#17818F]
+                                       bg-[#E8F4F5] rounded-lg p-3
+                                       hover:bg-white">
+
+                            <div class="flex justify-between">
+                                <span class="font-bold text-[12px]">
+                                    A-201
+                                </span>
+                                <span class="text-[8px] px-2 py-1 rounded
+                                             bg-[#C7DED2] text-[#24543F]">
+                                    AVAILABLE
+                                </span>
+                            </div>
+
+                            <p class="text-[9px] text-[#667781] mt-2">
+                                Rawat Inap Lt. 2 · Kelas III
+                            </p>
+                        </button>
+
+
+                        <!-- AVAILABLE -->
+                        <button onclick="selectBed('A-202')"
+                                class="text-left border-2 border-[#17818F]
+                                       bg-[#E8F4F5] rounded-lg p-3
+                                       hover:bg-white">
+
+                            <div class="flex justify-between">
+                                <span class="font-bold text-[12px]">
+                                    A-202
+                                </span>
+                                <span class="text-[8px] px-2 py-1 rounded
+                                             bg-[#C7DED2] text-[#24543F]">
+                                    AVAILABLE
+                                </span>
+                            </div>
+
+                            <p class="text-[9px] text-[#667781] mt-2">
+                                Rawat Inap Lt. 2 · Kelas III
+                            </p>
+                        </button>
+
+
+                        <!-- OCCUPIED -->
+                        <div class="border border-[#D7E1E5]
+                                    bg-[#F4F7F8] rounded-lg p-3">
+
+                            <div class="flex justify-between">
+                                <span class="font-bold text-[12px]">
+                                    A-203
+                                </span>
+                                <span class="text-[8px] px-2 py-1 rounded
+                                             bg-[#F5E6B3] text-[#7A5A00]">
+                                    OCCUPIED
+                                </span>
+                            </div>
+
+                            <p class="text-[9px] text-[#667781] mt-2">
+                                Rawat Inap Lt. 2 · Kelas III
+                            </p>
+                        </div>
+
+
+                        <!-- RESERVED -->
+                        <div class="border border-[#D7E1E5]
+                                    bg-white rounded-lg p-3">
+
+                            <div class="flex justify-between">
+                                <span class="font-bold text-[12px]">
+                                    A-204
+                                </span>
+                                <span class="text-[8px] px-2 py-1 rounded
+                                             bg-[#E8F4F5] text-[#17818F]">
+                                    RESERVED
+                                </span>
+                            </div>
+
+                            <p class="text-[9px] text-[#667781] mt-2">
+                                Rawat Inap Lt. 2 · Kelas III
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div id="selectedBed"
+                         class="hidden mt-4 border border-[#17818F]
+                                rounded-lg bg-[#E8F4F5] p-3
+                                flex justify-between items-center">
+
+                        <div>
+                            <p class="text-[9px] text-[#667781]">
+                                Bed dipilih
+                            </p>
+                            <p id="selectedBedText"
+                               class="text-[12px] font-bold mt-1"></p>
+                        </div>
+
+                        <button onclick="allocateBed()"
+                                class="bg-[#17818F] hover:bg-[#245B73]
+                                       text-white px-4 py-2 rounded-md
+                                       text-[10px]">
+                            Alokasikan Bed
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- =================================================
+                 ALLOCATION / REQUESTED LIST
+            ================================================== -->
+            <div id="allocation"
+                 class="bg-white border border-[#D7E1E5] rounded-lg mb-5">
+
+                <div class="p-4 border-b border-[#D7E1E5]">
+                    <h2 class="text-[14px] font-bold">
+                        Admission & Bed Allocation Queue
+                    </h2>
+                    <p class="text-[10px] text-[#667781] mt-1">
+                        Daftar admission yang menunggu alokasi kamar/bed
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full text-[10px]">
+
+                        <thead>
+                            <tr class="bg-[#EAF5F6]">
+                                <th class="text-left px-4 py-3">Pasien</th>
+                                <th class="text-left px-3 py-3">No. RM</th>
+                                <th class="text-left px-3 py-3">Ruangan</th>
+                                <th class="text-left px-3 py-3">Kelas</th>
+                                <th class="text-left px-3 py-3">Status</th>
+                                <th class="text-center px-3 py-3">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr class="border-b border-[#D7E1E5]">
+                                <td class="px-4 py-3 font-semibold">
+                                    Siti Aminah
+                                </td>
+                                <td class="px-3 py-3">
+                                    RM001235
+                                </td>
+                                <td class="px-3 py-3">
+                                    Rawat Inap Lt. 2
+                                </td>
+                                <td class="px-3 py-3">
+                                    Kelas III
+                                </td>
+                                <td class="px-3 py-3">
+                                    <span class="px-2 py-1 rounded
+                                                 bg-[#F5E6B3] text-[#7A5A00]">
+                                        REQUESTED
+                                    </span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <button onclick="openAllocation('Siti Aminah')"
+                                            class="bg-[#17818F] hover:bg-[#245B73]
+                                                   text-white px-3 py-1.5
+                                                   rounded text-[9px]">
+                                        Alokasi
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="border-b border-[#D7E1E5]">
+                                <td class="px-4 py-3 font-semibold">
+                                    Budi Santoso
+                                </td>
+                                <td class="px-3 py-3">
+                                    RM001236
+                                </td>
+                                <td class="px-3 py-3">
+                                    Rawat Inap Lt. 3
+                                </td>
+                                <td class="px-3 py-3">
+                                    Kelas I
+                                </td>
+                                <td class="px-3 py-3">
+                                    <span class="px-2 py-1 rounded
+                                                 bg-[#C7DED2] text-[#24543F]">
+                                        ALLOCATED
+                                    </span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="text-[#667781]">
+                                        A-305
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- =================================================
+                 DISCHARGE QUEUE
+                 Ditampilkan karena SOP juga memberi peran Admisi/
+                 Rekam Medis pada konfirmasi discharge.
+            ================================================== -->
+            <div id="discharge"
+                 class="bg-white border border-[#D7E1E5] rounded-lg">
+
+                <div class="p-4 border-b border-[#D7E1E5]">
+                    <h2 class="text-[14px] font-bold">
+                        Discharge Queue
+                    </h2>
+                    <p class="text-[10px] text-[#667781] mt-1">
+                        Konfirmasi discharge oleh Petugas Admisi / Rekam Medis
+                    </p>
+                </div>
+
+                <div class="p-4">
+
+                    <div class="bg-[#E8F4F5] border border-[#D7E1E5]
+                                rounded-lg p-3 text-[10px] mb-4">
+
+                        <span class="font-semibold">
+                            Alur sistem:
+                        </span>
+                        discharge → DISCHARGED → patient location
+                        HOME/OUTSIDE → bed allocation ENDED →
+                        bed CLEANING → AVAILABLE setelah pembersihan.
+                    </div>
+
+                    <div class="border border-[#D7E1E5] rounded-lg p-3">
+
+                        <div class="flex justify-between items-center">
+
+                            <div>
+                                <p class="text-[11px] font-bold">
+                                    Rina Lestari
+                                </p>
+                                <p class="text-[9px] text-[#667781] mt-1">
+                                    RM001237 · Bed A-210 · Rawat Inap Lt. 2
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+
+                                <span class="px-2 py-1 rounded
+                                             bg-[#F5E6B3] text-[#7A5A00]
+                                             text-[9px]">
+                                    READY FOR DISCHARGE
+                                </span>
+
+                                <button onclick="confirmDischarge()"
+                                        class="bg-[#245B73]
+                                               hover:bg-[#183B4E]
+                                               text-white px-3 py-1.5
+                                               rounded text-[9px]">
+                                    Konfirmasi Discharge
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+</div>
+
+
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+
+
+</div>
+<div id="view-nurse" class="role-view hidden">
+<div class="min-h-screen flex">
+<aside class="w-[235px] min-h-screen bg-[#17818F] text-white flex-shrink-0">
+  <div class="h-[64px] flex items-center px-4 border-b border-white/10">
+    <span class="text-xl mr-2">☰</span><span class="text-[18px] font-bold">SIMRS</span>
+    <span class="mx-1 text-white/60">|</span><span class="text-[12px]">RS PERMATA MEDIKA</span>
+  </div>
+  <div class="px-4 pt-5 pb-3"><div class="flex items-center gap-2 text-[14px] font-bold"><span class="text-[17px]">◉</span><span>Inpatient</span><span class="text-[12px]">⌃</span></div></div>
+  <nav class="px-3 text-[13px]">
+    <a href="javascript:void(0)" data-nav-target="worklist" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 rounded-md bg-[#245B73] font-semibold">Dashboard</a>
+    <a href="javascript:void(0)" data-nav-target="patients" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Daftar Pasien Rawat Inap</a>
+    <a href="javascript:void(0)" data-nav-target="assessment" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Asesmen Awal</a>
+    <a href="javascript:void(0)" data-nav-target="monitoring" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Monitoring Pasien</a>
+    <a href="javascript:void(0)" data-nav-target="action" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Tindakan Keperawatan</a>
+    <a href="javascript:void(0)" data-nav-target="emar" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">e-MAR / Pemberian Obat</a>
+    <a href="javascript:void(0)" data-nav-target="cppt" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">CPPT</a>
+  </nav>
+  <div class="mt-[430px] px-4"><div class="border-t border-white/20 pt-4"><p class="text-[10px] text-white/65">Role aktif</p><p class="text-[13px] font-semibold mt-1">Perawat</p></div></div>
+</aside>
+<main class="flex-1 min-w-0">
+<header class="h-[64px] bg-[#EAF5F6] border-b border-[#D7E1E5] flex items-center justify-between px-7">
+  <div class="text-[12px]"><span class="text-[#667781]">Modul</span><span class="mx-1 text-[#A5B4B9]">/</span><span class="font-semibold">Inpatient</span></div>
+  <div class="flex items-center gap-4"><div class="text-right leading-tight"><div class="text-[11px] font-semibold">Perawat Bangsal</div><div class="text-[9px] text-[#667781]">Perawat</div></div><button onclick="logout()" class="bg-[#C94A4A] hover:bg-[#A83D3D] text-white text-[10px] px-3 py-1.5 rounded">Log-out</button></div>
+</header>
+<section id="worklist" class="p-6 max-w-[1180px]">
+  <div class="mb-5"><h1 class="text-[21px] font-bold">Nursing Worklist</h1><p class="text-[11px] text-[#667781] mt-1">Pelayanan rawat inap - akses Perawat</p></div>
+  <div id="patients" class="bg-white border border-[#D7E1E5] rounded-lg">
+    <div class="p-4 border-b border-[#D7E1E5]"><div class="flex gap-3">
+      <div class="relative flex-1"><span class="absolute left-3 top-2 text-[#667781]">⌕</span><input id="searchPatient" onkeyup="filterPatients()" type="text" placeholder="Nama / Nomor RM" class="w-full h-9 pl-9 pr-3 border border-[#D7E1E5] rounded-md text-[11px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <select class="h-9 px-3 border border-[#D7E1E5] rounded-md text-[11px] bg-white"><option>Ruangan: Semua</option><option>Bangsal Rawat Inap</option></select>
+      <select class="h-9 px-3 border border-[#D7E1E5] rounded-md text-[11px] bg-white"><option>Status: Semua</option><option>REQUESTED</option><option>ADMITTED</option></select>
+    </div></div>
+    <div class="overflow-x-auto"><table class="w-full text-[11px]"><thead><tr class="bg-[#EAF5F6]"><th class="text-left px-4 py-3">Nama Pasien</th><th class="text-left px-3 py-3">Nomor RM</th><th class="text-left px-3 py-3">Ruangan / Bed</th><th class="text-left px-3 py-3">Admission</th><th class="text-left px-3 py-3">Asesmen</th><th class="text-center px-3 py-3">Action</th></tr></thead>
+    <tbody id="patientTable">
+      <tr class="patient-row border-b border-[#D7E1E5] hover:bg-[#F4F7F8]"><td class="px-4 py-3"><div class="font-semibold">Pasien Demo 01</div><div class="text-[9px] text-[#667781]">Data prototipe</div></td><td class="px-3 py-3">RM-DEMO-001</td><td class="px-3 py-3">Bangsal / Bed-01</td><td class="px-3 py-3"><span class="px-2 py-1 rounded bg-[#F5E6B3] text-[#7A5A00]">REQUESTED</span></td><td class="px-3 py-3"><span class="text-[#C94A4A] font-semibold">Belum</span></td><td class="px-3 py-3 text-center"><button onclick="openReceiveModal()" class="bg-[#17818F] hover:bg-[#245B73] text-white px-3 py-1.5 rounded text-[10px]">Terima Pasien</button></td></tr>
+      <tr class="patient-row border-b border-[#D7E1E5] hover:bg-[#F4F7F8]"><td class="px-4 py-3"><div class="font-semibold">Pasien Demo 02</div><div class="text-[9px] text-[#667781]">Data prototipe</div></td><td class="px-3 py-3">RM-DEMO-002</td><td class="px-3 py-3">Bangsal / Bed-02</td><td class="px-3 py-3"><span class="px-2 py-1 rounded bg-[#C7DED2] text-[#24543F]">ADMITTED</span></td><td class="px-3 py-3"><span class="text-[#17818F] font-semibold">Lengkap</span></td><td class="px-3 py-3 text-center"><button onclick="openAssessment()" class="bg-[#17818F] hover:bg-[#245B73] text-white px-3 py-1.5 rounded text-[10px]">Asesmen</button></td></tr>
+      <tr class="patient-row border-b border-[#D7E1E5] hover:bg-[#F4F7F8]"><td class="px-4 py-3"><div class="font-semibold">Pasien Demo 03</div><div class="text-[9px] text-[#667781]">Data prototipe</div></td><td class="px-3 py-3">RM-DEMO-003</td><td class="px-3 py-3">Bangsal / Bed-03</td><td class="px-3 py-3"><span class="px-2 py-1 rounded bg-[#C7DED2] text-[#24543F]">ADMITTED</span></td><td class="px-3 py-3"><span class="text-[#17818F] font-semibold">Lengkap</span></td><td class="px-3 py-3 text-center"><button onclick="openMonitoring()" class="bg-[#245B73] hover:bg-[#183B4E] text-white px-3 py-1.5 rounded text-[10px]">Monitoring</button></td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="grid grid-cols-2 gap-4 mt-5">
+    <div id="monitoring" class="bg-white border border-[#D7E1E5] rounded-lg p-4"><div class="flex justify-between items-center mb-3"><h2 class="text-[13px] font-bold">Monitoring Pasien</h2><span class="text-[9px] px-2 py-1 rounded bg-[#E8F4F5] text-[#17818F]">RME</span></div><div class="grid grid-cols-2 gap-2"><div class="border border-[#D7E1E5] rounded-md p-3"><p class="text-[10px] text-[#667781]">Tanda Vital</p><p class="text-[11px] font-semibold mt-1">Tekanan darah, nadi, RR</p></div><div class="border border-[#D7E1E5] rounded-md p-3"><p class="text-[10px] text-[#667781]">Kondisi Pasien</p><p class="text-[11px] font-semibold mt-1">Suhu, SpO₂, kesadaran, nyeri</p></div></div><button onclick="openMonitoring()" class="mt-3 w-full bg-[#17818F] hover:bg-[#245B73] text-white py-2 rounded-md text-[10px]">Buka Monitoring</button></div>
+    <div id="action" class="bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[13px] font-bold mb-3">Pelayanan Keperawatan</h2><div class="space-y-2"><div class="flex justify-between border-b border-[#D7E1E5] pb-2"><span class="text-[10px] text-[#667781]">Tindakan Keperawatan</span><button onclick="showInfo('Tindakan Keperawatan')" class="text-[#17818F] text-[10px] font-semibold">Buka</button></div><div id="emar" class="flex justify-between border-b border-[#D7E1E5] pb-2"><span class="text-[10px] text-[#667781]">e-MAR / Pemberian Obat</span><button onclick="showInfo('e-MAR / Pemberian Obat')" class="text-[#17818F] text-[10px] font-semibold">Buka</button></div><div id="cppt" class="flex justify-between"><span class="text-[10px] text-[#667781]">CPPT</span><button onclick="showInfo('CPPT')" class="text-[#17818F] text-[10px] font-semibold">Buka</button></div></div></div>
+  </div>
+  <div id="assessment" class="bg-white border border-[#D7E1E5] rounded-lg p-4 mt-4"><div class="flex justify-between items-center mb-4"><div><h2 class="text-[13px] font-bold">Asesmen Awal Rawat Inap</h2><p class="text-[10px] text-[#667781] mt-1">Formulir asesmen dan tanda vital</p></div><span class="text-[9px] px-2 py-1 rounded bg-[#F5E6B3] text-[#7A5A00]">Draft</span></div>
+    <div class="grid grid-cols-4 gap-3">
+      <div><label class="block text-[10px] font-semibold mb-1">Tekanan Darah</label><input type="text" placeholder="mmHg" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">Denyut Nadi</label><input type="text" placeholder="x/menit" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">Frekuensi Napas</label><input type="text" placeholder="x/menit" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">Suhu</label><input type="text" placeholder="°C" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">SpO₂</label><input type="text" placeholder="%" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">Tingkat Kesadaran</label><select class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] bg-white"><option>Pilih</option><option>Compos Mentis</option><option>Somnolen</option><option>Stupor</option><option>Koma</option></select></div>
+      <div><label class="block text-[10px] font-semibold mb-1">Skala Nyeri</label><input type="number" min="0" max="10" placeholder="0 - 10" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+      <div><label class="block text-[10px] font-semibold mb-1">BB / TB</label><input type="text" placeholder="Bila diperlukan" class="w-full border border-[#D7E1E5] rounded-md px-3 py-2 text-[10px] focus:outline-none focus:ring-2 focus:ring-[#17818F]"></div>
+    </div>
+    <div class="flex justify-end gap-2 mt-4"><button onclick="saveDraft()" class="border border-[#D7E1E5] bg-white text-[#667781] px-4 py-2 rounded-md text-[10px]">Simpan Draft</button><button onclick="finalizeAssessment()" class="bg-[#17818F] hover:bg-[#245B73] text-white px-4 py-2 rounded-md text-[10px]">Finalisasi / Sign</button></div>
+  </div>
+</section>
+</main></div>
+
+<!-- Modal penerimaan pasien -->
+<div id="receiveModal" class="hidden fixed inset-0 bg-black/40 items-center justify-center z-50 p-4"><div class="bg-white w-full max-w-[450px] rounded-xl shadow-2xl p-6">
+  <div class="flex justify-between items-center mb-5"><div><h2 class="text-[16px] font-bold">Penerimaan Pasien</h2><p class="text-[10px] text-[#667781] mt-1">Verifikasi identitas sebelum konfirmasi penerimaan</p></div><button onclick="closeReceiveModal()" class="text-[#667781] text-xl">×</button></div>
+  <div class="bg-[#E8F4F5] border border-[#D7E1E5] rounded-lg p-4"><div class="grid grid-cols-2 gap-4"><div><p class="text-[9px] text-[#667781]">Status Admission</p><p class="text-[11px] font-semibold mt-1">REQUESTED</p></div><div><p class="text-[9px] text-[#667781]">Bed Allocation</p><p class="text-[11px] font-semibold mt-1">ACTIVE</p></div></div></div>
+  <div class="border border-[#D7E1E5] rounded-lg p-4 mt-4"><p class="text-[11px] font-bold mb-3">Verifikasi Identitas</p><label class="flex gap-2 text-[10px] text-[#667781] mb-3"><input id="identityOne" type="checkbox" class="mt-0.5 accent-[#17818F]">Verifikasi identitas pertama telah dilakukan.</label><label class="flex gap-2 text-[10px] text-[#667781]"><input id="identityTwo" type="checkbox" class="mt-0.5 accent-[#17818F]">Verifikasi identitas kedua telah dilakukan.</label></div>
+  <div id="receiveWarning" class="hidden mt-3 bg-[#FCECEC] border border-[#E8B5B5] rounded-md p-3 text-[10px] text-[#C94A4A]">Minimal dua identitas pasien harus diverifikasi sebelum penerimaan dapat dikonfirmasi.</div>
+  <div class="flex justify-end gap-2 mt-5"><button onclick="closeReceiveModal()" class="border border-[#D7E1E5] text-[#667781] px-4 py-2 rounded-md text-[10px]">Batal</button><button onclick="confirmReceive()" class="bg-[#17818F] hover:bg-[#245B73] text-white px-4 py-2 rounded-md text-[10px]">Konfirmasi Penerimaan</button></div>
+</div></div>
+
+
+</div>
+<div id="view-doctor" class="role-view hidden">
+<div class="min-h-screen flex">
+  <aside class="w-[235px] min-h-screen bg-[#17818F] text-white flex-shrink-0">
+    <div class="h-[64px] flex items-center px-4 border-b border-white/10">
+      <span class="text-xl mr-2">☰</span><span class="text-[18px] font-bold">SIMRS</span>
+      <span class="mx-1 text-white/60">|</span><span class="text-[12px]">RS PERMATA MEDIKA</span>
+    </div>
+    <div class="px-4 pt-5 pb-3"><div class="flex items-center gap-2 text-[14px] font-bold">◉ <span>Inpatient</span> ⌃</div></div>
+    <nav class="px-3 text-[13px]">
+      <a href="javascript:void(0)" data-nav-target="dp-dashboard" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 rounded-md bg-[#245B73] font-semibold">Dashboard</a>
+      <a href="javascript:void(0)" data-nav-target="dp-admission" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Admisi & Bed</a>
+      <a href="javascript:void(0)" data-nav-target="dp-assessment" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Pemeriksaan & Asesmen</a>
+      <a href="javascript:void(0)" data-nav-target="dp-monitoring" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Pelayanan & Monitoring</a>
+      <a href="javascript:void(0)" data-nav-target="dp-transfer" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Transfer Ruangan</a>
+      <a href="javascript:void(0)" data-nav-target="dp-discharge" onclick="simrsNavigate(event, this.dataset.navTarget)" class="block px-4 py-2.5 mt-1 rounded-md hover:bg-[#245B73]">Discharge & Resume</a>
+    </nav>
+    <div class="mt-[430px] px-4"><div class="border-t border-white/20 pt-4"><p class="text-[10px] text-white/65">Role aktif</p><p class="text-[13px] font-semibold mt-1">Dokter / DPJP</p></div></div>
+  </aside>
+  <main class="flex-1 min-w-0">
+    <header class="h-[64px] bg-[#EAF5F6] border-b border-[#D7E1E5] flex items-center justify-between px-7">
+      <div class="text-[12px]"><span class="text-[#667781]">Modul</span> / <b>Inpatient</b> / Dokter</div>
+      <div class="flex items-center gap-4"><div class="text-right"><div class="text-[11px] font-semibold">Dokter / DPJP</div><div class="text-[9px] text-[#667781]">Clinical</div></div>
+      <button onclick="logout()" class="bg-[#C94A4A] hover:bg-[#A83D3D] text-white text-[10px] px-3 py-1.5 rounded">Log-out</button></div>
+    </header>
+    <section id="dp-dashboard" class="p-6 max-w-[1200px]">
+      <div class="mb-5"><h1 class="text-[21px] font-bold">Inpatient Dashboard</h1><p class="text-[11px] text-[#667781] mt-1">Monitoring pasien rawat inap, status bed, dan aktivitas pelayanan.</p></div>
+      <div class="grid grid-cols-4 gap-3 mb-5">
+        <div class="bg-white border border-[#D7E1E5] rounded-lg p-4"><p class="text-[10px] text-[#667781]">Total Pasien</p><p class="text-[22px] font-bold mt-1">24</p><p class="text-[9px] text-[#667781]">Pasien aktif</p></div>
+        <div class="bg-white border border-[#D7E1E5] rounded-lg p-4"><p class="text-[10px] text-[#667781]">Bed Tersedia</p><p class="text-[22px] font-bold mt-1">8</p><p class="text-[9px] text-[#24543F]">Siap digunakan</p></div>
+        <div class="bg-white border border-[#D7E1E5] rounded-lg p-4"><p class="text-[10px] text-[#667781]">Menunggu Admisi</p><p class="text-[22px] font-bold mt-1">3</p><p class="text-[9px] text-[#7A5A00]">Perlu ditinjau</p></div>
+        <div class="bg-white border border-[#D7E1E5] rounded-lg p-4"><p class="text-[10px] text-[#667781]">Perlu Perhatian</p><p class="text-[22px] font-bold mt-1">2</p><p class="text-[9px] text-[#C94A4A]">Tindak lanjut</p></div>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2 bg-white border border-[#D7E1E5] rounded-lg p-4">
+          <div class="flex justify-between items-center mb-3"><h2 class="text-[14px] font-bold">Pasien Rawat Inap Aktif</h2><button onclick="document.getElementById('dp-assessment').scrollIntoView({behavior:'smooth'})" class="bg-[#17818F] text-white px-3 py-2 rounded text-[10px]">+ Pasien Baru</button></div>
+          <div class="overflow-x-auto"><table class="w-full text-[11px]"><thead><tr class="bg-[#EAF5F6]"><th class="text-left p-3">Nama Pasien</th><th class="text-left p-3">No. RM</th><th class="text-left p-3">Kamar</th><th class="text-left p-3">Masuk</th><th class="text-left p-3">Status</th><th class="p-3">Aksi</th></tr></thead><tbody>
+          <tr class="border-b border-[#D7E1E5]"><td class="p-3 font-semibold">Budi Santoso</td><td class="p-3">RM001140</td><td class="p-3">VIP-01</td><td class="p-3">14 Sep 2026</td><td class="p-3"><span class="px-2 py-1 rounded bg-[#C7DED2] text-[#24543F]">ADMITTED</span></td><td class="p-3"><button onclick="document.getElementById('dp-assessment').scrollIntoView({behavior:'smooth'})" class="bg-[#17818F] text-white px-3 py-1.5 rounded">Lihat</button></td></tr>
+          <tr class="border-b border-[#D7E1E5]"><td class="p-3 font-semibold">Sri Rahma</td><td class="p-3">RM001141</td><td class="p-3">Kelas I-02</td><td class="p-3">15 Sep 2026</td><td class="p-3"><span class="px-2 py-1 rounded bg-[#F5E6B3] text-[#7A5A00]">MONITORING</span></td><td class="p-3"><button onclick="document.getElementById('dp-monitoring').scrollIntoView({behavior:'smooth'})" class="bg-[#245B73] text-white px-3 py-1.5 rounded">Lihat</button></td></tr>
+          <tr><td class="p-3 font-semibold">Andi Wijaya</td><td class="p-3">RM001234</td><td class="p-3">Kelas II-04</td><td class="p-3">15 Sep 2026</td><td class="p-3"><span class="px-2 py-1 rounded bg-[#E8F4F5] text-[#17818F]">BARU MASUK</span></td><td class="p-3"><button onclick="document.getElementById('dp-assessment').scrollIntoView({behavior:'smooth'})" class="bg-[#17818F] text-white px-3 py-1.5 rounded">Asesmen</button></td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-3">Bed Management</h2>
+          <div class="space-y-3 text-[11px]">
+            <div class="flex justify-between border-b border-[#D7E1E5] pb-2"><span>VIP · 2 bed</span><span class="px-2 py-1 rounded bg-[#C7DED2] text-[#24543F]">Tersedia</span></div>
+            <div class="flex justify-between border-b border-[#D7E1E5] pb-2"><span>Kelas I · 5 bed</span><span class="px-2 py-1 rounded bg-[#F5E6B3] text-[#7A5A00]">Terisi</span></div>
+            <div class="flex justify-between"><span>Kelas II · 8 bed</span><span class="px-2 py-1 rounded bg-[#C7DED2] text-[#24543F]">Tersedia</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="dp-admission" class="mx-6 mb-4 bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-2">Admisi & Bed</h2><p class="text-[11px] text-[#667781]">Tinjau permintaan admisi, ketersediaan bed, dan penempatan pasien.</p><button onclick="alert('Menu Admisi & Bed dibuka pada prototipe.')" class="mt-3 bg-[#17818F] text-white px-4 py-2 rounded text-[11px]">Buka antrean admisi</button></section>
+    <section id="dp-assessment" class="mx-6 mb-4 bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-3">Pemeriksaan & Asesmen</h2><div class="grid grid-cols-2 gap-3">
+      <label class="text-[11px] font-semibold">Pasien<select class="block mt-1 w-full border border-[#D7E1E5] rounded p-2"><option>Andi Wijaya — RM001234</option><option>Budi Santoso — RM001140</option><option>Sri Rahma — RM001141</option></select></label>
+      <label class="text-[11px] font-semibold">Diagnosis<input class="block mt-1 w-full border border-[#D7E1E5] rounded p-2" placeholder="Diagnosis kerja"></label>
+      <label class="text-[11px] font-semibold col-span-2">Catatan pemeriksaan<textarea class="block mt-1 w-full border border-[#D7E1E5] rounded p-2" rows="3" placeholder="Subjektif, objektif, asesmen, rencana"></textarea></label>
+      </div><button onclick="alert('Draft asesmen disimpan pada prototipe.')" class="mt-3 bg-[#17818F] text-white px-4 py-2 rounded text-[11px]">Simpan Draft</button> <button onclick="alert('Prototype: validasi dan tanda tangan DPJP.')" class="mt-3 bg-[#245B73] text-white px-4 py-2 rounded text-[11px]">Finalisasi / Sign</button></section>
+    <section id="dp-monitoring" class="mx-6 mb-4 bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-3">Pelayanan & Monitoring</h2><p class="text-[11px] text-[#667781] mb-3">Ringkasan tanda vital dan catatan perkembangan pasien.</p><div class="grid grid-cols-4 gap-3"><div class="bg-[#E8F4F5] p-3 rounded"><p class="text-[10px]">Tekanan Darah</p><b>120/80 mmHg</b></div><div class="bg-[#E8F4F5] p-3 rounded"><p class="text-[10px]">Nadi</p><b>82 x/menit</b></div><div class="bg-[#E8F4F5] p-3 rounded"><p class="text-[10px]">Suhu</p><b>36,7 °C</b></div><div class="bg-[#E8F4F5] p-3 rounded"><p class="text-[10px]">RR</p><b>18 x/menit</b></div></div><button onclick="alert('Ringkasan monitoring dibuka pada prototipe.')" class="mt-3 bg-[#17818F] text-white px-4 py-2 rounded text-[11px]">Buka monitoring</button></section>
+    <section id="dp-transfer" class="mx-6 mb-4 bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-3">Transfer Ruangan</h2><div class="grid grid-cols-3 gap-3"><label class="text-[11px]">Pasien<select class="block mt-1 w-full border border-[#D7E1E5] rounded p-2"><option>Andi Wijaya — RM001234</option><option>Sri Rahma — RM001141</option></select></label><label class="text-[11px]">Ruangan tujuan<select class="block mt-1 w-full border border-[#D7E1E5] rounded p-2"><option>Pilih ruangan</option><option>Rawat Inap Lt. 2</option><option>Rawat Inap Lt. 3</option><option>ICU</option></select></label><label class="text-[11px]">Alasan<input class="block mt-1 w-full border border-[#D7E1E5] rounded p-2" placeholder="Alasan transfer"></label></div><button onclick="alert('Pengajuan transfer disimpan pada prototipe.')" class="mt-3 bg-[#17818F] text-white px-4 py-2 rounded text-[11px]">Ajukan Transfer</button></section>
+    <section id="dp-discharge" class="mx-6 mb-6 bg-white border border-[#D7E1E5] rounded-lg p-4"><h2 class="text-[14px] font-bold mb-3">Discharge & Resume Pulang</h2><label class="block text-[11px] font-semibold">Resume medis<textarea rows="3" class="block mt-1 w-full border border-[#D7E1E5] rounded p-2" placeholder="Diagnosis akhir, terapi, kondisi pulang, instruksi kontrol"></textarea></label><button onclick="alert('Resume medis disimpan pada prototipe.')" class="mt-3 bg-[#17818F] text-white px-4 py-2 rounded text-[11px]">Simpan Resume</button></section>
+  </main>
+</div>
+</div>
+</div>
+<script>
+/* =============================================================
+   SIMRS NAVIGATION CONTROLLER
+   True page switching: clicking a sidebar item shows only the
+   selected module page instead of merely scrolling the document.
+============================================================= */
+(function(){
+  function getRoleView(){
+    return document.querySelector('#application .role-view:not(.hidden)');
+  }
+
+  function getRootSection(view){
+    const main=view && view.querySelector('main');
+    if(!main) return null;
+    return Array.from(main.children).find(el=>el.tagName==='SECTION') || null;
+  }
+
+  function getTarget(view,targetId){
+    if(!view || !targetId) return null;
+    return Array.from(view.querySelectorAll('[id]')).find(el=>el.id===targetId) || null;
+  }
+
+  function isNavTarget(el,view){
+    return !!(el && view && el.closest('.role-view')===view && el.id && view.querySelector('[data-nav-target="'+CSS.escape(el.id)+'"]'));
+  }
+
+  function restoreTree(el){
+    if(!el) return;
+    el.classList.remove('simrs-page-hidden');
+    el.style.removeProperty('display');
+  }
+
+  function hideTree(el){
+    if(!el) return;
+    el.classList.add('simrs-page-hidden');
+  }
+
+  function showBranch(root,target){
+    // Hide all direct content blocks first, but keep the page heading.
+    const children=Array.from(root.children);
+    children.forEach((child,index)=>{
+      if(index===0) restoreTree(child); else hideTree(child);
+    });
+
+    // Walk from target to root and reveal only the required branch.
+    let current=target;
+    while(current && current!==root){
+      restoreTree(current);
+      const parent=current.parentElement;
+      if(!parent) break;
+
+      Array.from(parent.children).forEach((sibling)=>{
+        if(sibling===current) return;
+        // Keep a small heading/header block for readability, but hide other
+        // navigation-page siblings so the click behaves like a real page.
+        if(sibling===parent.firstElementChild && parent!==root){
+          restoreTree(sibling);
+        } else if(isNavTarget(sibling, getRoleView())) {
+          hideTree(sibling);
+        } else {
+          // Non-target siblings are hidden when they are inside a navigation
+          // container; this prevents unrelated panels from remaining visible.
+          hideTree(sibling);
+        }
+      });
+      current=parent;
+    }
+    restoreTree(root);
+  }
+
+  function showDashboard(root){
+    restoreTree(root);
+    Array.from(root.children).forEach(restoreTree);
+    // Restore every nested panel for the dashboard overview.
+    root.querySelectorAll('*').forEach(el=>{
+      if(el.classList.contains('simrs-page-hidden')) el.classList.remove('simrs-page-hidden');
+      if(el.style.display==='none') el.style.removeProperty('display');
+    });
+  }
+
+  window.simrsNavigate=function(event,targetId){
+    if(event) event.preventDefault();
+    const view=getRoleView();
+    if(!view) return;
+    const target=getTarget(view,targetId);
+    const root=getRootSection(view);
+    if(!target || !root) return;
+
+    // Remove hash navigation completely.
+    if(history.replaceState) history.replaceState(null,'','#'+targetId);
+
+    if(target===root){
+      showDashboard(root);
+    }else{
+      showBranch(root,target);
+    }
+
+    // Active sidebar state.
+    view.querySelectorAll('[data-nav-target]').forEach(link=>{
+      link.classList.toggle('simrs-nav-active', link.dataset.navTarget===targetId);
+      // Remove old Tailwind active classes only when another menu is selected.
+      if(link.dataset.navTarget!==targetId){
+        link.classList.remove('font-semibold');
+        link.classList.remove('bg-[#245B73]');
+      }else{
+        link.classList.add('font-semibold');
+      }
+    });
+
+    // Always start the newly selected page at the top, not halfway down the
+    // previous page.
+    const main=view.querySelector('main');
+    if(main) main.scrollTop=0;
+    window.scrollTo({top:0,left:0,behavior:'smooth'});
+  };
+
+  window.simrsInitRole=function(role){
+    const view=document.getElementById('view-'+role);
+    if(!view) return;
+    const first=view.querySelector('[data-nav-target]');
+    if(first) window.simrsNavigate(null,first.dataset.navTarget);
+  };
+})();
+
+const demoAccounts = {
+  dokter: {password:"dokter123", role:"doctor"},
+  admisi: {password:"admisi123", role:"admission"},
+  perawat: {password:"perawat123", role:"nurse"},
+};
+function logout(){
+  document.getElementById("application").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.querySelectorAll(".role-view").forEach(view=>view.classList.add("hidden"));
+  document.getElementById("loginForm").reset();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("loginForm").addEventListener("submit",function(event){
+  event.preventDefault();
+  const username=document.getElementById("username").value.trim().toLowerCase();
+  const password=document.getElementById("password").value;
+  const account=demoAccounts[username];
+  const error=document.getElementById("loginError");
+  if(!account || account.password!==password){error.classList.remove("hidden");return;}
+  error.classList.add("hidden");
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("application").classList.remove("hidden");
+  document.querySelectorAll(".role-view").forEach(view=>view.classList.add("hidden"));
+  document.getElementById("view-"+account.role).classList.remove("hidden");
+  if(window.simrsInitRole) window.simrsInitRole(account.role);
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+</script>
+</body>
+</html>
