@@ -1,0 +1,5 @@
+.git
+.env
+*.sql
+reset_demo_passwords.php
+.DS_Store
