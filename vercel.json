@@ -1,16 +1,17 @@
 {
-  "functions": {
-    "simrs/**/*.php": {
-      "runtime": "vercel-php@0.7.3"
-    },
-    "*.php": {
-      "runtime": "vercel-php@0.7.3"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "simrs": {
+      "root": "simrs/",
+      "entrypoint": "Dockerfile.vercel"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/simrs/$1"
+      "source": "/(.*)",
+      "destination": {
+        "service": "simrs"
+      }
     }
   ]
 }
